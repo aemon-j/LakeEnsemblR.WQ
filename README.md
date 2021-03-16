@@ -15,7 +15,7 @@ In order to contribute to this code, we recommend the following workflow:
 
 - add the repository master to a remote master called "upstream"
 
-- $cd LakeEnsemblR
+- $cd LakeEnsemblR_WQ
 
 - $git remote add upstream <git@github.com:aemon-j/LakeEnsemblR_WQ.git>
 
