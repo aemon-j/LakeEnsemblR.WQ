@@ -1,15 +1,15 @@
 module,process,subprocess,model,parameter,path,unit,default,conversion,version,note
 oxygen,initial_conditions,initial_water,aed2,oxy_initial,aed2_oxygen/oxy_initial,mmol O2 m-3,?,1,EDDIE-version,-
-oxygen,initial_conditions,initial_water,selmaprotbas,o2,initialization/o2,mmol O2 m-3,none,1,1.0.0,-
-oxygen,initial_conditions,initial_water,wet,sO2W,initialization/sO2W,g O2 m-3,none,1,1.3.5 (?),-
+oxygen,initial_conditions,initial_water,selmaprotbas,o2,selmaprotbas/initialization/o2,mmol O2 m-3,none,1,1.0.0,-
+oxygen,initial_conditions,initial_water,wet,sO2W,abiotic_water/initialization/sO2W,g O2 m-3,none,1,1.3.5 (?),-
 oxygen,initial_conditions,initial_water,pclake,sO2WEpi0,initialstates/sO2WEpi0,g O2 m-2,none,1,1.3.2,Oxygen_in_epilimnion_lake_water
 oxygen,initial_conditions,initial_water,pclake,sO2WHyp0,initialstates/sO2WHyp0,g O2 m-2,none,1,1.3.2,Oxygen_in_hypolimnion_lake_water
 oxygen,water_atmosphere_exchange,reaeration_parameters,pclake,cAerRoot,parameters/cAerRoot,m1.5 s0.5 d-1,0.727,1,1.3.2,Coefficient_for_VWind^05
 oxygen,water_atmosphere_exchange,reaeration_parameters,pclake,cAerLin,parameters/cAerLin,s d-1,-0.371,1,1.3.2,Coefficient_for_VWind_(is_negative)
 oxygen,water_atmosphere_exchange,reaeration_parameters,pclake,cAerSquare,parameters/cAerSquare,s2 m-1 d-1,0.0376,1,1.3.2,Coefficient_for_VWind^2
 oxygen,water_atmosphere_exchange,reaeration_parameters,pclake,cThetaAer,parameters/cThetaAer,1^[_oC_^-1],1.024,1,1.3.2,Temperature_coeff_for_reaeration_(Downing_&_Truesdale_1955)
-oxygen,water_atmosphere_exchange,piston_velocity,selmaprotbas,pvel,parameters/pvel,m d-1,5,1,1.0.0,piston velocity
-oxygen,water_atmosphere_exchange,equation_options,selmaprotbas,newflux,parameters/newflux,-,2,1,1.0.0,"1: piston velocity depends on winds and saturation according to Weiss, 2: polynomial approximation"
+oxygen,water_atmosphere_exchange,piston_velocity,selmaprotbas,pvel,selmaprotbas/parameters/pvel,m d-1,5,1,1.0.0,piston velocity
+oxygen,water_atmosphere_exchange,equation_options,selmaprotbas,newflux,selmaprotbas/parameters/newflux,-,2,1,1.0.0,"1: piston velocity depends on winds and saturation according to Weiss, 2: polynomial approximation"
 oxygen,water_column_processes,sedimentation,aed2,Fsed_oxy,aed2_sed_constant/Fsed_oxy,?,?,1,EDDIE-version,Sedimentation flux for oxygen
 oxygen,water_sediment_exchange,sediment_oxygen_demand,aed2,Fsed_oxy,aed2_oxygen/Fsed_oxy,mmol m-2 d-1,?,1,EDDIE-version,sediment oxygen demand
 oxygen,water_sediment_exchange,sediment_oxygen_demand,aed2,Ksed_oxy,aed2_oxygen/Ksed_oxy,mmol m-3,?,1,EDDIE-version,half-saturation concentration of oxygen sediment flux
