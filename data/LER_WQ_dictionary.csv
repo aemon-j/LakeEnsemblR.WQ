@@ -1,4 +1,4 @@
-Module,Process,Subprocess,Model,Parameter,Path,Unit,Default,Conversion,Version,Note
+module,process,subprocess,model,parameter,path,unit,default,conversion,version,note
 oxygen,initial_conditions,initial_water,aed2,oxy_initial,aed2_oxygen/oxy_initial,mmol O2 m-3,?,1,EDDIE-version,-
 oxygen,initial_conditions,initial_water,selmaprotbas,o2,initialization/o2,mmol O2 m-3,none,1,1.0.0,-
 oxygen,initial_conditions,initial_water,wet,sO2W,initialization/sO2W,g O2 m-3,none,1,1.3.5 (?),-
@@ -17,7 +17,7 @@ oxygen,water_sediment_exchange,sediment_oxygen_demand,aed2,theta_sed_oxy,aed2_ox
 oxygen,water_sediment_exchange,diffusion,wet,kO2Dif,abiotic_sediment/parameters/kO2Dif,m2 d-1,0.00017,1,1.3.5 (?),O2 diffusion constant at 20 degC
 oxygen,water_sediment_exchange,diffusion,wet,cThetaDif,abiotic_sediment/parameters/cThetaDif,1/e^degC,1.016,1,1.3.5 (?),temperature coefficient for diffusion
 oxygen,water_sediment_exchange,diffusion,wet,cTurbDifO2,abiotic_sediment/parameters/cTurbDifO2,-,5,1,1.3.5 (?),bioturbation factor for oxygen diffusion
-oxygen,water_sediment_exchange,diffusion,pclake,kO2Dif,parameters/kO2Dif,m2 d-1,2.6e-05,1,1.3.2,Mol_O2_diffusion_constant
+oxygen,water_sediment_exchange,diffusion,pclake,kO2Dif,parameters/kO2Dif,m2 d-1,2.60E-05,1,1.3.2,Mol_O2_diffusion_constant
 oxygen,water_sediment_exchange,diffusion,pclake,cThetaDif,parameters/cThetaDif,degC,1.02,1,1.3.2,Temperature_coefficient_for_diffusion
 oxygen,water_sediment_exchange,diffusion,pclake,cTurbDifO2,parameters/cTurbDifO2,-,5,1,1.3.2,Bioturbation_factor_for_diffusion
 nitrogen,initial_conditions,initial_ammonium_water,aed2,amm_initial,aed2_nitrogen/amm_initial,mmol N m-3,?,1,EDDIE-version,initial NH4 concentration
