@@ -1,0 +1,163 @@
+instances:
+  diatoms:
+    model: selmaprotbas/phytoplankton
+    parameters:
+      c0: 0.006625                       # background concentration (mmol C/m3), default = 0.0
+      rfr: 0.00808506796232878 # phosphorus : carbon ratio (mol P/mol C), default = 1/106 = 0.009434
+      rfn: 0.150943                      # nitrogen : carbon ratio (mol N/mol C), default = 16/106 = 0.150943
+      rfs: 0.141509                      # silica : carbon ratio (mol Si/mol C), default = 0.000
+      alpha_light: 1.58191979319619 # the slope of light-dependent growth (d-1 [W/m2]-1), default = 0.1)
+      alpha: 0.6625                      # half-saturation for nutrient uptake (mmol C/m3), default = 1.65625 (#J: 0.25 mmol N/m3)
+      beta: 3                            # temperature growth correction factor (-), default = 3.7
+      r0: 3.48947435641444 # maximum growth rate at 20 degrees C (1/d), default = 1.3
+      nb: 0.01                           # excretion rate (1/d), default = 0.01
+      deltao: 0.011522035031333 # mortality rate (1/d), default = 0.02
+      Yc: 6.25                           # carbon : chlorophyll a ratio (mmol C/mg Chl a), default = 6.25
+      wz: -0.306095848821112 # vertical velocity (positive: upwards/floating, negative: downwards/sinking) (m/d), default = 0.0
+      kc: 0.0670921403214645 # specific light attenuation (m2/mmol C)
+      sedrate: 0.5                      # sedimentation rate (m/d), default = 0.0
+      tau_crit: 0.07                     # critical shear stress (N/m2), default = 0.07
+    coupling:
+      aa: selmaprotbas/aa                # ammonium (mmol N/m3)
+      nn: selmaprotbas/nn                # nitrate (mmol N/m3)
+      o2: selmaprotbas/o2                # oxygen (mmol O2/m3)
+      po: selmaprotbas/po                # phosphate (mmol P/m3)
+      si: selmaprotbas/si                # silicate (mmol Si/m3)
+      dd_c: selmaprotbas/dd_c            # carbon detritus (mmol C/m3)
+      dd_p: selmaprotbas/dd_p            # phosphorus detritus (mmol P/m3)
+      dd_n: selmaprotbas/dd_n            # nitrogen detritus (mmol N/m3)
+      dd_si: selmaprotbas/dd_si          # silica detritus (mmol Si/m3)
+      fl_c: selmaprotbas/fl_c            # carbon fluff (mmol C/m3)
+      fl_p: selmaprotbas/fl_p            # phosphorus fluff (mmol P/m3)
+      fl_n: selmaprotbas/fl_n            # nitrogen fluff (mmol N/m3)
+      fl_si: selmaprotbas/fl_si          # silica fluff (mmol Si/m3)
+    initialization:
+      c: 0.006625                        # concentration (mmol C/m3)
+  flagellates:
+    model: selmaprotbas/phytoplankton
+    parameters:
+      c0: 0.006625                       # background concentration (mmol C/m3), default = 0.0
+      rfr: 0.00755379798134996 # phosphorus : carbon ratio (mol P/mol C), default = 1/106 = 0.009434
+      rfn: 0.150943                      # nitrogen : carbon ratio (mol N/mol C), default = 16/106 = 0.150943
+      alpha_light: 0.512545739907445 # the slope of light-dependent growth (d-1 [W/m2]-1), default = 0.1)
+      alpha: 0.6625                      # half-saturation for nutrient uptake (mmol C/m3), default = 1.65625 (#J: 0.25 mmol N/m3)
+      beta: 0                            # temperature growth correction factor (-), default = 3.7
+      r0: 1.95520838463588 # maximum growth rate at 20 degrees C (1/d), default = 1.3
+      nb: 0.01                           # excretion rate (1/d), default = 0.01
+      wz: 0.0
+      deltao: 0.0399540961000276 # mortality rate (1/d), default = 0.02
+      Yc: 6.25                           # carbon : chlorophyll a ratio (mmol C/mg Chl a), default = 6.25
+      kc: 0.000377645061047746 # specific light attenuation (m2/mmol C)
+    coupling:
+      aa: selmaprotbas/aa                # ammonium (mmol N/m3)
+      nn: selmaprotbas/nn                # nitrate (mmol N/m3)
+      o2: selmaprotbas/o2                # oxygen (mmol O2/m3)
+      po: selmaprotbas/po                # phosphate (mmol P/m3)
+      si: selmaprotbas/si                # silicate (mmol Si/m3)
+      dd_c: selmaprotbas/dd_c            # carbon detritus (mmol C/m3)
+      dd_p: selmaprotbas/dd_p            # phosphorus detritus (mmol P/m3)
+      dd_n: selmaprotbas/dd_n            # nitrogen detritus (mmol N/m3)
+      dd_si: selmaprotbas/dd_si          # silica detritus (mmol Si/m3)
+    initialization:
+      c: 0.006625                        # concentration (mmol C/m3)
+  cyanobacteria:
+    model: selmaprotbas/phytoplankton
+    parameters:
+      c0: 0.006625                       # background concentration (mmol C/m3), default = 0.0
+      rfr: 0.00766774830534143 # phosphorus : carbon ratio (mol P/mol C), default = 1/106 = 0.009434
+      rfn: 0.150943                      # nitrogen : carbon ratio (mol N/mol C), default = 16/106 = 0.150943
+      alpha_light: 0.0562777931705903 # the slope of light-dependent growth (d-1 [W/m2]-1), default = 0.1)
+      alpha: 2.65                        # half-saturation for nutrient uptake (mmol C/m3), default = 1.65625 (#J: 0.25 mmol N/m3)
+      beta: 4                            # temperature growth correction factor (-), default = 3.7
+      r0: 0.598612712822016 # maximum growth rate at 20 degrees C (1/d), default = 1.3
+      nitrogen_fixation: true            # whether nitrogen fixation is used to acquire nitrogen, default = false
+      tlim: 2                            # temperature limitation of growth (0: none, 1: flagellate-style, 2: cyanobacteria-style), default = 0
+      tll: 13.5                          # lower temperature limit (degrees C), default = 13.5
+      nb: 0.01                           # excretion rate (1/d), default = 0.01
+      deltao: 0.0398870947448901 # mortality rate (1/d), default = 0.02
+      Yc: 6.25                           # carbon : chlorophyll a ratio (mmol C/mg Chl a), default = 6.25
+      wz: 0.1                            # vertical velocity (positive: upwards/floating, negative: downwards/sinking) (m/d), default = 0.0
+      buoyancy_regulation: true
+      par_limit1: 21.9
+      par_limit2: 6.6
+      par_limit3: 2.2
+      vert_vel1: -0.3
+      vert_vel2: -0.1
+      vert_vel3: 0
+      vert_vel4: 0.1
+      kc: 0.0790855038072502 # specific light attenuation (m2/mmol C)
+    coupling:
+      aa: selmaprotbas/aa                # ammonium (mmol N/m3)
+      nn: selmaprotbas/nn                # nitrate (mmol N/m3)
+      o2: selmaprotbas/o2                # oxygen (mmol O2/m3)
+      po: selmaprotbas/po                # phosphate (mmol P/m3)
+      si: selmaprotbas/si                # silicate (mmol Si/m3)
+      dd_c: selmaprotbas/dd_c            # carbon detritus (mmol C/m3)
+      dd_p: selmaprotbas/dd_p            # phosphorus detritus (mmol P/m3)
+      dd_n: selmaprotbas/dd_n            # nitrogen detritus (mmol N/m3)
+      dd_si: selmaprotbas/dd_si          # silica detritus (mmol Si/m3)
+    initialization:
+      c: 0.006625                        # concentration (mmol C/m3)
+  selmaprotbas:
+    model: selmaprotbas/selmaprotbas
+    parameters:
+      env_type: fresh                    #  (Define environment type, either fresh or marine), default = marine
+      wdz: -2.00456534545951 # vertical velocity of detritus (positive: upwards/floating, negative: downwards/sinking) (m/d), default = -4.5
+      wpo4: -1.0                         # vertical velocity of suspended P-Fe (positive: upwards/floating, negative: downwards/sinking) (m/d), default = -1.0
+      dn: 0.0169591141037616 # detritus mineralization rate (1/d), default = 0.003
+      dn_sed: 0.00504164043354389 # sediment mineralization rate (1/d), default = 0.002
+      kc: 0.0754716981                   # specific light attenuation of detritus (m2/mmol C) (#J: 0.5 m2/mmol N)
+      q10_rec: 0.0522414671936713 # temperature dependence of detritus remineralization (1/K), default = 0.15
+      ade_r0: 0.1                        # maximum chemoautolithotrophic denitrification rate (1/d), default = 0.1
+      alphaade: 1.0                      # half-saturation constant for chemoautolithotrophic denitrification (mmol N/m3), default = 1.0
+      q10_recs: 0.100620468907787 # temperature dependence of sediment remineralization (1/K), default = 0.175
+      tau_crit: 0.07                     # critical shear stress (N/m2), default = 0.07
+      sedrate: 4.27351232636448 # detritus sedimentation rate (m/d), default = 2.25
+      erorate: 11.8982852194057 # sediment erosion rate (1/d), default = 6.0
+      sedratepo4: 0.5                    # P-Fe sedimentation rate (m/d), default = 0.5
+      eroratepo4: 6.0                    # P-Fe erosion rate (1/d), default = 6.0
+      po4ret: 0.0963600644047408 # phosphate retention rate, oxic sediments (-), default = 0.18
+      pburialrate: 0.00265163669374496 # phosphate burial rate (1/d), default = 0.007
+      fl_burialrate: 0.000544144782549343 # sediment burial rate (1/d), default = 0.001
+      pliberationrate: 0.553751132592883 # phosphate liberation rate, anoxic sediments (1/d), default = 0.1
+      ipo4th: 100.0                      # maximum phosphorus density available for burial (mmol P/m2), default = 100.0
+      maxsed: 200000.0                     # maximum active sediment density (mmol C/m2), default = 6625.0 (#J: 1000 mmol N/m2)
+      br0: 0.0010104268477977 # bioresuspension rate (1/d), default = 0.03
+      fds: 0.942425440580763 # fraction of sediment remineralization fueled by denitrification (-), default = 0.7
+      pvel: 5.89340084013055 # piston velocity (m/d), default = 5.0
+      newflux: 1                         # oxygen flux type (-), default = 2
+    initialization:
+      nn: 3.5                            # nitrate (mmol N/m3)
+      aa: 0.85                           # ammonium (mmol N/m3)
+      dd_c: 0.0                          # carbon detritus (mmol C/m3)
+      dd_p: 2.17888752451802 # phosphorus detritus (mmol P/m3)
+      dd_n: 0.0                          # nitrogen detritus (mmol N/m3)
+      dd_si: 20.0                         # silica detritus (mmol Si/m3)
+      o2: 280.0                          # oxygen (mmol O2/m3)
+      po: 0.216                          # phosphate (mmol P/m3)
+      si: 1.000                          # silicate (mmol Si/m3)
+      fl_c: 99.375                       # carbon fluff (mmol C/m2)
+      fl_p: 4.12820253516588 # phosphorus fluff (mmol P/m2)
+      fl_n: 15                           # nitrogen fluff (mmol N/m2)
+      fl_si: 14.0625                     # silica fluff (mmol Si/m2)
+      pb: 0.03                           # phosphate bound to iron in sediment (mmol C/m2)
+      pw: 0.001                          # phosphate bound to iron in water (mmol C/m3)
+# Atmospheric input      
+  ammonium_input:
+    model: constant_surface_flux
+    parameters:
+      flux: 6.94e-07                     # flux (positive for into water) (UNITS m-2 s-1) 6.94e-07
+    coupling:
+      target: selmaprotbas/aa            # target variable (UNITS m-3)
+  nitrate_input:
+    model: constant_surface_flux
+    parameters:
+      flux: 2.98814051307979e-06 # flux (positive for into water) (UNITS m-2 s-1) 9.61e-07
+    coupling:
+      target: selmaprotbas/nn            # target variable (UNITS m-3)
+  phosphate_input:
+    model: constant_surface_flux
+    parameters:
+      flux: 3.83917708234512e-08 # flux (positive for into water) (UNITS m-2 s-1) 1.74e-08
+    coupling:
+      target: selmaprotbas/po            # target variable (UNITS m-3)

@@ -1,0 +1,72 @@
+Module,Process,Subprocess,Model,Parameter,Path,Unit,Default,Conversion,Version,Note
+oxygen,initial_conditions,initial_water,aed2,oxy_initial,aed2_oxygen/oxy_initial,mmol O2 m-3,?,1,EDDIE-version,-
+oxygen,initial_conditions,initial_water,selmaprotbas,o2,initialization/o2,mmol O2 m-3,none,1,1.0.0,-
+oxygen,initial_conditions,initial_water,wet,sO2W,initialization/sO2W,g O2 m-3,none,1,1.3.5 (?),-
+oxygen,initial_conditions,initial_water,pclake,sO2WEpi0,initialstates/sO2WEpi0,g O2 m-2,none,1,1.3.2,Oxygen_in_epilimnion_lake_water
+oxygen,initial_conditions,initial_water,pclake,sO2WHyp0,initialstates/sO2WHyp0,g O2 m-2,none,1,1.3.2,Oxygen_in_hypolimnion_lake_water
+oxygen,water_atmosphere_exchange,reaeration_parameters,pclake,cAerRoot,parameters/cAerRoot,m1.5 s0.5 d-1,0.727,1,1.3.2,Coefficient_for_VWind^05
+oxygen,water_atmosphere_exchange,reaeration_parameters,pclake,cAerLin,parameters/cAerLin,s d-1,-0.371,1,1.3.2,Coefficient_for_VWind_(is_negative)
+oxygen,water_atmosphere_exchange,reaeration_parameters,pclake,cAerSquare,parameters/cAerSquare,s2 m-1 d-1,0.0376,1,1.3.2,Coefficient_for_VWind^2
+oxygen,water_atmosphere_exchange,reaeration_parameters,pclake,cThetaAer,parameters/cThetaAer,1^[_oC_^-1],1.024,1,1.3.2,Temperature_coeff_for_reaeration_(Downing_&_Truesdale_1955)
+oxygen,water_atmosphere_exchange,piston_velocity,selmaprotbas,pvel,parameters/pvel,m d-1,5,1,1.0.0,piston velocity
+oxygen,water_atmosphere_exchange,equation_options,selmaprotbas,newflux,parameters/newflux,-,2,1,1.0.0,"1: piston velocity depends on winds and saturation according to Weiss, 2: polynomial approximation"
+oxygen,water_column_processes,sedimentation,aed2,Fsed_oxy,aed2_sed_constant/Fsed_oxy,?,?,1,EDDIE-version,Sedimentation flux for oxygen
+oxygen,water_sediment_exchange,sediment_oxygen_demand,aed2,Fsed_oxy,aed2_oxygen/Fsed_oxy,mmol m-2 d-1,?,1,EDDIE-version,sediment oxygen demand
+oxygen,water_sediment_exchange,sediment_oxygen_demand,aed2,Ksed_oxy,aed2_oxygen/Ksed_oxy,mmol m-3,?,1,EDDIE-version,half-saturation concentration of oxygen sediment flux
+oxygen,water_sediment_exchange,sediment_oxygen_demand,aed2,theta_sed_oxy,aed2_oxygen/theta_sed_oxy,-,?,1,EDDIE-version,Arrhenius temperature multiplier for sediment oxygen flux
+oxygen,water_sediment_exchange,diffusion,wet,kO2Dif,abiotic_sediment/parameters/kO2Dif,m2 d-1,0.00017,1,1.3.5 (?),O2 diffusion constant at 20 degC
+oxygen,water_sediment_exchange,diffusion,wet,cThetaDif,abiotic_sediment/parameters/cThetaDif,1/e^degC,1.016,1,1.3.5 (?),temperature coefficient for diffusion
+oxygen,water_sediment_exchange,diffusion,wet,cTurbDifO2,abiotic_sediment/parameters/cTurbDifO2,-,5,1,1.3.5 (?),bioturbation factor for oxygen diffusion
+oxygen,water_sediment_exchange,diffusion,pclake,kO2Dif,parameters/kO2Dif,m2 d-1,2.6e-05,1,1.3.2,Mol_O2_diffusion_constant
+oxygen,water_sediment_exchange,diffusion,pclake,cThetaDif,parameters/cThetaDif,degC,1.02,1,1.3.2,Temperature_coefficient_for_diffusion
+oxygen,water_sediment_exchange,diffusion,pclake,cTurbDifO2,parameters/cTurbDifO2,-,5,1,1.3.2,Bioturbation_factor_for_diffusion
+nitrogen,initial_conditions,initial_ammonium_water,aed2,amm_initial,aed2_nitrogen/amm_initial,mmol N m-3,?,1,EDDIE-version,initial NH4 concentration
+nitrogen,initial_conditions,initial_ammonium_water,selmaprotbas,aa,selmaprotbas/initialization/aa,mmol N m-3,none,1,1.0.0,initial dissolved ammonium in the water column
+nitrogen,initial_conditions,initial_ammonium_water,wet,sNH4W,abiotic_water/initialization/sNH4W,g m-3,none,1,1.3.5 (?),initial dissolved ammonium in the water column
+nitrogen,initial_conditions,initial_ammonium_water,pclake,sNH4WEpi0,initialstates/sNH4WEpi0,g N m-2,none,1,1.3.2,initial dissolved ammonium in the epilimnion
+nitrogen,initial_conditions,initial_ammonium_water,pclake,sNH4WHyp0,initialstates/sNH4WHyp0,g N m-2,none,1,1.3.2,initial dissolved ammonium in the hypolimnion
+nitrogen,initial_conditions,initial_nitrate_water,aed2,nit_initial,aed2_nitrogen/nit_initial,mmol N m-3,?,1,EDDIE-version,initial NO3 concentration
+nitrogen,initial_conditions,initial_nitrate_water,selmaprotbas,nn,selmaprotbas/initialization/nn,mmol N m-3,none,1,1.0.0,initial dissolved nitrate in the water column
+nitrogen,initial_conditions,initial_nitrate_water,wet,sNO3W,abiotic_water/initialization/sNO3W,g m-3,none,1,1.3.5 (?),initial dissolved nitrate in the water column
+nitrogen,initial_conditions,initial_nitrate_water,pclake,sNO3WEpi0,initialstates/sNO3WEpi0,g N m-2,none,1,1.3.2,initial dissolved nitrate in the epilimnion
+nitrogen,initial_conditions,initial_nitrate_water,pclake,sNO3WHyp0,initialstates/sNO3WHyp0,g N m-2,none,1,1.3.2,initial dissolved nitrate in the hypolimnion
+nitrogen,initial_conditions,initial_POM,aed2,ponr_initial,aed2_organic_matter/ponr_initial,mmol N m-3,none,1,EDDIE-version,initial PON conc
+nitrogen,initial_conditions,initial_POM,selmaprotbas,dd_n,selmaprotbas/initialization/dd_n,mmol N m-3,none,1,1.0.0,initial detritus-N in the water column
+nitrogen,initial_conditions,initial_POM,wet,sNPOMW,abiotic_water/initialization/sNPOMW,g m-3,none,1,1.3.5 (?),particulate organic N
+nitrogen,initial_conditions,initial_POM,pclake,sNDetWEpi0,initialstates/sNDetWEpi0,g N m-2,none,1,1.3.2,Detritus_N_in_epilimnion_lake_water
+nitrogen,initial_conditions,initial_POM,pclake,sNDetWHyp0,initialstates/sNDetWHyp0,g N m-2,none,1,1.3.2,Detritus_N_in_hypolimnion_lake_water
+nitrogen,initial_conditions,initial_DOM,aed2,donr_initial,aed2_organic_matter/donr_initial,mmol N m-3,none,1,EDDIE-version,initial DON conc
+nitrogen,initial_conditions,initial_DOM,wet,sNDOMW,abiotic_water/initialization/sNDOMW,g m-3,none,1,1.3.5 (?),dissolved organic N
+nitrogen,initial_conditions,initial_sediment,selmaprotbas,fl_n,selmaprotbas/initialization/fl_n,mmol N m-2,none,1,1.0.0,initial nitrogen fluff (= active sediment)
+nitrogen,initial_conditions,initial_sediment,wet,sNH4S,abiotic_sediment/initialization/sNH4S,g N m-2,none,1,1.3.5 (?),initial ammonium in sediment
+nitrogen,initial_conditions,initial_sediment,wet,sNO3S,abiotic_sediment/initialization/sNO3S,g N m-2,none,1,1.3.5 (?),initial nitrate in sediment
+nitrogen,initial_conditions,initial_sediment,wet,sNDOMS,abiotic_sediment/initialization/sNDOMS,g N m-2,none,1,1.3.5 (?),initial dissolved organic N in sediment
+nitrogen,initial_conditions,initial_sediment,wet,sNPOMS,abiotic_sediment/initialization/sNPOMS,g N m-2,none,1,1.3.5 (?),initial particulate organic N in sediment
+nitrogen,initial_conditions,initial_sediment,wet,sNHumS,abiotic_sediment/initialization/sNHumS,g N m-2,none,1,1.3.5 (?),initial humus N in sediment
+nitrogen,initial_conditions,initial_sediment,pclake,sNDetS0,initialstates/sNDetS0,g N m-2,none,1,1.3.2,Detritus_N_in_lake_sediment
+nitrogen,initial_conditions,initial_sediment,pclake,sNHumS0,initialstates/sNHumS0,g N m-2,none,1,1.3.2,Humus_N_in_lake_sediment
+nitrogen,denitrification,denitrification_rate,aed2,Rdenit,aed2_nitrogen/Rdenit,d-1,?,1,EDDIE-version,maximum reaction rate of denitrification @ 20C
+nitrogen,denitrification,denitrification_rate,selmaprotbas,ade_r0,selmaprotbas/parameters/ade_r0,d-1,0.1,1,1.0.0,maximum chemoautolithotrophic denitrification rate
+nitrogen,denitrification,denitrification_rate,selmaprotbas,alphaade,selmaprotbas/parameters/alphaade,mmol N m-3,1,1,1.0.0,half-saturation constant for chemoautolithotrophic denitrification
+nitrogen,denitrification,denitrification_rate,wet,hNO3DenitW,abiotic_water/parameters/hNO3DenitW,mg N l-1,1,1,1.3.5 (?),quadratic half saturation NO3 conc. for denitrification
+nitrogen,denitrification,denitrification_rate,wet,NO3PerCW,abiotic_water/parameters/NO3PerCW,molN molC-1,1,1,1.3.5 (?),denitrified NO3 per C mineralised
+nitrogen,denitrification,denitrification_rate,wet,NO3PerCS,abiotic_sediment/parameters/NO3PerCS,molN molC-1,1,1,1.3.5 (?),NO3 denitrified per C mineralized in the sediment
+nitrogen,denitrification,denitrification_rate,pclake,hNO3Denit,parameters/hNO3Denit,g N m-3,2,1,1.3.2,Quadratic_half-sat_NO3_conc_for_denitrification
+nitrogen,denitrification,denitrification_rate,pclake,NO3PerC,parameters/NO3PerC,-,0.8,1,1.3.2,Mol_NO3_denitrified_per_mol_C_mineralised
+nitrogen,denitrification,denitrification_temperature_dependence,aed2,theta_denit,aed2_nitrogen/theta_denit,-,?,1,EDDIE-version,Arrhenius temperature multiplier for denitrification
+nitrogen,denitrification,refractory_fractions,selmaprotbas,fds,selmaprotbas/parameters/fds,-,0.7,1,1.0.0,fraction of sediment remineralization fueled by denitrification
+nitrogen,denitrification,refractory_fractions,wet,fRefrPOMS,abiotic_sediment/parameters/fRefrPOMS,-,0.1,1,1.3.5 (?),refractory fraction of sediment POM
+nitrogen,denitrification,refractory_fractions,pclake,fRefrDetS,parameters/fRefrDetS,-,0.15,1,1.3.2,Refractory_fraction_of_sed_detritus
+nitrogen,nitrification,nitrification_rate,aed2,Rnitrif,aed2_nitrogen/Rnitrif,d-1,?,1,EDDIE-version,maximum reaction rate of nitrification @ 20C
+nitrogen,nitrification,nitrification_rate,wet,kNitrW,abiotic_water/parameters/kNitrW,d-1,0.3,1,1.3.5 (?),nitrification rate constant in water at 20*C
+nitrogen,nitrification,nitrification_rate,wet,kNitrS,abiotic_sediment/parameters/kNitrS,d-1,1.2,1,1.3.5 (?),nitrification rate constant at 20*C in the sediment
+nitrogen,nitrification,nitrification_rate,wet,cThetaNitrW,abiotic_water/parameters/cThetaNitrW,1/e^degC,1.03,1,1.3.5 (?),temperature coefficient for nitrification
+nitrogen,nitrification,nitrification_rate,wet,cThetaNitrS,abiotic_sediment/parameters/cThetaNitrS,1/e^degC,1.03,1,1.3.5 (?),temperature coefficient for nitrification in the sediment
+nitrogen,nitrification,nitrification_rate,wet,hO2Nitr,abiotic_water/parameters/hO2Nitr,mg O2 l-1,2,1,1.3.5 (?),half saturation oxygen conc. for nitrification
+nitrogen,nitrification,nitrification_rate,wet,O2PerNH4W,abiotic_water/parameters/O2PerNH4W,molO2 molNH4-1,2,1,1.3.5 (?),used O2 per NH4 nitrified
+nitrogen,nitrification,nitrification_rate,wet,O2PerNH4S,abiotic_sediment/parameters/O2PerNH4S,molO2 molNH4-1,2,1,1.3.5 (?),used O2 per NH4 nitrified in the sediment
+nitrogen,nitrification,nitrification_rate,pclake,kNitrW,parameters/kNitrW,d-1,0.1,1,1.3.2,Nitrification_rate_constant_in_water
+nitrogen,nitrification,nitrification_rate,pclake,kNitrS,parameters/kNitrS,d-1,1,1,1.3.2,Nitrification_rate_constant_in_sediment
+nitrogen,nitrification,nitrification_rate,pclake,cThetaNitr,parameters/cThetaNitr,degC,1.08,1,1.3.2,Temperature_coefficient_of_nitrification
+nitrogen,nitrification,nitrification_rate,pclake,hO2Nitr,parameters/hO2Nitr,g O2 m-3,2,1,1.3.2,Half-sat_O2_conc_for_nitrification_in_water
+nitrogen,nitrification,nitrification_temperature_dependence,aed2,theta_nitrif,aed2_nitrogen/theta_nitrif,-,?,1,EDDIE-version,Arrhenius temperature multiplier for nitrification
