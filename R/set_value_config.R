@@ -77,6 +77,16 @@ set_value_config <- function(config_file, module, process, subprocess, model_cou
     stop("The parameter was not found in the dictionary for this combination of arguments.")
   }
   
+  # phytoplankton and zooplankton are done very differently in most of the models
+  if(module == "phytoplankton" | module == "zooplankton"){
+    stop("Phytoplankton and zooplankton not yet implemented.")
+  }
+  
+  # MyLake and PCLake not yet implemented
+  if(model == "mylake" | model == "pclake"){
+    stop("MyLake and PCLake not yet implemented.")
+  }
+  
   lst_config <- read.config(file.path(folder, config_file))
   model_config <- lst_config[["config_files"]][[model_coupled]]
   
