@@ -78,8 +78,8 @@ set_value_config <- function(config_file, module, process, subprocess, model_cou
   
   lst_config <- read.config(file.path(folder, config_file))
   
-  if(model_coupled == "GOTM-Selmaprotbas"){
-    model_config <- lst_config[["config_files"]][["GOTM-Selmaprotbas"]]
+  if(model_coupled == "GOTM-Selmaprotbas" | model_coupled == "GOTM-WET"){
+    model_config <- lst_config[["config_files"]][[model_coupled]]
     
     path_parts <- strsplit(row_dict[1, "path"], "/")[[1]]
     names(path_parts) <- paste0("key", 1:length(path_parts))
@@ -87,7 +87,7 @@ set_value_config <- function(config_file, module, process, subprocess, model_cou
                     "value" = value * row_dict[1, "conversion"],
                     "file" = file.path(folder, model_config),
                     "verbose" = verbose)
-    arglist = split(path_parts, names(path_parts)) # Turn into named list
+    arglist <- split(path_parts, names(path_parts)) # Turn into named list
     do.call(input_yaml_multiple, args = arglist)
   }
   
