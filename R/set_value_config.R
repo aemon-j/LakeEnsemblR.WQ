@@ -18,6 +18,7 @@
 #'
 #'@importFrom configr read.config
 #'@importFrom LakeEnsemblR input_yaml_multiple
+#'@importFrom glmtools read_nml write_nml
 #'
 #'@export
 
@@ -77,10 +78,20 @@ set_value_config <- function(config_file, module, process, subprocess, model_cou
   }
   
   lst_config <- read.config(file.path(folder, config_file))
+  model_config <- lst_config[["config_files"]][[model_coupled]]
   
-  if(model_coupled == "GOTM-Selmaprotbas" | model_coupled == "GOTM-WET"){
-    model_config <- lst_config[["config_files"]][[model_coupled]]
+  if(model_coupled == "GLM-AED2" | model_coupled == "Simstrat-AED2"){
+    aed_config <- read_nml(file.path(folder, model_config))
+    path_parts <- strsplit(row_dict[1, "path"], "/")[[1]]
+    if(length(path_parts) != 2L){
+      stop("Path for AED2 parameter does not consist of two parts; needs ",
+           "to be section/par_name")
+    }
     
+    aed_config[[path_parts[1]]][[path_parts[2]]] <- value * row_dict[1, "conversion"]
+    write_nml(aed_config, file.path(folder, model_config))
+    
+  }else if(model_coupled == "GOTM-Selmaprotbas" | model_coupled == "GOTM-WET"){
     path_parts <- strsplit(row_dict[1, "path"], "/")[[1]]
     names(path_parts) <- paste0("key", 1:length(path_parts))
     path_parts <- c(path_parts,
