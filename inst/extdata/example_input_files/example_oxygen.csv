@@ -1,0 +1,19 @@
+process,subprocess,model_coupled,parameter,default,unit,value,note
+water_atmosphere_exchange,reaeration_parameters,PCLake,cAerRoot,0.727,m1.5 s0.5 d-1,42,Coefficient_for_VWind^05
+water_atmosphere_exchange,reaeration_parameters,PCLake,cAerLin,-0.371,s d-1,42,Coefficient_for_VWind_(is_negative)
+water_atmosphere_exchange,reaeration_parameters,PCLake,cAerSquare,0.0376,s2 m-1 d-1,42,Coefficient_for_VWind^2
+water_atmosphere_exchange,reaeration_parameters,PCLake,cThetaAer,1.024,1^[_oC_^-1],42,Temperature_coeff_for_reaeration_(Downing_&_Truesdale_1955)
+water_atmosphere_exchange,piston_velocity,GOTM-Selmaprotbas,pvel,5,m d-1,42,piston velocity
+water_atmosphere_exchange,equation_options,GOTM-Selmaprotbas,newflux,2,(integer),2,"1: piston velocity depends on winds and saturation according to Weiss, 2: polynomial approximation"
+water_sediment_exchange,sediment_oxygen_demand,GLM-AED2,Fsed_oxy,?,mmol m-2 d-1,42,sediment oxygen demand
+water_sediment_exchange,sediment_oxygen_demand,Simstrat-AED2,Fsed_oxy,?,mmol m-2 d-1,42,sediment oxygen demand
+water_sediment_exchange,sediment_oxygen_demand,GLM-AED2,Ksed_oxy,?,mmol m-3,42,half-saturation concentration of oxygen sediment flux
+water_sediment_exchange,sediment_oxygen_demand,Simstrat-AED2,Ksed_oxy,?,mmol m-3,42,half-saturation concentration of oxygen sediment flux
+water_sediment_exchange,sediment_oxygen_demand,GLM-AED2,theta_sed_oxy,?,-,42,Arrhenius temperature multiplier for sediment oxygen flux
+water_sediment_exchange,sediment_oxygen_demand,Simstrat-AED2,theta_sed_oxy,?,-,42,Arrhenius temperature multiplier for sediment oxygen flux
+water_sediment_exchange,diffusion,GOTM-WET,kO2Dif,0.00017,m2 d-1,42,O2 diffusion constant at 20 degC
+water_sediment_exchange,diffusion,GOTM-WET,cThetaDif,1.016,1/e^degC,42,temperature coefficient for diffusion
+water_sediment_exchange,diffusion,GOTM-WET,cTurbDifO2,5,-,42,bioturbation factor for oxygen diffusion
+water_sediment_exchange,diffusion,PCLake,kO2Dif,2.60E-05,m2 d-1,42,Mol_O2_diffusion_constant
+water_sediment_exchange,diffusion,PCLake,cThetaDif,1.02,degC,42,Temperature_coefficient_for_diffusion
+water_sediment_exchange,diffusion,PCLake,cTurbDifO2,5,-,42,Bioturbation_factor_for_diffusion
