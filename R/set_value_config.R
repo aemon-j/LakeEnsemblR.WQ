@@ -4,6 +4,8 @@
 #'
 #'@param config_file character; path to LakeEnsemblR_WQ config file
 #'@param module character; 
+#'@param group_name character; only for biological modules
+#'@param group_position integer; only for biological modules
 #'@param process character; 
 #'@param subprocess character; 
 #'@param model_coupled character; options one of "GLM-AED2", "GOTM-Selmaprotbas", "GOTM-WET",
@@ -28,32 +30,21 @@
 # # Test
 # folder = "."
 # config_file = "LakeEnsemblR_WQ.yaml"
-# module = "oxygen"
-# process = "initial_conditions"
-# subprocess = "initial_water"
+# module = "phytoplankton"
+# group_name = "diatoms"
+# process = "growth"
+# subprocess = "maximum_growth_rates"
 # model_coupled = "GOTM-Selmaprotbas"
-# parameter = "o2"
-# value = 42
+# parameter = "r0"
+# value = 1.5
 # verbose = TRUE
 
-set_value_config <- function(config_file, module, process, subprocess, model_coupled,
-                          parameter, value, dict, folder, verbose = FALSE){
+set_value_config <- function(config_file, module, group_name = NULL, group_position = NULL,
+                             process, subprocess, model_coupled, parameter, value, dict, folder,
+                             verbose = FALSE){
   
-  if(model_coupled == "GLM-AED2"){
-    model <- "aed2"
-  }else if(model_coupled == "GOTM-Selmaprotbas"){
-    model <- "selmaprotbas"
-  }else if(model_coupled == "GOTM-WET"){
-    model <- "wet"
-  }else if(model_coupled == "Simstrat-AED2"){
-    model <- "aed2"
-  }else if(model_coupled == "MyLake"){
-    model <- "mylake"
-  }else if(model_coupled == "PCLake"){
-    model <- "pclake"
-  }else{
-    model <- model_coupled
-  }
+  model <- strsplit(model_coupled, "-")[[1]]
+  model <- tolower(model[length(model)])
   
   # Check if arguments are allowed
   chck_args <- sapply(c("module", "process", "subprocess", "model", "parameter"),
@@ -77,11 +68,6 @@ set_value_config <- function(config_file, module, process, subprocess, model_cou
     stop("The parameter was not found in the dictionary for this combination of arguments.")
   }
   
-  # phytoplankton and zooplankton are done very differently in most of the models
-  if(module == "phytoplankton" | module == "zooplankton"){
-    stop("Phytoplankton and zooplankton not yet implemented.")
-  }
-  
   # MyLake and PCLake not yet implemented
   if(model == "mylake" | model == "pclake"){
     stop("MyLake and PCLake not yet implemented.")
@@ -91,19 +77,38 @@ set_value_config <- function(config_file, module, process, subprocess, model_cou
   model_config <- lst_config[["config_files"]][[model_coupled]]
   
   if(model_coupled == "GLM-AED2" | model_coupled == "Simstrat-AED2"){
-    aed_config <- read_nml(file.path(folder, model_config))
+    # Different files for phytoplankton and zooplankton
+    if(!(module %in% c("phytoplankton", "zooplankton"))){
+      aed_config_path <- file.path(folder, model_config)
+    }else if(module == "phytoplankton"){
+      aed_config_path <- file.path(folder, dirname(model_config), "aed2_phyto_pars.nml")
+    }else if(module == "zooplankton"){
+      aed_config_path <- file.path(folder, dirname(model_config), "aed2_zoop_pars.nml")
+    }
+    aed_config <- read_nml(aed_config_path)
+    
     path_parts <- strsplit(row_dict[1, "path"], "/")[[1]]
     if(length(path_parts) != 2L){
       stop("Path for AED2 parameter does not consist of two parts; needs ",
            "to be section/par_name")
     }
     
-    aed_config[[path_parts[1]]][[path_parts[2]]] <- value * row_dict[1, "conversion"]
-    write_nml(aed_config, file.path(folder, model_config))
+    if(is.null(group_position)){
+      group_position = 1L
+    }
+    
+    if(is.numeric(value)){
+      value <- value * row_dict[1, "conversion"]
+    }
+    
+    aed_config[[path_parts[1]]][[path_parts[2]]][group_position] <- value
+    write_nml(aed_config, aed_config_path)
     
   }else if(model_coupled == "GOTM-Selmaprotbas" | model_coupled == "GOTM-WET"){
     path_parts <- strsplit(row_dict[1, "path"], "/")[[1]]
+    path_parts[path_parts == "{group_name}"] <- group_name
     names(path_parts) <- paste0("key", 1:length(path_parts))
+    
     path_parts <- c(path_parts,
                     "value" = value * row_dict[1, "conversion"],
                     "file" = file.path(folder, model_config),
