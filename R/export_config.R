@@ -33,11 +33,6 @@ export_config <- function(config_file, folder = ".", verbose = FALSE, dict){
   # Loop through the modules
   for(i in modules){
     
-    if(i %in% c("phytoplankton", "zooplankton", "fish")){
-      warning("Module ", i, " not yet implemented")
-      next
-    }
-    
     if(!lst_config[[i]][["use"]]){
       disable_module(config_file = config_file, folder = folder,
                      module = i)
