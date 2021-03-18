@@ -13,7 +13,7 @@ In order to contribute to this code, we recommend the following workflow:
 
 - modify code or add new functionality, save the code
 
-- add the repository master to a remote master called "upstream"
+add the repository master to a remote master called "upstream"
 
 - $cd LakeEnsemblR_WQ
 
