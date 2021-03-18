@@ -77,8 +77,10 @@ create_input_tables <- function(folder = ".", config_file, folder_out = folder, 
   
   input_table$dupl_freq <- sapply(input_table$model,
                                   function (x) counts$freq[counts$x == x])
-  dupl_rows <- rep(1:nrow(input_table), times = input_table$dupl_freq)
-  input_table <- input_table[dupl_rows,]
+  if(nrow(input_table) > 0){
+    dupl_rows <- rep(1:nrow(input_table), times = input_table$dupl_freq)
+    input_table <- input_table[dupl_rows,]
+  }
   
   # It's necessary to turn the model column for the duplicated rows into
   # a unique name to match the right coupled model. 
@@ -98,12 +100,16 @@ create_input_tables <- function(folder = ".", config_file, folder_out = folder, 
   }
   
   # Add a "value" column to the input table. Users can enter their values here
-  input_table$value <- ""
+  if(nrow(input_table) > 0){
+    input_table$value <- ""
+  }else{
+    input_table$value <- as.character()
+  }
   
   input_table <- input_table[, c(1:3, 13, 5, 8, 7, 14, 11),]
   
   # Write input tables
-  for(i in unique(input_table$module)){
+  for(i in modules){
     # phytoplankton, zooplankton, and fish can have multiple groups
     if(i %in% c("phytoplankton", "zooplankton", "fish")){
       groups <- names(lst_config[[i]][["groups"]])
