@@ -44,33 +44,46 @@ export_config <- function(config_file, folder = ".", verbose = FALSE, dict){
     }else{
       # Important: in case the module is phytoplankton/zooplankton/fish
       #  things will be different! Multiple groups and different notation.
+      #  For AED2, we'll need to write the names of the groups as well (pd%p_name)
+      #  And group_name and group_position need to be passed into set_value_config
       
-      # Read the file
-      input_file <- read.csv(file.path(folder, lst_config[[i]][["par_file"]]),
-                             stringsAsFactors = FALSE)
+      if(!(i %in% c("phytoplankton", "zooplankton", "fish"))){
+        input_file_paths <- file.path(folder, lst_config[[i]][["par_file"]])
+      }else{
+        input_file_paths <- sapply(names(lst_config[[i]][["groups"]]), function(x){
+          lst_config[[i]][["groups"]][[x]][["par_file"]]
+        })
+        input_file_paths <- file.path(folder, input_file_paths)
+        names(input_file_paths) <- names(lst_config[[i]][["groups"]])
+      }
       
-      warning("MyLake and PCLake not yet implemented.")
-      input_file <- input_file[input_file$model_coupled != "MyLake" &
-                                 input_file$model_coupled != "PCLake",]
-      
-      
-      sapply(seq_len(nrow(input_file)), function (x){
-        set_value_config(config_file = config_file,
-                         module = i,
-                         process = input_file[x, "process"],
-                         subprocess = input_file[x, "subprocess"],
-                         model_coupled = input_file[x, "model_coupled"],
-                         parameter = input_file[x, "parameter"],
-                         value = input_file[x, "value"],
-                         dict = dict,
-                         folder = folder,
-                         verbose = verbose)
-      })
-      
-      # Not yet implemented; any values in the module that are not mentioned
-      # in the input file, should be set to their default!
-      
+      # Read the file(s)
+      for(j in seq_len(length(input_file_paths))){
+        input_file <- read.csv(input_file_paths[j], stringsAsFactors = FALSE)
+        
+        warning("MyLake and PCLake not yet implemented.")
+        input_file <- input_file[input_file$model_coupled != "MyLake" &
+                                   input_file$model_coupled != "PCLake",]
+        
+        
+        sapply(seq_len(nrow(input_file)), function (x){
+          set_value_config(config_file = config_file,
+                           module = i,
+                           group_name = names(input_file_paths)[j],
+                           group_position = j,
+                           process = input_file[x, "process"],
+                           subprocess = input_file[x, "subprocess"],
+                           model_coupled = input_file[x, "model_coupled"],
+                           parameter = input_file[x, "parameter"],
+                           value = input_file[x, "value"],
+                           dict = dict,
+                           folder = folder,
+                           verbose = verbose)
+        })
+        
+        # Not yet implemented; any values in the module that are not mentioned
+        # in the input file, should be set to their default!
+      }
     }
-    
   }
 }
