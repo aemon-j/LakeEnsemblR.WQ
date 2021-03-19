@@ -12,7 +12,6 @@
 #'                                       "Simstrat-AED2", "MyLake", "PCLake"
 #'@param parameter character;
 #'@param value character or numeric; what value to enter 
-#'@param dict data.frame; the LakeEnsemblR_WQ dictionary 
 #'@param folder path; relative to what folder 
 #'@param verbose boolean; print output to console
 #'
@@ -23,9 +22,6 @@
 #'@importFrom glmtools read_nml write_nml
 #'
 #'@export
-
-# Note: when we can actually build the package, the "dict"
-#  argument can be removed so that the dictionary in the "data" folder is used
 
 # # Test
 # folder = "."
@@ -40,7 +36,7 @@
 # verbose = TRUE
 
 set_value_config <- function(config_file, module, group_name = NULL, group_position = NULL,
-                             process, subprocess, model_coupled, parameter, value, dict, folder,
+                             process, subprocess, model_coupled, parameter, value, folder,
                              verbose = FALSE){
   
   model <- strsplit(model_coupled, "-")[[1]]
@@ -48,7 +44,7 @@ set_value_config <- function(config_file, module, group_name = NULL, group_posit
   
   # Check if arguments are allowed
   chck_args <- sapply(c("module", "process", "subprocess", "model", "parameter"),
-                     function(x) get(x) %in% dict[[x]])
+                     function(x) get(x) %in% LakeEnsemblR_WQ_dictionary[[x]])
   if(!all(chck_args)){
     wrong_args <- c("module", "process",
                     "subprocess", "model", "parameter")[!chck_args]
@@ -58,11 +54,11 @@ set_value_config <- function(config_file, module, group_name = NULL, group_posit
          error_string)
   }
   
-  row_dict <- dict[dict$module == module &
-                   dict$process == process &
-                   dict$subprocess == subprocess &
-                   dict$model == model &
-                   dict$parameter == parameter,]
+  row_dict <- LakeEnsemblR_WQ_dictionary[LakeEnsemblR_WQ_dictionary$module == module &
+                                           LakeEnsemblR_WQ_dictionary$process == process &
+                                           LakeEnsemblR_WQ_dictionary$subprocess == subprocess &
+                                           LakeEnsemblR_WQ_dictionary$model == model &
+                                           LakeEnsemblR_WQ_dictionary$parameter == parameter,]
   # Second argument check; see if all combinations are possible
   if(nrow(row_dict) == 0){
     stop("The parameter was not found in the dictionary for this combination of arguments.")

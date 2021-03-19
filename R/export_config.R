@@ -5,7 +5,6 @@
 #'@param config_file character; name of LakeEnsemblR_WQ config file
 #'@param folder path; location of config_file
 #'@param verbose boolean; print changed parameters on screen
-#'@param dict data.frame; LakeEnsemblR_WQ dictionary
 #'
 #'@examples
 #'
@@ -18,10 +17,7 @@
 # folder = "."
 # verbose = F
 
-# Note: when we can actually build the package, the "dict"
-#  argument can be removed so that the dictionary in the "data" folder is used
-
-export_config <- function(config_file, folder = ".", verbose = FALSE, dict){
+export_config <- function(config_file, folder = ".", verbose = FALSE){
   
   # Read config file as a list
   lst_config <- read.config(file.path(folder, config_file)) 
@@ -71,7 +67,6 @@ export_config <- function(config_file, folder = ".", verbose = FALSE, dict){
                            model_coupled = input_file[x, "model_coupled"],
                            parameter = input_file[x, "parameter"],
                            value = input_file[x, "value"],
-                           dict = dict,
                            folder = folder,
                            verbose = verbose)
         })
