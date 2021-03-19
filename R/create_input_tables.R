@@ -12,7 +12,6 @@
 #'@param models_coupled character; options "GLM-AED2", "GOTM-Selmaprotbas", "GOTM-WET",
 #'                                       "Simstrat-AED2", "MyLake", "PCLake"
 #'@param parameters character; "all" to include everything, vector otherwise
-#'@param dict data.frame; the LakeEnsemblR_WQ dictionary 
 #'
 #'@importFrom configr read.config
 #'@importFrom plyr count
@@ -33,14 +32,11 @@
 #                    "Simstrat-AED2", "MyLake", "PCLake")
 # parameters = "all"
 
-# Note: when we can actually build the package, the "dict"
-#  argument can be removed so that the dictionary in the "data" folder is used
-
 create_input_tables <- function(folder = ".", config_file, folder_out = folder, modules = "all", processes = "all",
                                 subprocesses = "all",
                                 models_coupled = c("GLM-AED2", "GOTM-Selmaprotbas", "GOTM-WET", 
                                                    "Simstrat-AED2", "MyLake", "PCLake"),
-                                parameters = "all", dict){
+                                parameters = "all"){
   
   lst_config <- read.config(file.path(folder, config_file))
   
@@ -48,7 +44,7 @@ create_input_tables <- function(folder = ".", config_file, folder_out = folder, 
   wq_models <- sapply(wq_models, function (x) tolower(x[length(x)]))
   names(wq_models) <- models_coupled
   
-  input_table <- dict
+  input_table <- LakeEnsemblR_WQ_dictionary
   
   # Select modules
   if(!identical(modules, "all")){
