@@ -1,0 +1,27 @@
+Package: LakeEnsemblR.WQ
+Type: Package
+Title: Run Ensembles of Water Quality 1D Lake Models
+Version: 0.0.1
+Date: 2021-03-19
+URL: https://github.com/aemon-j/LakeEnsemblR_WQ
+Author: Authors@R: c(person("Tadhg", "Moore", role = c("aut","cre"),
+    email = "tadhg.moore@dkit.ie"),
+    person("Robert", "Ladwig", role = "aut",
+    email = "rladwig2@wisc.edu"), 
+    person("Johannes", "Feldbauer", role = "aut", 
+    email = "johannes.feldbauer@tu-dresden.de"),
+    person("Jorrit", "Mesman", role = "aut",
+    email = "jorrit.mesman@unige.ch"))
+Maintainer: Jorrit Mesman <jorrit.mesman@unige.ch>
+Description: Run ensembles of lake models Water Quality 1D Lake Models.
+License: GPL-2.0
+Depends:
+    R (>= 3.5)
+Imports:
+    LakeEnsemblR
+Suggests:
+Encoding: UTF-8
+LazyData: true
+LazyLoad: true
+RoxygenNote: 7.1.1
+VignetteBuilder: knitr
