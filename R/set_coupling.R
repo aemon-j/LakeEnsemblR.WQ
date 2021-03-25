@@ -68,7 +68,11 @@ set_coupling <- function(config_file, folder){
           # Also setting prey nutrient ratios
         }
         
-        wq_config[["instances"]][[j]][["coupling"]] <- coupling
+        if(exists("coupling")){
+          wq_config[["instances"]][[j]][["coupling"]] <- coupling
+          rm(coupling)
+        }
+        
       }
       
       write.config(wq_config,
@@ -224,8 +228,10 @@ set_coupling <- function(config_file, folder){
           
           # Predation and life stages not yet implemented
         }
-        
-        wq_config[["instances"]][[j]][["coupling"]] <- coupling
+        if(exists("coupling")){
+          wq_config[["instances"]][[j]][["coupling"]] <- coupling
+          rm(coupling)
+        }
       }
       
       write.config(wq_config,
