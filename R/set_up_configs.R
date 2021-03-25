@@ -37,9 +37,9 @@ set_up_configs <- function(config_file, folder = "."){
       lst <- list()
       
       # Biogeochemistry
-      lst[["instances"]][["selmaprotbas"]] <- list("model" = "selmaprotbas/selmaprotbas",
-                                                   "parameters" = list(),
-                                                   "initialization" = list())
+      lst[["instances"]][["selmaprotbas"]] <- list(model = "selmaprotbas/selmaprotbas",
+                                                   parameters = list(),
+                                                   initialization = list())
       dict_biogeochem <- dict[!(dict$module %in% c("phytoplankton", "zooplankton")),]
       
       for(j in seq_len(nrow(dict_biogeochem))){
@@ -55,10 +55,10 @@ set_up_configs <- function(config_file, folder = "."){
           groups <- names(lst_config[[j]][["groups"]])
           
           for(k in groups){
-            lst[["instances"]][[k]] <- list("model" = paste0("selmaprotbas/", j),
-                                            "parameters" = list(),
-                                            "initialization" = list(),
-                                            "coupling" = list())
+            lst[["instances"]][[k]] <- list(model = paste0("selmaprotbas/", j),
+                                            parameters = list(),
+                                            initialization = list(),
+                                            coupling = list())
             for(l in seq_len(nrow(dict_biology))){
               path <- strsplit(dict_biology[l, "path"], "/")[[1]]
               path[path == "{group_name}"] <- k
@@ -79,23 +79,23 @@ set_up_configs <- function(config_file, folder = "."){
       lst <- list()
       
       # Biogeochemistry
-      lst[["instances"]][["abiotic_water"]] <- list("long_name" = "abiotic_process_in_water",
-                                                    "model" = "wet/abiotic_water",
-                                                    "parameters" = list(),
-                                                    "initialization" = list())
-      lst[["instances"]][["abiotic_sediment"]] <- list("long_name" = "abiotic_process_in_sediment",
-                                                       "model" = "wet/abiotic_sediment",
-                                                       "parameters" = list(),
-                                                       "initialization" = list(),
-                                                       "coupling" = list())
-      lst[["instances"]][["burial"]] <- list("long_name" = "burial",
-                                             "model" = "wet/burial",
-                                             "parameters" = list(),
-                                             "coupling" = list())
-      lst[["instances"]][["resus_sed"]] <- list("long_name" = "abiotic_process_in_water",
-                                                "model" = "wet/abiotic_water",
-                                                "parameters" = list(),
-                                                "coupling" = list())
+      lst[["instances"]][["abiotic_water"]] <- list(long_name = "abiotic_process_in_water",
+                                                    model = "wet/abiotic_water",
+                                                    parameters = list(),
+                                                    initialization = list())
+      lst[["instances"]][["abiotic_sediment"]] <- list(long_name = "abiotic_process_in_sediment",
+                                                       model = "wet/abiotic_sediment",
+                                                       parameters = list(),
+                                                       initialization = list(),
+                                                       coupling = list())
+      lst[["instances"]][["burial"]] <- list(long_name = "burial",
+                                             model = "wet/burial",
+                                             parameters = list(),
+                                             coupling = list())
+      lst[["instances"]][["resus_sed"]] <- list(long_name = "abiotic_process_in_water",
+                                                model = "wet/abiotic_water",
+                                                parameters = list(),
+                                                coupling = list())
       
       
       
@@ -116,10 +116,10 @@ set_up_configs <- function(config_file, folder = "."){
           
           for(k in groups){
             mod_name <- ifelse(j == "fish", "fish_mod", j)
-            lst[["instances"]][[k]] <- list("model" = paste0("wet/", mod_name),
-                                            "parameters" = list(),
-                                            "initialization" = list(),
-                                            "coupling" = list())
+            lst[["instances"]][[k]] <- list(model = paste0("wet/", mod_name),
+                                            parameters = list(),
+                                            initialization = list(),
+                                            coupling = list())
             for(l in seq_len(nrow(dict_biology))){
               path <- strsplit(dict_biology[l, "path"], "/")[[1]]
               path[path == "{group_name}"] <- k
@@ -144,7 +144,7 @@ set_up_configs <- function(config_file, folder = "."){
       lst[["aed2_models"]] <- list(models = c("'aed2_sedflux'", "'aed2_oxygen'", "'aed2_carbon'",
                                               "'aed2_silica'", "'aed2_nitrogen'",
                                               "'aed2_phosphorus'", "'aed2_organic_matter'"))
-      lst[["aed2_sedflux"]] <- list()
+      lst[["aed2_sedflux"]] <- list(sedflux_model = "'Constant'")
       
       lst[["aed2_sed_constant"]] <- list()
       
