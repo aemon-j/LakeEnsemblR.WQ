@@ -116,7 +116,8 @@ set_up_configs <- function(config_file, folder = "."){
           
           for(k in groups){
             mod_name <- ifelse(j == "fish", "fish_mod", j)
-            lst[["instances"]][[k]] <- list(model = paste0("wet/", mod_name),
+            lst[["instances"]][[k]] <- list(long_name = k,
+                                            model = paste0("wet/", mod_name),
                                             parameters = list(),
                                             initialization = list(),
                                             coupling = list())

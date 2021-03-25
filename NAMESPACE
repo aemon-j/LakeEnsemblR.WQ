@@ -3,6 +3,7 @@
 export(create_input_tables)
 export(disable_module)
 export(export_config)
+export(set_coupling)
 export(set_up_configs)
 export(set_value_config)
 importFrom(LakeEnsemblR,input_yaml_multiple)

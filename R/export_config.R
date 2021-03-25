@@ -70,9 +70,9 @@ export_config <- function(config_file, folder = ".", verbose = FALSE){
                            verbose = verbose)
         })
         
-        # Not yet implemented; any values in the module that are not mentioned
-        # in the input file, should be set to their default!
       }
     }
   }
+  
+  set_coupling(config_file, folder = folder)
 }
