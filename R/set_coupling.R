@@ -24,7 +24,7 @@ set_coupling <- function(config_file, folder){
   
   for(i in seq_len(length(models_coupled))){
     
-    if(models_coupled[i] == "GOTM-Selmaprotbas"){
+    if(wq_models[i] == "selmaprotbas"){
       wq_config <- read.config(file.path(folder,
                                          lst_config[["config_files"]][[models_coupled[i]]]))
       
@@ -80,7 +80,7 @@ set_coupling <- function(config_file, folder){
                              lst_config[["config_files"]][[models_coupled[i]]]),
                    write.type = "yaml")
       
-    }else if(models_coupled[i] == "GOTM-WET"){
+    }else if(wq_models[i] == "wet"){
       wq_config <- read.config(file.path(folder,
                                          lst_config[["config_files"]][[models_coupled[i]]]))
       
@@ -238,6 +238,61 @@ set_coupling <- function(config_file, folder){
                    file.path(folder,
                              lst_config[["config_files"]][[models_coupled[i]]]),
                    write.type = "yaml")
+    }else if(wq_models[i] == "aed2"){
+      
+      wq_config <- read_nml(file.path(folder,
+                                      lst_config[["config_files"]][[models_coupled[i]]]))
+      
+      # Loop through the names and check to what model they correspond
+      for(j in names(wq_config)){
+        
+        if(j == "aed2_carbon"){
+          wq_config[[j]]["Fsed_dic_variable"] <- "SDF_Fsed_dic"
+          wq_config[[j]]["methane_reactant_variable"] <- "OXY_oxy"
+        }else if(j == "aed2_silica"){
+          wq_config[[j]]["silica_reactant_variable"] <- "OXY_oxy"
+          wq_config[[j]]["Fsed_rsi_variable"] <- "SDF_Fsed_rsi"
+        }else if(j == "aed2_nitrogen"){
+          wq_config[[j]]["nitrif_reactant_variable"] <- "OXY_oxy"
+          wq_config[[j]]["denit_product_variable"] <- ""
+        }else if(j == "aed2_phosphorus"){
+          wq_config[[j]]["phosphorus_reactant_variable"] <- "OXY_oxy"
+          wq_config[[j]]["Fsed_frp_variable"] <- ""
+          wq_config[[j]]["po4sorption_target_variable"] <- ""
+        }else if(j == "aed2_organic_matter"){
+          wq_config[[j]]["don_miner_product_variable"] <- "NIT_amm"
+          wq_config[[j]]["dop_miner_product_variable"] <- "PHS_frp"
+          wq_config[[j]]["doc_miner_reactant_variable"] <- "OXY_oxy"
+          wq_config[[j]]["doc_miner_product_variable"] <- "CAR_dic"
+        }else if(j == "aed2_phytoplankton"){
+          wq_config[[j]]["p_excretion_target_variable"] <- "OGM_dop"
+          wq_config[[j]]["n_excretion_target_variable"] <- "OGM_don"
+          wq_config[[j]]["c_excretion_target_variable"] <- "OGM_doc"
+          wq_config[[j]]["si_excretion_target_variable"] <- ""
+          wq_config[[j]]["p_mortality_target_variable"] <- "OGM_pop"
+          wq_config[[j]]["n_mortality_target_variable"] <- "OGM_pon"
+          wq_config[[j]]["c_mortality_target_variable"] <- "OGM_poc"
+          wq_config[[j]]["si_mortality_target_variable"] <- ""
+          wq_config[[j]]["p1_uptake_target_variable"] <- "PHS_frp"
+          wq_config[[j]]["n1_uptake_target_variable"] <- "NIT_nit"
+          wq_config[[j]]["n2_uptake_target_variable"] <- "NIT_amm"
+          wq_config[[j]]["si_uptake_target_variable"] <- "SIL_rsi"
+          wq_config[[j]]["do_uptake_target_variable"] <- "OXY_oxy"
+          wq_config[[j]]["c_uptake_target_variable"] <- "CAR_dic"
+        }else if(j == "aed2_phytoplankton"){
+          wq_config[[j]]["dn_target_variable"] <- "OGM_don"
+          wq_config[[j]]["pn_target_variable"] <- "OGM_pon"
+          wq_config[[j]]["dp_target_variable"] <- "OGM_dop"
+          wq_config[[j]]["pp_target_variable"] <- "OGM_pop"
+          wq_config[[j]]["dc_target_variable"] <- "OGM_doc"
+          wq_config[[j]]["pc_target_variable"] <- "OGM_poc"
+        }
+         
+      }
+      
+      write_nml(wq_config, file.path(folder,
+                                     lst_config[["config_files"]][[models_coupled[i]]]))
+      
     }
   }
 }
