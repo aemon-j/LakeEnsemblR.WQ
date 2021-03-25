@@ -26,6 +26,10 @@ export_config <- function(config_file, folder = ".", verbose = FALSE){
   modules <- modules[!(modules %in% c("models", "config_files", "bio-feedback",
                                       "output"))]
   
+  # Set up the model-specific config files, with right amount
+  # of groups for phytoplankton etc., and default values.
+  set_up_configs(config_file, folder = folder)
+  
   # Loop through the modules
   for(i in modules){
     
@@ -33,11 +37,6 @@ export_config <- function(config_file, folder = ".", verbose = FALSE){
       disable_module(config_file = config_file, folder = folder,
                      module = i)
     }else{
-      # Important: in case the module is phytoplankton/zooplankton/fish
-      #  things will be different! Multiple groups and different notation.
-      #  For AED2, we'll need to write the names of the groups as well (pd%p_name)
-      #  And group_name and group_position need to be passed into set_value_config
-      
       if(!(i %in% c("phytoplankton", "zooplankton", "fish"))){
         input_file_paths <- file.path(folder, lst_config[[i]][["par_file"]])
       }else{
