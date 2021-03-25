@@ -1,0 +1,73 @@
+models:
+   - GOTM-WET
+   - GOTM-Selmaprotbas
+   - GLM-AED2
+   - Simstrat-AED2
+   - MyLake
+   - PCLake
+config_files:
+   GOTM-WET: GOTM-WET/fabm.yaml
+   GOTM-Selmaprotbas: GOTM-Selmaprotbas/fabm.yaml
+   GLM-AED2: GLM-AED2/aed2.nml
+   Simstrat-AED2: Simstrat-AED2/aed2.nml
+   MyLake: MyLake/mylake.Rdata
+   PCLake: PCLake/PCLake_parameters.csv
+oxygen:
+   use: true
+   par_file: oxygen.csv
+carbon:
+   use: true
+   par_file: carbon.csv
+sediment:
+   use: true
+   par_file: sediment.csv
+detritus:
+   use: true
+   par_file: detritus.csv
+nitrogen:
+   use: true
+   par_file: nitrogen.csv
+phosphorus:
+   use: true
+   par_file: phosphorus.csv
+silica:
+   use: true
+   par_file: silica.csv
+phytoplankton:
+   use: true
+   groups: 
+      diatoms:
+         par_file: diatoms.csv
+      cyanobacteria:
+         par_file: cyanobacteria.csv
+      some_random_group:
+         par_file: some_random_group.csv
+zooplankton:
+   use: false
+   groups:
+      zooplankton:
+         par_file: zooplankton.csv
+fish: 
+   use: false
+   groups:
+      benthivores:
+         par_file: fish.csv
+macrophytes:
+   use: false
+   groups:
+      macrophytes:
+         par_file: macrophytes.csv
+zoobenthos:
+   use: false
+   groups:
+      zoobenthos:
+         par_file: zoobenthos.csv
+pathogens:
+   use: false
+   groups:
+      pathogens:
+         par_file: pathogens.csv
+bio-feedback: # Coupling biology to physics
+   use: true
+output:
+   something: true
