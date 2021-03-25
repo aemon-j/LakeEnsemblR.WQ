@@ -92,8 +92,8 @@ set_up_configs <- function(config_file, folder = "."){
                                              model = "wet/burial",
                                              parameters = list(),
                                              coupling = list())
-      lst[["instances"]][["resus_sed"]] <- list(long_name = "abiotic_process_in_water",
-                                                model = "wet/abiotic_water",
+      lst[["instances"]][["resus_sed"]] <- list(long_name = "resuspension_sedimentation",
+                                                model = "wet/resus_sed",
                                                 parameters = list(),
                                                 coupling = list())
       
