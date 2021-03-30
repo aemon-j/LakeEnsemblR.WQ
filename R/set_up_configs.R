@@ -235,5 +235,8 @@ set_up_configs <- function(config_file, folder = "."){
       filename <- lst_config[["config_files"]][[models_coupled[i]]]
       write_nml(lst, file.path(folder, filename))
     }
+    
+    # For MyLake no setup is needed because the WQ config file
+    # is the same as the physics config file. 
   }
 }
