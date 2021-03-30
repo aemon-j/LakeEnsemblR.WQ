@@ -64,9 +64,9 @@ set_value_config <- function(config_file, module, group_name = NULL, group_posit
     stop("The parameter was not found in the dictionary for this combination of arguments.")
   }
   
-  # MyLake and PCLake not yet implemented
-  if(model == "mylake" | model == "pclake"){
-    stop("MyLake and PCLake not yet implemented.")
+  # PCLake not yet implemented
+  if(model == "pclake"){
+    stop("PCLake not yet implemented.")
   }
   
   lst_config <- read.config(file.path(folder, config_file))
@@ -111,6 +111,38 @@ set_value_config <- function(config_file, module, group_name = NULL, group_posit
                     "verbose" = verbose)
     arglist <- split(path_parts, names(path_parts)) # Turn into named list
     do.call(input_yaml_multiple, args = arglist)
+  }else if(model_coupled == "MyLake"){
+    if(!is.null(group_name)){
+      if(group_position > 1L) next
+      
+      # MyLake can only have one phytoplankton group
+      # so skip if it's not the first group
+      # Note: later we can add something in the input that
+      # users could also use a different group than the first
+      # for MyLake input? 
+    }
+    
+    # Name: mylake_config
+    load(file.path(folder, model_config))
+    
+    path_parts <- strsplit(row_dict[1, "path"], "/")[[1]]
+    if(length(path_parts) == 1L){
+      
+      mylake_config[[path_parts]] <- matrix(value,
+                                            nrow = nrow(mylake_config[[path_parts]]),
+                                            ncol = ncol(mylake_config[[path_parts]]))
+      
+    }else{
+      # If length is 2, we have to find the index of the parameter
+      # value in the ".names" vector
+      names_par_list <- mylake_config[[paste0(path_parts[1], ".names")]]
+      names_par_list <- sapply(names_par_list, "[[", 1)
+      ind_par <- which(names_par_list == path_parts[2])
+      
+      mylake_config[[path_parts[1]]][ind_par] <- value
+    }
+    
+    save(mylake_config, file = file.path(folder, model_config))
   }
   
 }
