@@ -23,6 +23,8 @@
 # folder_out = "."
 # input = c("oxygen/initial_conditions",
 #           "phytoplankton/growth/maximum_growth_rates")
+# models_coupled = c("GLM-AED2", "GOTM-Selmaprotbas", "GOTM-WET", 
+#                    "Simstrat-AED2", "MyLake", "PCLake")
 
 create_input_tables <- function(folder = ".", config_file, folder_out = folder, input = NULL,
                                 models_coupled = c("GLM-AED2", "GOTM-Selmaprotbas", "GOTM-WET", 
@@ -88,6 +90,9 @@ create_input_tables <- function(folder = ".", config_file, folder_out = folder, 
   }
   
   input_table <- input_table[input_table$include,]
+  
+  # Only the models specified by the user input
+  input_table <- input_table[input_table$model_coupled %in% models_coupled,]
   
   # Add a "value" column to the input table. Users can enter their values here
   if(nrow(input_table) > 0){
