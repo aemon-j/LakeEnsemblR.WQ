@@ -8,12 +8,9 @@ create_input_tables(
   folder = ".",
   config_file,
   folder_out = folder,
-  modules = "all",
-  processes = "all",
-  subprocesses = "all",
+  input = NULL,
   models_coupled = c("GLM-AED2", "GOTM-Selmaprotbas", "GOTM-WET", "Simstrat-AED2",
-    "MyLake", "PCLake"),
-  parameters = "all"
+    "MyLake", "PCLake")
 )
 }
 \arguments{
@@ -23,20 +20,12 @@ create_input_tables(
 
 \item{folder_out}{path; in what folder should the files be placed}
 
-\item{modules}{character; "all" to include everything, vector otherwise}
-
-\item{processes}{character; "all" to include everything, vector otherwise}
-
-\item{subprocesses}{character; "all" to include everything, vector otherwise}
-
-\item{models_coupled}{character; options "GLM-AED2", "GOTM-Selmaprotbas", "GOTM-WET",
-"Simstrat-AED2", "MyLake", "PCLake"}
-
-\item{parameters}{character; "all" to include everything, vector otherwise}
+\item{input}{character vector; for what parameters do you want to fill in values}
 }
 \description{
 Create csv files from the LakeEnsemblR dictionary file, where the user can enter values 
-for selected parameters. Running the function with default arguments will give all parameters.
+for selected parameters. Running the function with default arguments will print all
+empty input files, whereas adding the argument "all" will print all parameters.
 }
 \examples{
 

@@ -1,17 +1,13 @@
 #'Create input tables
 #'
 #'Create csv files from the LakeEnsemblR dictionary file, where the user can enter values 
-#'for selected parameters. Running the function with default arguments will give all parameters. 
+#'for selected parameters. Running the function with default arguments will print all
+#'empty input files, whereas adding the argument "all" will print all parameters. 
 #'
 #'@param folder path; where is the config_file located
 #'@param config_file character; read groups of phytoplankton, zooplankton, etc. from here
 #'@param folder_out path; in what folder should the files be placed
-#'@param modules character; "all" to include everything, vector otherwise
-#'@param processes character; "all" to include everything, vector otherwise
-#'@param subprocesses character; "all" to include everything, vector otherwise
-#'@param models_coupled character; options "GLM-AED2", "GOTM-Selmaprotbas", "GOTM-WET",
-#'                                       "Simstrat-AED2", "MyLake", "PCLake"
-#'@param parameters character; "all" to include everything, vector otherwise
+#'@param input character vector; for what parameters do you want to fill in values
 #'
 #'@importFrom configr read.config
 #'@importFrom plyr count
@@ -25,18 +21,12 @@
 # folder = "."
 # config_file = "LakeEnsemblR_WQ.yaml"
 # folder_out = "."
-# modules = "oxygen"
-# processes = c("water_atmosphere_exchange", "water_sediment_exchange")
-# subprocesses = "all"
-# models_coupled = c("GLM-AED2", "GOTM-Selmaprotbas", "GOTM-WET",
-#                    "Simstrat-AED2", "MyLake", "PCLake")
-# parameters = "all"
+# input = c("oxygen/initial_conditions",
+#           "phytoplankton/growth/maximum_growth_rates")
 
-create_input_tables <- function(folder = ".", config_file, folder_out = folder, modules = "all", processes = "all",
-                                subprocesses = "all",
+create_input_tables <- function(folder = ".", config_file, folder_out = folder, input = NULL,
                                 models_coupled = c("GLM-AED2", "GOTM-Selmaprotbas", "GOTM-WET", 
-                                                   "Simstrat-AED2", "MyLake", "PCLake"),
-                                parameters = "all"){
+                                                   "Simstrat-AED2", "MyLake", "PCLake")){
   
   lst_config <- read.config(file.path(folder, config_file))
   
@@ -46,37 +36,17 @@ create_input_tables <- function(folder = ".", config_file, folder_out = folder, 
   
   input_table <- LakeEnsemblR_WQ_dictionary
   
-  # Select modules
-  if(!identical(modules, "all")){
-    input_table <- input_table[input_table$module %in% modules,]
-  }
-  
-  # Select processes
-  if(!identical(processes, "all")){
-    input_table <- input_table[input_table$process %in% processes,]
-  }
-  
-  # Select subprocesses
-  if(!identical(subprocesses, "all")){
-    input_table <- input_table[input_table$subprocess %in% subprocesses,]
-  }
-  
-  # Select models
-  # One entry for every model
+  # Double rows for models that occur multiple times
   # Note: This is long and hard-to-understand code for something rather simple.
   # If we can simplify this, or at least put it in a separate function, I think 
   # that'd be good.
-  input_table <- input_table[input_table$model %in% wq_models,]
-  
   counts <- count(wq_models)
   counts$x <- as.character(counts$x)
   
   input_table$dupl_freq <- sapply(input_table$model,
                                   function (x) counts$freq[counts$x == x])
-  if(nrow(input_table) > 0){
-    dupl_rows <- rep(1:nrow(input_table), times = input_table$dupl_freq)
-    input_table <- input_table[dupl_rows,]
-  }
+  dupl_rows <- rep(1:nrow(input_table), times = input_table$dupl_freq)
+  input_table <- input_table[dupl_rows,]
   
   # It's necessary to turn the model column for the duplicated rows into
   # a unique name to match the right coupled model. 
@@ -90,10 +60,34 @@ create_input_tables <- function(folder = ".", config_file, folder_out = folder, 
   input_table$model_coupled <- sapply(input_table$model_coupled,
                                       function (x) names(wq_models)[wq_models == x])
   
-  # Select parameters
-  if(!identical(parameters, "all")){
-    input_table <- input_table[input_table$parameter %in% parameters,]
+  # Select variables for input
+  input_table$include <- FALSE
+  
+  # Loop through the "input" argument, and set corresponding values
+  # to TRUE
+  if(any(input == "all")){
+    input_table$include <- TRUE
+  }else{
+    for(i in input){
+      input_parts <- strsplit(i, "/")[[1]]
+      
+      # Note: currently not checking if the parameter occurs at all
+      condition <- rep(TRUE, nrow(input_table))
+      condition[input_table$module != input_parts[1]] <- FALSE
+      if(length(input_parts) > 1L) condition[input_table$process != input_parts[2]] <- FALSE
+      if(length(input_parts) > 2L) condition[input_table$subprocess != input_parts[3]] <- FALSE
+      if(length(input_parts) > 3L) condition[input_table$model_coupled != input_parts[4]] <- FALSE
+      if(length(input_parts) > 4L) condition[input_table$parameter != input_parts[5]] <- FALSE
+      if(length(input_parts) > 5L){
+        stop("Your input ", i, " was longer than five levels.",
+             " You can only provide information up to parameter level.")
+      }
+      
+      input_table$include[condition] <- TRUE
+    }
   }
+  
+  input_table <- input_table[input_table$include,]
   
   # Add a "value" column to the input table. Users can enter their values here
   if(nrow(input_table) > 0){
@@ -102,12 +96,21 @@ create_input_tables <- function(folder = ".", config_file, folder_out = folder, 
     input_table$value <- as.character()
   }
   
-  input_table <- input_table[, c(1:3, 13, 5, 8, 7, 14, 11),]
+  input_table <- input_table[, c(1:3, 14, 5, 8, 7, 15, 11),]
   
   # Write input tables
+  # All modules that are set to use == TRUE
+  modules <- names(lst_config)[!(names(lst_config) %in% c("models",
+                                                          "config_files",
+                                                          "bio-feedback",
+                                                          "output"))]
+  modules <- sapply(modules, function (x) if(lst_config[[x]][["use"]]) x)
+  modules <- unlist(modules)
+  
   for(i in modules){
     # phytoplankton, zooplankton, and fish can have multiple groups
-    if(i %in% c("phytoplankton", "zooplankton", "fish")){
+    if(i %in% c("phytoplankton", "zooplankton", "fish", "macrophytes",
+                "zoobenthos", "pathogens")){
       groups <- names(lst_config[[i]][["groups"]])
     }else{
       groups <- i
