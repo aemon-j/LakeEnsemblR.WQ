@@ -1,23 +1,23 @@
-# LakeEnsemblR_WQ
+# LakeEnsemblR.WQ
 R Package to facilitate running ensembles of water quality models
 
 
-# How do I contribute new code back to the LakeEnsemblR_WQ project?
+# How do I contribute new code back to the LakeEnsemblR.WQ project?
 In order to contribute to this code, we recommend the following workflow:
 
 - "fork" this repository to your own personal github account
 
 - clone the github repository to your computer:
 
-- $git clone <git@github.com:{username}/LakeEnsemblR_WQ.git>
+- $git clone <git@github.com:{username}/LakeEnsemblR.WQ.git>
 
 - modify code or add new functionality, save the code
 
 add the repository main to a remote main called "upstream"
 
-- $cd LakeEnsemblR_WQ
+- $cd LakeEnsemblR.WQ
 
-- $git remote add upstream <git@github.com:aemon-j/LakeEnsemblR_WQ.git>
+- $git remote add upstream <git@github.com:aemon-j/LakeEnsemblR.WQ.git>
 
 before pushing your changes to your repository, pull in the current version of the aemon-j main:
 
