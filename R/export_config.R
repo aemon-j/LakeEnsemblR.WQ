@@ -5,7 +5,6 @@
 #'@param config_file character; name of LakeEnsemblR_WQ config file
 #'@param folder path; location of config_file
 #'@param verbose boolean; print changed parameters on screen
-#'@param dict data.frame; LakeEnsemblR_WQ dictionary
 #'
 #'@examples
 #'
@@ -18,10 +17,7 @@
 # folder = "."
 # verbose = F
 
-# Note: when we can actually build the package, the "dict"
-#  argument can be removed so that the dictionary in the "data" folder is used
-
-export_config <- function(config_file, folder = ".", verbose = FALSE, dict){
+export_config <- function(config_file, folder = ".", verbose = FALSE){
   
   # Read config file as a list
   lst_config <- read.config(file.path(folder, config_file)) 
@@ -30,6 +26,10 @@ export_config <- function(config_file, folder = ".", verbose = FALSE, dict){
   modules <- modules[!(modules %in% c("models", "config_files", "bio-feedback",
                                       "output"))]
   
+  # Set up the model-specific config files, with right amount
+  # of groups for phytoplankton etc., and default values.
+  set_up_configs(config_file, folder = folder)
+  
   # Loop through the modules
   for(i in modules){
     
@@ -37,11 +37,6 @@ export_config <- function(config_file, folder = ".", verbose = FALSE, dict){
       disable_module(config_file = config_file, folder = folder,
                      module = i)
     }else{
-      # Important: in case the module is phytoplankton/zooplankton/fish
-      #  things will be different! Multiple groups and different notation.
-      #  For AED2, we'll need to write the names of the groups as well (pd%p_name)
-      #  And group_name and group_position need to be passed into set_value_config
-      
       if(!(i %in% c("phytoplankton", "zooplankton", "fish"))){
         input_file_paths <- file.path(folder, lst_config[[i]][["par_file"]])
       }else{
@@ -56,9 +51,8 @@ export_config <- function(config_file, folder = ".", verbose = FALSE, dict){
       for(j in seq_len(length(input_file_paths))){
         input_file <- read.csv(input_file_paths[j], stringsAsFactors = FALSE)
         
-        warning("MyLake and PCLake not yet implemented.")
-        input_file <- input_file[input_file$model_coupled != "MyLake" &
-                                   input_file$model_coupled != "PCLake",]
+        warning("PCLake not yet implemented.")
+        input_file <- input_file[input_file$model_coupled != "PCLake",]
         
         
         sapply(seq_len(nrow(input_file)), function (x){
@@ -71,14 +65,13 @@ export_config <- function(config_file, folder = ".", verbose = FALSE, dict){
                            model_coupled = input_file[x, "model_coupled"],
                            parameter = input_file[x, "parameter"],
                            value = input_file[x, "value"],
-                           dict = dict,
                            folder = folder,
                            verbose = verbose)
         })
         
-        # Not yet implemented; any values in the module that are not mentioned
-        # in the input file, should be set to their default!
       }
     }
   }
+  
+  set_coupling(config_file, folder = folder)
 }

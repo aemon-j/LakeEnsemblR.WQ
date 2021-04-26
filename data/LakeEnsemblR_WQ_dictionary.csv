@@ -20,6 +20,7 @@ oxygen,water_sediment_exchange,diffusion,wet,cTurbDifO2,abiotic_sediment/paramet
 oxygen,water_sediment_exchange,diffusion,pclake,kO2Dif,parameters/kO2Dif,m2 d-1,2.60E-05,1,1.3.2,Mol_O2_diffusion_constant
 oxygen,water_sediment_exchange,diffusion,pclake,cThetaDif,parameters/cThetaDif,degC,1.02,1,1.3.2,Temperature_coefficient_for_diffusion
 oxygen,water_sediment_exchange,diffusion,pclake,cTurbDifO2,parameters/cTurbDifO2,-,5,1,1.3.2,Bioturbation_factor_for_diffusion
+carbon,initial_conditions,pH,aed2,pH_initial,aed2_carbon/pH_initial,-,?,1,3.0.0,initial pH
 nitrogen,initial_conditions,initial_ammonium_water,aed2,amm_initial,aed2_nitrogen/amm_initial,mmol N m-3,?,1,EDDIE-version,initial NH4 concentration
 nitrogen,initial_conditions,initial_ammonium_water,selmaprotbas,aa,selmaprotbas/initialization/aa,mmol N m-3,none,1,1.0.0,initial dissolved ammonium in the water column
 nitrogen,initial_conditions,initial_ammonium_water,wet,sNH4W,abiotic_water/initialization/sNH4W,g m-3,none,1,1.3.5 (?),initial dissolved ammonium in the water column
@@ -70,6 +71,25 @@ nitrogen,nitrification,nitrification_rate,pclake,kNitrS,parameters/kNitrS,d-1,1,
 nitrogen,nitrification,nitrification_rate,pclake,cThetaNitr,parameters/cThetaNitr,degC,1.08,1,1.3.2,Temperature_coefficient_of_nitrification
 nitrogen,nitrification,nitrification_rate,pclake,hO2Nitr,parameters/hO2Nitr,g O2 m-3,2,1,1.3.2,Half-sat_O2_conc_for_nitrification_in_water
 nitrogen,nitrification,nitrification_temperature_dependence,aed2,theta_nitrif,aed2_nitrogen/theta_nitrif,-,?,1,EDDIE-version,Arrhenius temperature multiplier for nitrification
+phosphorus,initial_conditions,initial_water,mylake,In.TPz,In.TPz,mg m-3,none,1,1.2,Initial total P profile read from initial profiles file (incl. DOP & Chla)
+phosphorus,initial_conditions,initial_sediment,mylake,In.TPz.sed,In.TPz.sed,mg m-3,none,1,1.2,Initial total P profile in the sediment compartments read from initial profiles file
+phosphorus,water_column_processes,adsorption,aed2,Qmax,aed2_phosphorus/Qmax,-,1,1,3.0.0,Sorption constant
+silica,water_column_processes,sedimentation,aed2,Fsed_rsi,aed2_silica/Fsed_rsi,?,?,1,3.0.0,Sedimentation flux for silica
+phytoplankton,initial_conditions,initial_water,aed2,p_initial,phyto_data/pd%p_initial,mmol C m-3,10,1,3.0.0,Initial concentration of phytoplankton
+phytoplankton,initial_conditions,initial_water,selmaprotbas,c,{group_name}/initialization/c,mmol C m-3,none,1,1.0.0,Initial concentration of phytoplankton
+phytoplankton,initial_conditions,initial_water,wet,sDW,{group_name}/initialization/sDW,g DW m-3,none,1,1.3.5 (?),Initial water column phytoplankton dryweight
+phytoplankton,initial_conditions,initial_water,wet,sNW,{group_name}/initialization/sNW,g N m-3,none,1,1.3.5 (?),Initial water column N in phytoplankton
+phytoplankton,initial_conditions,initial_water,mylake,In.Chlz,In.Chlz,mg m-3,none,1,1.2,Initial chlorophyll a profile read from initial profiles file
+phytoplankton,initial_conditions,initial_water,wet,sPW,{group_name}/initialization/sPW,g P m-3,none,1,1.3.5 (?),Initial water column P in phytoplankton
+phytoplankton,initial_conditions,initial_sediment,wet,sDS,{group_name}/initialization/sDS,g DW m-2,none,1,1.3.5 (?),Initial sediment phytoplankton dryweight
+phytoplankton,initial_conditions,initial_sediment,wet,sNS,{group_name}/initialization/sNS,g N m-2,none,1,1.3.5 (?),Initial sediment N in phytoplankton
+phytoplankton,initial_conditions,initial_water,mylake,In.Chlz_sed,In.Chlz.sed,mg m-3,none,1,1.2,Initial chlorophyll a profile in the sediment compartments read from initial profiles file
+phytoplankton,initial_conditions,initial_sediment,wet,sPS,{group_name}/initialization/sPS,g P m-2,none,1,1.3.5 (?),Initial sediment P in phytoplankton
 phytoplankton,growth,maximum_growth_rates,selmaprotbas,r0,{group_name}/parameters/r0,d-1,1.3,1,1.0.0,maximum growth rate at 20 degrees C
 phytoplankton,growth,maximum_growth_rates,aed2,R_growth,phyto_data/pd%R_growth,d-1,?,1,3.0.0,Phyto max growth rate @20C
+phytoplankton,growth,maximum_growth_rates,mylake,g_twty,Bio.par/g_twty,d-1,none,1,1.2,specific growth rate at 20 deg C
+phytoplankton,vertical_movement,sedimentation_rates,aed2,w_p,phyto_data/pd%w_p,m d-1,?,1,3.0.0,Sedimentation rate (negative is downwards)
+phytoplankton,vertical_movement,sedimentation_rates,selmaprotbas,wz,{group_name}/parameters/wz,m d-1,0,1,1.0.0,Vertical velocity (negative is downwards)
+phytoplankton,vertical_movement,sedimentation_rates,wet,cVSed,{group_name}/parameters/cVSed,m d-1,0.2,1,1.3.5 (?),Sedimentation velocity (positive is downwards)
+phytoplankton,vertical_movement,sedimentation_rates,mylake,Uz_Chl,Bio.par/Uz_Chl,m d-1,none,1,1.2,settling velocity for Chl a
 zooplankton,grazing,grazing_rates,aed2,Rgrz_zoo,zoop_params/zoop_param%Rgrz_zoo,d-1,?,1,3.0.0,Zooplankton grazing rate
