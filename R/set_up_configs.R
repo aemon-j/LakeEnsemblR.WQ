@@ -254,10 +254,10 @@ set_up_configs <- function(config_file, folder = "."){
       
       pclake_dir <- dirname(lst_config[["config_files"]][[models_coupled[i]]])
       file.copy(template_initial,
-                file.path(pclake_dir, "initialstates.txt"),
+                file.path(folder, pclake_dir, "initialstates.txt"),
                 overwrite = TRUE)
       file.copy(template_pars,
-                file.path(pclake_dir, "parameters.txt"),
+                file.path(folder, pclake_dir, "parameters.txt"),
                 overwrite = TRUE)
     }
   }
