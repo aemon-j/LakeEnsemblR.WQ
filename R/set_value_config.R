@@ -88,10 +88,6 @@ set_value_config <- function(config_file, module, group_name = NULL, group_posit
       group_position = 1L
     }
     
-    if(is.numeric(value)){
-      value <- value * row_dict[1, "conversion"]
-    }
-    
     aed_config[[path_parts[1]]][[path_parts[2]]][group_position] <- value
     write_nml(aed_config, aed_config_path)
     
@@ -101,7 +97,7 @@ set_value_config <- function(config_file, module, group_name = NULL, group_posit
     names(path_parts) <- paste0("key", 1:length(path_parts))
     
     path_parts <- c(path_parts,
-                    "value" = value * row_dict[1, "conversion"],
+                    "value" = value,
                     "file" = file.path(folder, model_config),
                     "verbose" = verbose)
     arglist <- split(path_parts, names(path_parts)) # Turn into named list
