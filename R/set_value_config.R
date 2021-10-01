@@ -6,6 +6,7 @@
 #'@param module character; 
 #'@param group_name character; only for biological modules
 #'@param group_position integer; only for biological modules
+#'@param domain character;
 #'@param process character; 
 #'@param subprocess character; 
 #'@param model_coupled character; options one of "GLM-AED2", "GOTM-Selmaprotbas", "GOTM-WET",
@@ -27,23 +28,24 @@
 # folder = "."
 # config_file = "LakeEnsemblR_WQ.yaml"
 # module = "phytoplankton"
+# domain = "water"
 # group_name = "diatoms"
 # process = "growth"
-# subprocess = "maximum_growth_rates"
+# subprocess = "growth_rates"
 # model_coupled = "GOTM-Selmaprotbas"
 # parameter = "r0"
 # value = 1.5
 # verbose = TRUE
 
 set_value_config <- function(config_file, module, group_name = NULL, group_position = NULL,
-                             process, subprocess, model_coupled, parameter, value, folder,
-                             verbose = FALSE){
+                             domain, process, subprocess, model_coupled, parameter, value,
+                             folder, verbose = FALSE){
   
   model <- strsplit(model_coupled, "-")[[1]]
   model <- tolower(model[length(model)])
   
   # Check if arguments are allowed
-  chck_args <- sapply(c("module", "process", "subprocess", "model", "parameter"),
+  chck_args <- sapply(c("module", "domain", "process", "subprocess", "model", "parameter"),
                      function(x) get(x) %in% LakeEnsemblR_WQ_dictionary[[x]])
   if(!all(chck_args)){
     wrong_args <- c("module", "process",
@@ -55,6 +57,7 @@ set_value_config <- function(config_file, module, group_name = NULL, group_posit
   }
   
   row_dict <- LakeEnsemblR_WQ_dictionary[LakeEnsemblR_WQ_dictionary$module == module &
+                                           LakeEnsemblR_WQ_dictionary$domain == domain &
                                            LakeEnsemblR_WQ_dictionary$process == process &
                                            LakeEnsemblR_WQ_dictionary$subprocess == subprocess &
                                            LakeEnsemblR_WQ_dictionary$model == model &
@@ -62,11 +65,6 @@ set_value_config <- function(config_file, module, group_name = NULL, group_posit
   # Second argument check; see if all combinations are possible
   if(nrow(row_dict) == 0){
     stop("The parameter was not found in the dictionary for this combination of arguments.")
-  }
-  
-  # PCLake not yet implemented
-  if(model == "pclake"){
-    stop("PCLake not yet implemented.")
   }
   
   lst_config <- read.config(file.path(folder, config_file))
@@ -93,10 +91,6 @@ set_value_config <- function(config_file, module, group_name = NULL, group_posit
       group_position = 1L
     }
     
-    if(is.numeric(value)){
-      value <- value * row_dict[1, "conversion"]
-    }
-    
     aed_config[[path_parts[1]]][[path_parts[2]]][group_position] <- value
     write_nml(aed_config, aed_config_path)
     
@@ -106,7 +100,7 @@ set_value_config <- function(config_file, module, group_name = NULL, group_posit
     names(path_parts) <- paste0("key", 1:length(path_parts))
     
     path_parts <- c(path_parts,
-                    "value" = value * row_dict[1, "conversion"],
+                    "value" = value,
                     "file" = file.path(folder, model_config),
                     "verbose" = verbose)
     arglist <- split(path_parts, names(path_parts)) # Turn into named list
@@ -143,6 +137,43 @@ set_value_config <- function(config_file, module, group_name = NULL, group_posit
     }
     
     save(mylake_config, file = file.path(folder, model_config))
+  }else if(model_coupled == "PCLake"){
+    
+    path_parts <- strsplit(row_dict[1, "path"], "/")[[1]]
+    if(path_parts[1] == "parameters"){
+      file_name <- "parameters.txt"
+    }else if(path_parts[1] == "initialstates"){
+      file_name <- "initialstates.txt"
+    }else{
+      stop("First entry PCLake parameter in dictionary should be ",
+           "'parameters' or 'initialstates'")
+    }
+    
+    file_name <- file.path(folder, dirname(model_config), file_name)
+    
+    pclake_config <- read.table(file_name,
+                                sep = "\t",
+                                header = TRUE,
+                                fill = TRUE,
+                                stringsAsFactors = FALSE)
+    
+    row_num <- which(pclake_config$sName == paste0("_",
+                                                   path_parts[2],
+                                                   "_"))
+    
+    if(length(row_num) == 0L) stop("Parameter not found in PCLake config file")
+    
+    pclake_config[row_num, "sSet1"] <- value
+    
+    write.table(pclake_config,
+                file = file_name,
+                row.names = FALSE,
+                quote = FALSE,
+                sep = "\t")
+    # LEFT HERE
+    # Must make sure table headers are exactly as in the parameters_old.txt file
+    # "-1" and "Open water" column might be an issue. 
+    
   }
   
 }
