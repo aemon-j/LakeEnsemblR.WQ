@@ -64,11 +64,6 @@ set_value_config <- function(config_file, module, group_name = NULL, group_posit
     stop("The parameter was not found in the dictionary for this combination of arguments.")
   }
   
-  # PCLake not yet implemented
-  if(model == "pclake"){
-    stop("PCLake not yet implemented.")
-  }
-  
   lst_config <- read.config(file.path(folder, config_file))
   model_config <- lst_config[["config_files"]][[model_coupled]]
   
@@ -143,6 +138,43 @@ set_value_config <- function(config_file, module, group_name = NULL, group_posit
     }
     
     save(mylake_config, file = file.path(folder, model_config))
+  }else if(model_coupled == "PCLake"){
+    
+    path_parts <- strsplit(row_dict[1, "path"], "/")[[1]]
+    if(path_parts[1] == "parameters"){
+      file_name <- "parameters.txt"
+    }else if(path_parts[1] == "initialstates"){
+      file_name <- "initialstates.txt"
+    }else{
+      stop("First entry PCLake parameter in dictionary should be ",
+           "'parameters' or 'initialstates'")
+    }
+    
+    file_name <- file.path(folder, dirname(model_config), file_name)
+    
+    pclake_config <- read.table(file_name,
+                                sep = "\t",
+                                header = TRUE,
+                                fill = TRUE,
+                                stringsAsFactors = FALSE)
+    
+    row_num <- which(pclake_config$sName == paste0("_",
+                                                   path_parts[2],
+                                                   "_"))
+    
+    if(length(row_num) == 0L) stop("Parameter not found in PCLake config file")
+    
+    pclake_config[row_num, "sSet1"] <- value
+    
+    write.table(pclake_config,
+                file = file_name,
+                row.names = FALSE,
+                quote = FALSE,
+                sep = "\t")
+    # LEFT HERE
+    # Must make sure table headers are exactly as in the parameters_old.txt file
+    # "-1" and "Open water" column might be an issue. 
+    
   }
   
 }
