@@ -11,6 +11,7 @@ visualise_dictionary(
   folder = ".",
   filename = "dictionary.txt",
   module = TRUE,
+  domain = TRUE,
   process = TRUE,
   subprocess = TRUE,
   model = FALSE,
@@ -23,6 +24,7 @@ visualize_dictionary(
   folder = ".",
   filename = "dictionary.txt",
   module = TRUE,
+  domain = TRUE,
   process = TRUE,
   subprocess = TRUE,
   model = FALSE,
@@ -40,6 +42,8 @@ If yes, use folder and filename arguments}
 \item{filename}{character; file name of table}
 
 \item{module}{boolean; include module in visualisation?}
+
+\item{domain}{boolean; include domain in visualisation?}
 
 \item{process}{boolean; include process in visualisation?}
 
