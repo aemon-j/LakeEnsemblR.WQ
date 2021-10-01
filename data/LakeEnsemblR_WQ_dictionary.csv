@@ -162,8 +162,8 @@ nitrogen,water,nitrification,nitrification,aed2,Rn2o,aed2_nitrogen/Rn2o,?,?,1.0.
 nitrogen,water,ammonium_oxidation,ammonium_oxidation,aed2,Kpart_ammox,aed2_nitrogen/Kpart_ammox,?,?,1.0.0,saturation concentration in ammonium oxidation equation
 nitrogen,water,anammox,anammox,aed2,Kin_deamm,aed2_nitrogen/Kin_deamm,?,?,1.0.0,saturation concentration in deammonification equation
 nitrogen,water,anammox,anammox,aed2,Ranammox,aed2_nitrogen/Ranammox,?,?,1.0.0,anaerobic ammonium oxidation rate
-nitrogen,water,anammox,anammox,aed3,Kanmx_nit,aed2_nitrogen/Kanmx_nit,?,?,1.0.0,saturation concentration in anammox equation for nitrate
-nitrogen,water,anammox,anammox,aed4,Kanmx_amm,aed2_nitrogen/Kanmx_amm,?,?,1.0.0,saturation concentration in anammox equation for ammonium
+nitrogen,water,anammox,anammox,aed2,Kanmx_nit,aed2_nitrogen/Kanmx_nit,?,?,1.0.0,saturation concentration in anammox equation for nitrate
+nitrogen,water,anammox,anammox,aed2,Kanmx_amm,aed2_nitrogen/Kanmx_amm,?,?,1.0.0,saturation concentration in anammox equation for ammonium
 nitrogen,water,water_atmosphere_exchange,n2o,aed2,atm_n2o,aed2_nitrogen/atm_n2o,?,?,1.0.0,atmospheric concentration of n2o
 nitrogen,water,water_atmosphere_exchange,n2o,aed2,n2o_piston_model,aed2_nitrogen/n2o_piston_model,(integer),?,1.0.0,"1:, 2:"
 nitrogen,water,denitrification,denitrification,aed2,Kdenit,aed2_nitrogen/Kdenit,?,?,1.0.0,saturation concentration in denitrification equation
