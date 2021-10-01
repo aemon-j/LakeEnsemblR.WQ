@@ -56,6 +56,7 @@ export_config <- function(config_file, folder = ".", verbose = FALSE){
                            module = i,
                            group_name = names(input_file_paths)[j],
                            group_position = j,
+                           domain = input_file[x, "domain"],
                            process = input_file[x, "process"],
                            subprocess = input_file[x, "subprocess"],
                            model_coupled = input_file[x, "model_coupled"],

@@ -6,6 +6,7 @@
 #'@param module character; 
 #'@param group_name character; only for biological modules
 #'@param group_position integer; only for biological modules
+#'@param domain character;
 #'@param process character; 
 #'@param subprocess character; 
 #'@param model_coupled character; options one of "GLM-AED2", "GOTM-Selmaprotbas", "GOTM-WET",
@@ -27,23 +28,24 @@
 # folder = "."
 # config_file = "LakeEnsemblR_WQ.yaml"
 # module = "phytoplankton"
+# domain = "water"
 # group_name = "diatoms"
 # process = "growth"
-# subprocess = "maximum_growth_rates"
+# subprocess = "growth_rates"
 # model_coupled = "GOTM-Selmaprotbas"
 # parameter = "r0"
 # value = 1.5
 # verbose = TRUE
 
 set_value_config <- function(config_file, module, group_name = NULL, group_position = NULL,
-                             process, subprocess, model_coupled, parameter, value, folder,
-                             verbose = FALSE){
+                             domain, process, subprocess, model_coupled, parameter, value,
+                             folder, verbose = FALSE){
   
   model <- strsplit(model_coupled, "-")[[1]]
   model <- tolower(model[length(model)])
   
   # Check if arguments are allowed
-  chck_args <- sapply(c("module", "process", "subprocess", "model", "parameter"),
+  chck_args <- sapply(c("module", "domain", "process", "subprocess", "model", "parameter"),
                      function(x) get(x) %in% LakeEnsemblR_WQ_dictionary[[x]])
   if(!all(chck_args)){
     wrong_args <- c("module", "process",
@@ -55,6 +57,7 @@ set_value_config <- function(config_file, module, group_name = NULL, group_posit
   }
   
   row_dict <- LakeEnsemblR_WQ_dictionary[LakeEnsemblR_WQ_dictionary$module == module &
+                                           LakeEnsemblR_WQ_dictionary$domain == domain &
                                            LakeEnsemblR_WQ_dictionary$process == process &
                                            LakeEnsemblR_WQ_dictionary$subprocess == subprocess &
                                            LakeEnsemblR_WQ_dictionary$model == model &
