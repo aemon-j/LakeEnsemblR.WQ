@@ -69,7 +69,9 @@ set_up_configs <- function(config_file, folder = "."){
       }
       
       filename <- lst_config[["config_files"]][[models_coupled[i]]]
-      dir.create(file.path(folder, dirname(filename)))
+      if(!dir.exists(file.path(folder, dirname(filename)))) {
+        dir.create(file.path(folder, dirname(filename)))
+      }
       write.config(lst, file.path(folder, filename), write.type = "yaml")
     }
     
@@ -131,7 +133,9 @@ set_up_configs <- function(config_file, folder = "."){
         }
       }
       filename <- lst_config[["config_files"]][[models_coupled[i]]]
-      dir.create(file.path(folder, dirname(filename)))
+      if(!dir.exists(file.path(folder, dirname(filename)))) {
+        dir.create(file.path(folder, dirname(filename)))
+      }
       write.config(lst, file.path(folder, filename), write.type = "yaml")
     }
     
@@ -200,7 +204,9 @@ set_up_configs <- function(config_file, folder = "."){
         
         filename <- file.path(dirname(lst_config[["config_files"]][[models_coupled[i]]]),
                               "aed2_phyto_pars.nml")
-        dir.create(file.path(folder, dirname(filename)))
+        if(!dir.exists(file.path(folder, dirname(filename)))) {
+          dir.create(file.path(folder, dirname(filename)))
+        }
         write_nml(lst_phyto, file.path(folder, filename))
       }
       
@@ -232,12 +238,17 @@ set_up_configs <- function(config_file, folder = "."){
         
         filename <- file.path(dirname(lst_config[["config_files"]][[models_coupled[i]]]),
                               "aed2_zoop_pars.nml")
-        dir.create(file.path(folder, dirname(filename)))
+        if(!dir.exists(file.path(folder, dirname(filename)))) {
+          dir.create(file.path(folder, dirname(filename)))
+        }
         write_nml(lst_zoop, file.path(folder, filename))
       }
       
       filename <- lst_config[["config_files"]][[models_coupled[i]]]
-      dir.create(file.path(folder, dirname(filename)))
+      if(!dir.exists(file.path(folder, dirname(filename)))) {
+        dir.create(file.path(folder, dirname(filename)))
+      }
+      
       write_nml(lst, file.path(folder, filename))
     }
     
@@ -258,7 +269,9 @@ set_up_configs <- function(config_file, folder = "."){
       
       
       pclake_dir <- dirname(lst_config[["config_files"]][[models_coupled[i]]])
-      dir.create(file.path(folder, pclake_dir))
+      if(!dir.exists(file.path(folder, pclake_dir))) {
+        dir.create(file.path(folder, pclake_dir))
+      }
       file.copy(template_initial,
                 file.path(folder, pclake_dir, "initialstates.txt"),
                 overwrite = TRUE)
