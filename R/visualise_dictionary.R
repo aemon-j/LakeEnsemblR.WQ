@@ -8,6 +8,7 @@
 #'@param folder path; path where to write table
 #'@param filename character; file name of table
 #'@param module boolean; include module in visualisation?
+#'@param domain boolean; include domain in visualisation?
 #'@param process boolean; include process in visualisation?
 #'@param subprocess boolean; include subprocess in visualisation?
 #'@param model boolean; include model in visualisation?
@@ -20,8 +21,9 @@
 #'@export
 
 visualise_dictionary <- function(print_console = TRUE, save_as_table = FALSE, folder = ".",
-                                 filename = "dictionary.txt", module = TRUE, process = TRUE,
-                                 subprocess = TRUE, model = FALSE, parameter = FALSE){
+                                 filename = "dictionary.txt", module = TRUE, domain = TRUE,
+                                 process = TRUE, subprocess = TRUE, model = FALSE,
+                                 parameter = FALSE){
   
   dict <- LakeEnsemblR_WQ_dictionary
   
@@ -31,6 +33,10 @@ visualise_dictionary <- function(print_console = TRUE, save_as_table = FALSE, fo
   
   if(module){
     dict$pathString <- paste(dict$pathString, dict$module, sep = "/")
+  }
+  
+  if(domain){
+    dict$pathString <- paste(dict$pathString, dict$domain, sep = "/")
   }
   
   if(process){

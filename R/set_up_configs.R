@@ -238,5 +238,27 @@ set_up_configs <- function(config_file, folder = "."){
     
     # For MyLake no setup is needed because the WQ config file
     # is the same as the physics config file. 
+    
+    if(models_coupled[i] == "PCLake"){
+      # For PCLake, we don't generate a file from scratch, as you
+      # can't switch off modules as in AED or the FABM-models, and
+      # then we'd have to save all the unit, remark, long_name, 
+      # short_name information as well. We copy a template from the
+      # inst folder instead. 
+      
+      template_initial <- system.file("extdata/pclake_initialstates.txt",
+                                      package = "LakeEnsemblR.WQ")
+      template_pars <- system.file("extdata/pclake_parameters.txt",
+                                   package = "LakeEnsemblR.WQ")
+      
+      
+      pclake_dir <- dirname(lst_config[["config_files"]][[models_coupled[i]]])
+      file.copy(template_initial,
+                file.path(folder, pclake_dir, "initialstates.txt"),
+                overwrite = TRUE)
+      file.copy(template_pars,
+                file.path(folder, pclake_dir, "parameters.txt"),
+                overwrite = TRUE)
+    }
   }
 }

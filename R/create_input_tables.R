@@ -76,12 +76,13 @@ create_input_tables <- function(folder = ".", config_file, folder_out = folder, 
       # Note: currently not checking if the parameter occurs at all
       condition <- rep(TRUE, nrow(input_table))
       condition[input_table$module != input_parts[1]] <- FALSE
-      if(length(input_parts) > 1L) condition[input_table$process != input_parts[2]] <- FALSE
-      if(length(input_parts) > 2L) condition[input_table$subprocess != input_parts[3]] <- FALSE
-      if(length(input_parts) > 3L) condition[input_table$model_coupled != input_parts[4]] <- FALSE
-      if(length(input_parts) > 4L) condition[input_table$parameter != input_parts[5]] <- FALSE
-      if(length(input_parts) > 5L){
-        stop("Your input ", i, " was longer than five levels.",
+      if(length(input_parts) > 1L) condition[input_table$domain != input_parts[2]] <- FALSE
+      if(length(input_parts) > 2L) condition[input_table$process != input_parts[3]] <- FALSE
+      if(length(input_parts) > 3L) condition[input_table$subprocess != input_parts[4]] <- FALSE
+      if(length(input_parts) > 4L) condition[input_table$model_coupled != input_parts[5]] <- FALSE
+      if(length(input_parts) > 5L) condition[input_table$parameter != input_parts[6]] <- FALSE
+      if(length(input_parts) > 6L){
+        stop("Your input ", i, " was longer than six levels.",
              " You can only provide information up to parameter level.")
       }
       
@@ -101,7 +102,8 @@ create_input_tables <- function(folder = ".", config_file, folder_out = folder, 
     input_table$value <- as.character()
   }
   
-  input_table <- input_table[, c(1:3, 14, 5, 8, 7, 15, 11),]
+  input_table <- input_table[, c("module", "domain", "process", "subprocess", "model_coupled",
+                                 "parameter", "default", "unit", "value", "note"),]
   
   # Write input tables
   # All modules that are set to use == TRUE

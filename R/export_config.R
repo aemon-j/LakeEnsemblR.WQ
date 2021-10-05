@@ -51,15 +51,12 @@ export_config <- function(config_file, folder = ".", verbose = FALSE){
       for(j in seq_len(length(input_file_paths))){
         input_file <- read.csv(input_file_paths[j], stringsAsFactors = FALSE)
         
-        warning("PCLake not yet implemented.")
-        input_file <- input_file[input_file$model_coupled != "PCLake",]
-        
-        
         sapply(seq_len(nrow(input_file)), function (x){
           set_value_config(config_file = config_file,
                            module = i,
                            group_name = names(input_file_paths)[j],
                            group_position = j,
+                           domain = input_file[x, "domain"],
                            process = input_file[x, "process"],
                            subprocess = input_file[x, "subprocess"],
                            model_coupled = input_file[x, "model_coupled"],
