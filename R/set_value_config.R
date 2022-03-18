@@ -107,36 +107,35 @@ set_value_config <- function(config_file, module, group_name = NULL, group_posit
     do.call(input_yaml_multiple, args = arglist)
   }else if(model_coupled == "MyLake"){
     if(!is.null(group_name)){
-      if(group_position > 1L) next
-      
-      # MyLake can only have one phytoplankton group
-      # so skip if it's not the first group
-      # Note: later we can add something in the input that
-      # users could also use a different group than the first
-      # for MyLake input? 
+      if(group_position == 1L){
+        # MyLake can only have one phytoplankton group
+        # so skip if it's not the first group
+        # Note: later we can add something in the input that
+        # users could also use a different group than the first
+        # for MyLake input? 
+        # Name: mylake_config
+        load(file.path(folder, model_config))
+        
+        path_parts <- strsplit(row_dict[1, "path"], "/")[[1]]
+        if(length(path_parts) == 1L){
+          
+          mylake_config[[path_parts]] <- matrix(value,
+                                                nrow = nrow(mylake_config[[path_parts]]),
+                                                ncol = ncol(mylake_config[[path_parts]]))
+          
+        }else{
+          # If length is 2, we have to find the index of the parameter
+          # value in the ".names" vector
+          names_par_list <- mylake_config[[paste0(path_parts[1], ".names")]]
+          names_par_list <- sapply(names_par_list, "[[", 1)
+          ind_par <- which(names_par_list == path_parts[2])
+          
+          mylake_config[[path_parts[1]]][ind_par] <- value
+        }
+        
+        save(mylake_config, file = file.path(folder, model_config))
+      }
     }
-    
-    # Name: mylake_config
-    load(file.path(folder, model_config))
-    
-    path_parts <- strsplit(row_dict[1, "path"], "/")[[1]]
-    if(length(path_parts) == 1L){
-      
-      mylake_config[[path_parts]] <- matrix(value,
-                                            nrow = nrow(mylake_config[[path_parts]]),
-                                            ncol = ncol(mylake_config[[path_parts]]))
-      
-    }else{
-      # If length is 2, we have to find the index of the parameter
-      # value in the ".names" vector
-      names_par_list <- mylake_config[[paste0(path_parts[1], ".names")]]
-      names_par_list <- sapply(names_par_list, "[[", 1)
-      ind_par <- which(names_par_list == path_parts[2])
-      
-      mylake_config[[path_parts[1]]][ind_par] <- value
-    }
-    
-    save(mylake_config, file = file.path(folder, model_config))
   }else if(model_coupled == "PCLake"){
     
     path_parts <- strsplit(row_dict[1, "path"], "/")[[1]]
@@ -161,19 +160,28 @@ set_value_config <- function(config_file, module, group_name = NULL, group_posit
                                                    path_parts[2],
                                                    "_"))
     
-    if(length(row_num) == 0L) stop("Parameter not found in PCLake config file")
+    if(length(row_num) == 0L){
+      stop("Parameter ", parameter,
+                                   " not found in PCLake config file")
+    }
     
     pclake_config[row_num, "sSet1"] <- value
+    
+    # Ensure that table headers remain the same as in the original file
+    inds <- sapply(c("X.1", "Open.water", "X_InclTran_",
+                     "X_InclPrim_", "X_InclPhytS_", "X_InclBed_",
+                     "X_InclWeb_", "X_InclMarsh_"),
+                   grep, names(pclake_config))
+    names(pclake_config) <- replace(names(pclake_config), inds,
+                                    c("-1", "Open water", "_InclTran_",
+                                      "_InclPrim_", "_InclPhytS_", "_InclBed_",
+                                      "_InclWeb_", "_InclMarsh_"))
     
     write.table(pclake_config,
                 file = file_name,
                 row.names = FALSE,
                 quote = FALSE,
                 sep = "\t")
-    # LEFT HERE
-    # Must make sure table headers are exactly as in the parameters_old.txt file
-    # "-1" and "Open water" column might be an issue. 
     
   }
-  
 }
