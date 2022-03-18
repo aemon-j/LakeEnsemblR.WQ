@@ -323,7 +323,7 @@ phytoplankton,water,stoichiometry,chlorophyll_ratio,wet,cChDMin,{group_name}/par
 phytoplankton,water,stoichiometry,chlorophyll_ratio,wet,cChDMax,{group_name}/parameters/cChDMax,mgChl/mgDW,0.015,1.0.0,maximum chlorophyll/C ratio 
 phytoplankton,water,light,light_attenuation,wet,cExtSp,{group_name}/parameters/cExtSp,m2/gDW,0.35,1.0.0,specific extinction coefficient 
 phytoplankton,water,vertical_movement,vertical_velocity,wet,cVSed,{group_name}/parameters/cVSed,m d-1,0.2,1.0.0,Sedimentation velocity (positive is downwards)
-phytoplankton,water,vertical_movement,equation_options_vertical_velocity,wet,qTrans,{group_name}'/parameters/qTrans,(integer),0,1.0.0,Taxis method (1=const.; 2=Nut. taxis; 3=Light taxis; 4=N&L) 
+phytoplankton,water,vertical_movement,equation_options_vertical_velocity,wet,qTrans,{group_name}/parameters/qTrans,(integer),0,1.0.0,Taxis method (1=const.; 2=Nut. taxis; 3=Light taxis; 4=N&L) 
 phytoplankton,water,vertical_movement,vertical_velocity,wet,cVSwim,{group_name}/parameters/cVSwim,m/d,10,1.0.0,qTrans > 1; vertical swimming speed 
 phytoplankton,water,vertical_movement,vertical_velocity,wet,fLVMmin,{group_name}/parameters/fLVMmin,W/m2,0.025,1.0.0,qTrans > 2; minimum detectable PAR level 
 phytoplankton,water,vertical_movement,vertical_velocity,wet,fNutLimVMdown,{group_name}/parameters/fNutLimVMdown,-,0.675,1.0.0,qTrans > 3 or 4; threshold nut. limitation for downwards taxis 
