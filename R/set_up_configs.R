@@ -252,8 +252,32 @@ set_up_configs <- function(config_file, folder = "."){
       write_nml(lst, file.path(folder, filename))
     }
     
-    # For MyLake no setup is needed because the WQ config file
-    # is the same as the physics config file. 
+    if(models_coupled[i] == "MyLake"){
+      # For MyLake no setup is needed because the WQ config file
+      # is the same as the physics config file. Moreover, there are no modules
+      # to (de)activate.
+      # If file doesn't exist, copy
+      
+      mylake_dir <- dirname(lst_config[["config_files"]][[models_coupled[i]]])
+      if(!dir.exists(file.path(folder, mylake_dir))) {
+        dir.create(file.path(folder, mylake_dir))
+      }
+      
+      # Test if MyLake config file exists, if not, copy
+      mylake_config <- lst_config[["config_files"]][[models_coupled[i]]]
+      if(!file.exists(file.path(folder, mylake_config))){
+        # Check if MyLakeR is installed
+        if(isFALSE(requireNamespace("MyLakeR", quietly = TRUE))){
+          stop("You can't include MyLake in your run without having the ",
+               "package MyLakeR installed!")
+        }else{
+          template_config <- system.file("extdata/mylake.Rdata",
+                                         package = "MyLakeR")
+          file.copy(template_config,
+                    file.path(folder, mylake_config))
+        }
+      }
+    }
     
     if(models_coupled[i] == "PCLake"){
       # For PCLake, we don't generate a file from scratch, as you

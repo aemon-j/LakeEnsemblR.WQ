@@ -294,5 +294,11 @@ set_coupling <- function(config_file, folder){
                                      lst_config[["config_files"]][[models_coupled[i]]]))
       
     }
+    
+    # MyLake and PCLake don't require coupling, because they do not work with
+    # modules. However, in case LER.WQ is run without phytoplankton, we could
+    # use this function to "shut down" (some) phytoplankton (groups), e.g.
+    # by setting growth rates to 0. Could also be done in the disable_module
+    # function. 
   }
 }
