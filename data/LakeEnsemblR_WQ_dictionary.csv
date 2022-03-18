@@ -338,4 +338,7 @@ phytoplankton,water,mortality,excretion,wet,fDissMort,{group_name}/parameters/fD
 phytoplankton,water,mortality,excretion,wet,fDOMW,{group_name}/parameters/fDOMW,-,0,1.0.0,DOM fraction of dead cells 
 phytoplankton,sediment,mortality,mortality_rates,wet,kMortS,{group_name}/parameters/kMortS,d-1,0.2,1.0.0,mortality rate of settled phytoplankton 
 phytoplankton,sediment,mortality,excretion,wet,fDOMS,{group_name}/parameters/fDOMS,-,0,1.0.0,DOM fraction of settled dead cells 
+phytoplankton,water,growth,growth_rates,pclake,cMuMaxDiat,parameters/cMuMaxDiat,d-1,2,1.0.0,maximum growth rate diatoms at optimum temperature 
+phytoplankton,water,growth,growth_rates,pclake,cMuMaxGren,parameters/cMuMaxGren,d-1,1.5,1.0.0,maximum growth rate green algae at optimum temperature 
+phytoplankton,water,growth,growth_rates,pclake,cMuMaxBlue,parameters/cMuMaxBlue,d-1,0.6,1.0.0,maximum growth rate cyanobacteria at optimum temperature 
 zooplankton,water,grazing,grazing_rates,aed2,Rgrz_zoo,zoop_params/zoop_param%Rgrz_zoo,d-1,?,1.0.0,Zooplankton grazing rate
