@@ -26,8 +26,6 @@ set_up_configs <- function(config_file, folder = "."){
   lst_config <- read.config(file.path(folder, config_file)) 
   
   models_coupled <- lst_config[["models"]]
-  wq_models <- strsplit(models_coupled, "-")
-  wq_models <- sapply(wq_models, function (x) tolower(x[length(x)]))
   
   for(i in seq_len(length(models_coupled))){
     
