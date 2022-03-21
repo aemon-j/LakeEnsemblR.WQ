@@ -12,12 +12,18 @@
 #'
 #'@export
 
-# # Test
-# config_file = "LakeEnsemblR_WQ.yaml"
-# folder = "."
-# verbose = F
-
-export_config <- function(config_file, folder = ".", verbose = FALSE){
+export_config <- function(config_file, folder = ".", verbose = FALSE,
+                          convert_from_lakeensemblr = TRUE,
+                          ler_config_file = "LakeEnsemblR.yaml"){
+  
+  if(convert_from_lakeensemblr){
+    # LakeEnsemblR::export_config has been run beforehand
+    # Convert folders and activate wq settings
+    convert_ler_to_lerwq(ler_config_file = ler_config_file,
+                         lerwq_config_file = config_file,
+                         folder = folder,
+                         verbose = verbose)
+  }
   
   # Read config file as a list
   lst_config <- read.config(file.path(folder, config_file)) 
