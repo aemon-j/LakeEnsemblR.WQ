@@ -48,7 +48,7 @@ set_value_config <- function(config_file, module, group_name = NULL, group_posit
   chck_args <- sapply(c("module", "domain", "process", "subprocess", "model", "parameter"),
                      function(x) get(x) %in% LakeEnsemblR_WQ_dictionary[[x]])
   if(!all(chck_args)){
-    wrong_args <- c("module", "process",
+    wrong_args <- c("module", "domain", "process",
                     "subprocess", "model", "parameter")[!chck_args]
     error_string <- unlist(lapply(wrong_args, function(x) paste0("\n", x, ": ", get(x))))
     
