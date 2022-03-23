@@ -4,7 +4,13 @@
 \alias{export_config}
 \title{Export settings in LakeEnsemblR_WQ configuration file}
 \usage{
-export_config(config_file, folder = ".", verbose = FALSE)
+export_config(
+  config_file,
+  folder = ".",
+  verbose = FALSE,
+  convert_from_lakeensemblr = TRUE,
+  ler_config_file = "LakeEnsemblR.yaml"
+)
 }
 \arguments{
 \item{config_file}{character; name of LakeEnsemblR_WQ config file}
