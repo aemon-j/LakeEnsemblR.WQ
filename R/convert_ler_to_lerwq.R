@@ -38,7 +38,7 @@ convert_ler_to_lerwq <- function(ler_config_file = "LakeEnsemblR.yaml",
   ler_models <- lst_config_ler[["config_files"]]
   
   if(activate_wq){
-    use_shading_feedback <- lst_config_wq[["bio-feedback"]][["use"]]
+    use_shading_feedback <- lst_config_wq[["run_settings"]][["bio-shading"]]
   }
   
   for(i in seq_len(length(models_coupled))){
@@ -149,6 +149,13 @@ convert_ler_to_lerwq <- function(ler_config_file = "LakeEnsemblR.yaml",
       
       # In the wq_config_file, I could expand on this (shading, ode method,
       # repair state, bottom_everywhere, etc.)
+      # LEFT HERE: change to run_settings, or something
+      # Also make sure the "birds" entry may be entered.
+      # Next, think about mylake and pclake: how to identify groups?
+      #  if no user input in config file, try to identify self?
+      #  message if identified, error if impossible or multiple?
+      #  probably I should make a function for this:
+      #  is_mylake_group, is_pclake_group?
     }
     
   }
