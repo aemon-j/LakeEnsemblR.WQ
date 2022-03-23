@@ -29,7 +29,7 @@ export_config <- function(config_file, folder = ".", verbose = FALSE,
   lst_config <- read.config(file.path(folder, config_file)) 
   
   modules <- names(lst_config)
-  modules <- modules[!(modules %in% c("models", "config_files", "bio-feedback",
+  modules <- modules[!(modules %in% c("models", "config_files", "run_settings",
                                       "output"))]
   
   # Set up the model-specific config files, with right amount

@@ -38,7 +38,7 @@ convert_ler_to_lerwq <- function(ler_config_file = "LakeEnsemblR.yaml",
   ler_models <- lst_config_ler[["config_files"]]
   
   if(activate_wq){
-    use_shading_feedback <- lst_config_wq[["bio-feedback"]][["use"]]
+    settings_section <- lst_config_wq[["run_settings"]]
   }
   
   for(i in seq_len(length(models_coupled))){
@@ -105,14 +105,13 @@ convert_ler_to_lerwq <- function(ler_config_file = "LakeEnsemblR.yaml",
         input_yaml_multiple(file.path(folder, lerwq_folder, filename),
                             "true",
                             key1 = "fabm", key2 = "use", verbose = verbose)
-        input_yaml_multiple(file.path(folder, lerwq_folder, filename),
-                            "true",
-                            key1 = "fabm", key2 = "feedbacks",
-                            key3 = "bottom_everywhere", verbose = verbose)
-        input_yaml_multiple(file.path(folder, lerwq_folder, filename),
-                            tolower(as.character(use_shading_feedback)),
-                            key1 = "fabm", key2 = "feedbacks",
-                            key3 = "shade", verbose = verbose)
+        
+        # See helpers.R
+        add_fabm_settings_gotm(folder = folder,
+                               gotmyaml = file.path(lerwq_folder,
+                                                        filename),
+                               verbose = verbose,
+                               settings_section = settings_section)
       }else if(phys_model == "Simstrat"){
         filename <- basename(lst_config_ler[["config_files"]][["Simstrat"]])
         
@@ -125,30 +124,38 @@ convert_ler_to_lerwq <- function(ler_config_file = "LakeEnsemblR.yaml",
         add_aed2_section_simstrat(folder = folder,
                                   simstrat_par = file.path(lerwq_folder,
                                                            filename),
-                                  lerwq_config_file = lerwq_config_file,
                                   verbose = verbose,
-                                  use_shading_feedback = use_shading_feedback)
+                                  settings_section = settings_section)
       }else if(phys_model == "GLM"){
         filename <- basename(lst_config_ler[["config_files"]][["GLM"]])
         
         nml <- read_nml(file.path(folder, lerwq_folder, filename))
         
+        shading <- settings_section[["bio-shading"]]
+        repair <- settings_section[["repair_state"]]
+        split <- settings_section[["split_factor"]]
+        
+        ode_method <- settings_section[["ode_method"]]
+        valid_ode <- c("Euler", "RK2", "RK4", "Pat1", "PatRK2", "PatRK4", "ModPat1",
+                       "ModPatRK2", "ModPatRK4", "ExtModPat1", "ExtModPatRK2")
+        if(!(ode_method %in% valid_ode)){
+          stop(ode_method, " is not a valid entry for GLM!")
+        }else{
+          ode_num <- which(valid_ode == ode_method)
+        }
+        
         # If not yet present, add wq_setup section to the glm nml file
         if(!("wq_setup" %in% names(nml))){
           nml[["wq_setup"]] <- list(wq_lib = "aed2",
-                                    wq_nml_file = "aed2.nml",
-                                    ode_method = 1,
-                                    split_factor = 1,
-                                    repair_state = TRUE)
+                                    wq_nml_file = "aed2.nml")
         }
-        
-        nml[["wq_setup"]][["bioshade_feedback"]] <- use_shading_feedback
+        nml[["wq_setup"]][["ode_method"]] <- ode_num
+        nml[["wq_setup"]][["split_factor"]] <- split
+        nml[["wq_setup"]][["repair_state"]] <- repair
+        nml[["wq_setup"]][["bioshade_feedback"]] <- shading
         
         write_nml(nml, file.path(folder, lerwq_folder, filename))
       }
-      
-      # In the wq_config_file, I could expand on this (shading, ode method,
-      # repair state, bottom_everywhere, etc.)
     }
     
   }

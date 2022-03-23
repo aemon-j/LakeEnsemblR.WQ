@@ -109,7 +109,7 @@ create_input_tables <- function(folder = ".", config_file, folder_out = folder, 
   # All modules that are set to use == TRUE
   modules <- names(lst_config)[!(names(lst_config) %in% c("models",
                                                           "config_files",
-                                                          "bio-feedback",
+                                                          "run_settings",
                                                           "output"))]
   modules <- sapply(modules, function (x) if(lst_config[[x]][["use"]]) x)
   modules <- unlist(modules)
