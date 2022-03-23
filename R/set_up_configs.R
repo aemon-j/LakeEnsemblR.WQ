@@ -152,7 +152,7 @@ set_up_configs <- function(config_file, folder = "."){
       # lst[["aed2_sedflux"]] <- list(sedflux_model = "Constant")
       # "'aed2_sedflux'",
       
-      lst[["aed2_sed_constant"]] <- list()
+      # lst[["aed2_sed_constant"]] <- list()
       
       lst[["aed2_oxygen"]] <- list()
       
