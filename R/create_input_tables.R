@@ -30,6 +30,11 @@ create_input_tables <- function(folder = ".", config_file, folder_out = folder, 
                                 models_coupled = c("GLM-AED2", "GOTM-Selmaprotbas", "GOTM-WET", 
                                                    "Simstrat-AED2", "MyLake", "PCLake")){
   
+  if (!file.exists(folder_out)) {
+    cat("Creating new folder for input tables")
+    dir.create(file.path(dirname(folder), folder_out))
+  } 
+  
   lst_config <- read.config(file.path(folder, config_file))
   
   wq_models <- strsplit(models_coupled, "-")
