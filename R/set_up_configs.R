@@ -146,12 +146,13 @@ set_up_configs <- function(config_file, folder = "."){
       
       ## Biogeochemistry
       # Set models
-      lst[["aed2_models"]] <- list(models = c("'aed2_sedflux'", "'aed2_oxygen'", "'aed2_carbon'",
+      lst[["aed2_models"]] <- list(models = c("'aed2_oxygen'", "'aed2_carbon'",
                                               "'aed2_silica'", "'aed2_nitrogen'",
                                               "'aed2_phosphorus'", "'aed2_organic_matter'"))
-      lst[["aed2_sedflux"]] <- list(sedflux_model = "Constant")
+      # lst[["aed2_sedflux"]] <- list(sedflux_model = "Constant")
+      # "'aed2_sedflux'",
       
-      lst[["aed2_sed_constant"]] <- list()
+      # lst[["aed2_sed_constant"]] <- list()
       
       lst[["aed2_oxygen"]] <- list()
       
