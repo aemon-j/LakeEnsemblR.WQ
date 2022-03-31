@@ -41,7 +41,7 @@ set_up_configs <- function(config_file, folder = "."){
       dict_biogeochem <- dict[!(dict$module %in% c("phytoplankton", "zooplankton")),]
       
       for(j in seq_len(nrow(dict_biogeochem))){
-        path <- strsplit(dict_biogeochem[j, "path"], "/")[[1]]
+        path <- strsplit(as.character(dict_biogeochem[j, "path"]), "/")[[1]]
         lst[["instances"]][[path[1]]][[path[2]]][[path[3]]] <- as.numeric(dict_biogeochem[j, "default"])
       }
       
@@ -58,7 +58,7 @@ set_up_configs <- function(config_file, folder = "."){
                                             initialization = list(),
                                             coupling = list())
             for(l in seq_len(nrow(dict_biology))){
-              path <- strsplit(dict_biology[l, "path"], "/")[[1]]
+              path <- strsplit(as.character(dict_biology[l, "path"]), "/")[[1]]
               path[path == "{group_name}"] <- k
               lst[["instances"]][[path[1]]][[path[2]]][[path[3]]] <- as.numeric(dict_biology[l, "default"])
             }
@@ -104,7 +104,7 @@ set_up_configs <- function(config_file, folder = "."){
                                                    "fish", "macrophytes", "zoobenthos")),]
       
       for(j in seq_len(nrow(dict_biogeochem))){
-        path <- strsplit(dict_biogeochem[j, "path"], "/")[[1]]
+        path <-  strsplit(as.character(dict_biogeochem[j, "path"]), "/")[[1]]
         lst[["instances"]][[path[1]]][[path[2]]][[path[3]]] <- as.numeric(dict_biogeochem[j, "default"])
       }
       
@@ -123,7 +123,7 @@ set_up_configs <- function(config_file, folder = "."){
                                             initialization = list(),
                                             coupling = list())
             for(l in seq_len(nrow(dict_biology))){
-              path <- strsplit(dict_biology[l, "path"], "/")[[1]]
+              path <- strsplit(as.character(dict_biology[l, "path"]), "/")[[1]]
               path[path == "{group_name}"] <- k
               lst[["instances"]][[path[1]]][[path[2]]][[path[3]]] <- as.numeric(dict_biology[l, "default"])
             }
@@ -171,7 +171,7 @@ set_up_configs <- function(config_file, folder = "."){
                                                    "pathogens")),]
       
       for(j in seq_len(nrow(dict_biogeochem))){
-        path <- strsplit(dict_biogeochem[j, "path"], "/")[[1]]
+        path <-  strsplit(as.character(dict_biogeochem[j, "path"]), "/")[[1]]
         lst[[path[1]]][[path[2]]] <- as.numeric(dict_biogeochem[j, "default"])
       }
       
@@ -193,7 +193,7 @@ set_up_configs <- function(config_file, folder = "."){
         groups <- names(lst_config[["phytoplankton"]][["groups"]])
         
         for(j in seq_len(nrow(dict_phyto))){
-          path <- strsplit(dict_phyto[j, "path"], "/")[[1]]
+          path <- strsplit(as.character(dict_phyto[j, "path"]), "/")[[1]]
           values <- rep(NA, length(groups))
           for(k in seq_len(length(groups))){
             values[k] <- as.numeric(dict_phyto[j, "default"])
@@ -227,7 +227,7 @@ set_up_configs <- function(config_file, folder = "."){
         groups <- names(lst_config[["zooplankton"]][["groups"]])
         
         for(j in seq_len(nrow(dict_zoop))){
-          path <- strsplit(dict_zoop[j, "path"], "/")[[1]]
+          path <- strsplit(as.character(dict_zoop[j, "path"]), "/")[[1]]
           values <- rep(NA, length(groups))
           for(k in seq_len(length(groups))){
             values[k] <- as.numeric(dict_zoop[j, "default"])
