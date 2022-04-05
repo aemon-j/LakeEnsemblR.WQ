@@ -18,6 +18,8 @@ run_settings:
    split_factor: 1
    bottom_everywhere: true
    repair_state: true
+input:
+   inflows: nutrient_inputs.csv
 oxygen:
    use: true
    par_file: oxygen.csv
