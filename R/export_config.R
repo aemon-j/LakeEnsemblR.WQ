@@ -30,7 +30,7 @@ export_config <- function(config_file, folder = ".", verbose = FALSE,
   
   modules <- names(lst_config)
   modules <- modules[!(modules %in% c("models", "config_files", "run_settings",
-                                      "output"))]
+                                      "input", "output"))]
   
   # Set up the model-specific config files, with right amount
   # of groups for phytoplankton etc., and default values.
