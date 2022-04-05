@@ -329,3 +329,84 @@ get_pclake_groups <- function(config_file, module, folder = ".",
   
   return(group_division)
 }
+
+#' check naming convention for inflow nutrients
+#'@description
+#'check if the header in in files follow the naming convention
+#'
+#' @name chk_names_nutr_flow
+#' @param headers vector of column headers
+#' @noRd
+chk_names_nutr_flow <- function(headers){
+  
+  # remove numbers if multiple in/outflows are there
+  headers <- gsub("_\\d+$", "", headers)
+  
+  allowed_names <- c("datetime", wq_var_dic$standard_name)
+  if(isTRUE(requireNamespace("LakeEnsemblR", quietly = TRUE))){
+    ler_dic_names <- LakeEnsemblR::lake_var_dic$standard_name
+    ler_dic_names <- ler_dic_names[!(ler_dic_names %in% c("Ice_Thickness_meter",
+                                                          "Density_kiloGramPerCubedMeter",
+                                                          "Water_Level_meter"))]
+    allowed_names <- c(allowed_names, ler_dic_names)
+  }
+  
+  # test if names are right
+  chck_flow <- sapply(headers, function(x) x %in% allowed_names)
+  if(any(!chck_flow)){
+    stop("The following headers of the inflow nutrients files are not correct: ",
+         headers[!chck_flow], "! They should be one of:\n",
+         paste(allowed_names, collapse = "\n"))
+  }
+}
+
+#'write yaml file in list-format
+#'@description
+#'write yaml file in GOTM yaml format
+#'
+#' @name lerwq_write_yaml_file
+#' @param yml list; yaml file in list format, as read by configr
+#' @param filepath character; path to file location
+#' @param is_gotm_yaml logical; if unspecified, it try to detect gotm.yaml
+#' @noRd
+lerwq_write_yaml_file <- function(yml, filepath, is_gotm_yaml = NULL){
+  # Method is very cumbersome, hence the separate function
+  
+  write.config(yml,
+               filepath,
+               write.type = "yaml",
+               indent = 3L,
+               handlers = list(logical = function(x){
+                 result = ifelse(x, "true", "false")
+                 class(result) = "verbatim"
+                 return(result)
+               },
+               NULL = function(x){
+                 result = ""
+                 class(result) = "verbatim"
+                 return(result)
+               }))
+  
+  # Only for gotm.yaml:
+  # The function writes two spaces between "-" and "source", and this should be one
+  # GOTM will crash if this doesn't happen
+  if(is.null(is_gotm_yaml)){
+    if(all(c("title", "location", "time") %in% names(yml))){
+      is_gotm_yaml <- TRUE
+    }else{
+      is_gotm_yaml <- FALSE
+    }
+  }
+  
+  if(is_gotm_yaml){
+    yml_txt <- readLines(con = filepath)
+    the_lines <- grep("-  source:", yml_txt)
+    
+    for(i in the_lines){
+      yml_txt[i] <- gsub("-  source:", "- source:",
+                         yml_txt[i])
+    }
+    
+    writeLines(yml_txt, con = filepath)
+  }
+}
