@@ -10,7 +10,7 @@
 #'@examples
 #'
 #'@importFrom configr read.config
-#'@importFrom glmtools read.nml
+#'@importFrom glmtools read_nml
 #'@importFrom gotmtools get_yaml_value
 #'@importFrom LakeEnsemblR format_inflow get_json_value
 #'
