@@ -26,15 +26,19 @@ export_config <- function(config_file, folder = ".", verbose = FALSE,
   }
   
   # Read config file as a list
-  lst_config <- read.config(file.path(folder, config_file)) 
+  lst_config <- read.config(file.path(folder, config_file))
   
   modules <- names(lst_config)
   modules <- modules[!(modules %in% c("models", "config_files", "run_settings",
-                                      "output"))]
+                                      "input", "output"))]
   
   # Set up the model-specific config files, with right amount
   # of groups for phytoplankton etc., and default values.
   set_up_configs(config_file, folder = folder)
+  
+  # Reads the nutrient inputs - through inflows and additional sources
+  export_inputs(config_file, folder = folder, verbose = verbose,
+                ler_config_file = ler_config_file)
   
   # Loop through the modules
   for(i in modules){
