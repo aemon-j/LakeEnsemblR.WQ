@@ -171,3 +171,242 @@ add_fabm_settings_gotm <- function(folder = ".",
                       key1 = "fabm", key2 = "numerics",
                       key3 = "split_factor", verbose = verbose)
 }
+
+
+#' @title Get the phytoplankton group to be used in MyLake
+#'
+#' @description MyLake only uses one phytoplankton group, so it is needed
+#'  to determine one of the groups used in the config_file to be the group
+#'  used in MyLake. By default the 1st group, if nothing is specified.  
+#'
+#' @param config_file character; name of the config file
+#' @param module character; name of the module
+#' @param folder path; to the location of the config file
+#' 
+#' @importFrom configr read.config
+#' 
+#' @examples
+#' 
+#' @noRd
+
+get_mylake_group <- function(config_file, module, folder = "."){
+  
+  if(module != "phytoplankton"){
+    stop("The get_mylake_group function only works for phytoplankton!")
+  }
+  
+  lst_config <- read.config(file.path(folder, config_file))
+  if(!lst_config[[module]][["use"]]){
+    return("")
+  }
+  
+  groups <- names(lst_config[[module]][["groups"]])
+  
+  # See if a group has been specified with "mylake_group: true"
+  use_mylake <- lapply(lst_config[[module]][["groups"]],
+                              "[[",
+                              "mylake_group")
+  use_mylake <- sapply(use_mylake, function(x) ifelse(is.null(x), FALSE, x))
+  
+  if(class(use_mylake) != "logical"){
+    stop("An entry of mylake_group in the config_file is not 'true' or 'false'")
+  }
+  
+  if(sum(use_mylake) > 1L){
+    stop("Multiple phytoplankton groups are marked to be used in MyLake!")
+  }else if(sum(use_mylake) == 0L){
+    return(groups[1L])
+  }else{
+    return(groups[use_mylake])
+  }
+}
+
+
+#' @title Get the groups to be used in PCLake
+#'
+#' @description PCLake has a fixed number of groups for phytoplankton,
+#'  zooplankton, macrophytes, and fish. Therefore it is needed to determine
+#'  which groups in the config_file belong to which PCLake group. 
+#'  This can either be specified in the config_file, or this function
+#'  tries to deduce it from the group names.  
+#'
+#' @param config_file character; name of the config file
+#' @param module character; name of the module
+#' @param folder path; to the location of the config file
+#' @param auto_recognisition logical; in absence of user input, try to
+#'  identify groups by their names?
+#' 
+#' @importFrom configr read.config
+#' 
+#' @examples
+#' 
+#' @noRd
+
+get_pclake_groups <- function(config_file, module, folder = ".",
+                              auto_recognisition = TRUE){
+  
+  lst_config <- read.config(file.path(folder, config_file))
+  if(!lst_config[[module]][["use"]]){
+    return("")
+  }
+  
+  groups <- names(lst_config[[module]][["groups"]])
+  
+  # See if groups have been specified with "pclake_group"
+  pclake_groups <- lapply(lst_config[[module]][["groups"]],
+                       "[[",
+                       "pclake_group")
+  pclake_groups <- sapply(pclake_groups, function(x) ifelse(is.null(x),
+                                                            "", x))
+  pclake_groups <- tolower(pclake_groups)
+  
+  # Define what standard_groups PCLake uses and the pattern to search for them
+  # If there's only one group, no pattern is needed
+  if(module == "phytoplankton"){
+    standard_groups <- c(Blue = "cyano|blue",
+                         Gren = "(green|gren|chloro)^blue", # No "blue", to avoid detecting "bluegreen"
+                         Diat = "diat")
+  }else if(module == "zooplankton"){
+    standard_groups <- "Zoo"
+  }else if(module == "zoobenthos"){
+    standard_groups <- "Bent"
+  }else if(module == "fish"){
+    standard_groups <- c(FiAd = "ad|benthiv",
+                         FiJv = "jv|juv",
+                         Pisc = "pisc|pred")
+  }else if(module == "macrophytes"){
+    standard_groups <- c(Veg = "plant|phyt",
+                         Phra = "phrag|reed")
+  }
+  
+  group_division <- rep(as.character(NA), length(groups))
+  names(group_division) <- groups
+  
+  for(i in seq_len(length(pclake_groups))){
+    rgx <- sapply(standard_groups, function(x) regexpr(x, pclake_groups[i]))
+    if(sum(rgx > 0L) > 1L){
+      stop("pclake_group user input identified same group multiple times. ",
+           "Maximum one group of ", paste(names(standard_groups),
+                                          collapse = ", "))
+    }else if(sum(rgx > 0L) == 1L){
+      if(!is.na(group_division[i])){
+        stop(names(group_division)[i], " is identified double by pclake_group",
+             " user input")
+      }
+      group_division[i] <- names(rgx)[rgx > 0L]
+    }else if(pclake_groups[i] == "true" & length(standard_groups) == 1L){
+      group_division[i] <- names(rgx)
+    }
+  }
+  
+  # Now loop over group_division again to recognise names
+  if(auto_recognisition){
+    if(length(standard_groups) == 1L & all(is.na(group_division))){
+      # If there is only one group, just take the first group
+      message("Autorecognition PCLake: identifying ",
+              names(group_division)[1L], " as ",
+              standard_groups, ".")
+      group_division[1L] <- standard_groups
+      
+    }else{
+      for(i in seq_len(length(group_division))){
+        if(!is.na(group_division[i])) next
+        
+        rgx <- sapply(standard_groups,
+                      function(x) regexpr(x, names(group_division)[i]))
+        # Instead of throwing an error, the first hit is used
+        # e.g. if someone makes groups diatoms1 and diatoms2, diatoms1 is used
+        ind <- which(rgx > 0L)[1L]
+        if(!is.na(ind)){
+          message("Autorecognition PCLake: identifying ",
+                  names(group_division)[i], " as ",
+                  names(rgx)[ind], ".")
+          group_division[i] <- names(rgx)[ind]
+        }
+      }
+    }
+  }
+  
+  return(group_division)
+}
+
+#' check naming convention for inflow nutrients
+#'@description
+#'check if the header in in files follow the naming convention
+#'
+#' @name chk_names_nutr_flow
+#' @param headers vector of column headers
+#' @noRd
+chk_names_nutr_flow <- function(headers){
+  
+  # remove numbers if multiple in/outflows are there
+  headers <- gsub("_\\d+$", "", headers)
+  
+  allowed_names <- c("datetime", wq_var_dic$standard_name)
+  if(isTRUE(requireNamespace("LakeEnsemblR", quietly = TRUE))){
+    ler_dic_names <- LakeEnsemblR::lake_var_dic$standard_name
+    ler_dic_names <- ler_dic_names[!(ler_dic_names %in% c("Ice_Thickness_meter",
+                                                          "Density_kiloGramPerCubedMeter",
+                                                          "Water_Level_meter"))]
+    allowed_names <- c(allowed_names, ler_dic_names)
+  }
+  
+  # test if names are right
+  chck_flow <- sapply(headers, function(x) x %in% allowed_names)
+  if(any(!chck_flow)){
+    stop("The following headers of the inflow nutrients files are not correct: ",
+         headers[!chck_flow], "! They should be one of:\n",
+         paste(allowed_names, collapse = "\n"))
+  }
+}
+
+#'write yaml file in list-format
+#'@description
+#'write yaml file in GOTM yaml format
+#'
+#' @name lerwq_write_yaml_file
+#' @param yml list; yaml file in list format, as read by configr
+#' @param filepath character; path to file location
+#' @param is_gotm_yaml logical; if unspecified, it try to detect gotm.yaml
+#' @noRd
+lerwq_write_yaml_file <- function(yml, filepath, is_gotm_yaml = NULL){
+  # Method is very cumbersome, hence the separate function
+  
+  write.config(yml,
+               filepath,
+               write.type = "yaml",
+               indent = 3L,
+               handlers = list(logical = function(x){
+                 result = ifelse(x, "true", "false")
+                 class(result) = "verbatim"
+                 return(result)
+               },
+               NULL = function(x){
+                 result = ""
+                 class(result) = "verbatim"
+                 return(result)
+               }))
+  
+  # Only for gotm.yaml:
+  # The function writes two spaces between "-" and "source", and this should be one
+  # GOTM will crash if this doesn't happen
+  if(is.null(is_gotm_yaml)){
+    if(all(c("title", "location", "time") %in% names(yml))){
+      is_gotm_yaml <- TRUE
+    }else{
+      is_gotm_yaml <- FALSE
+    }
+  }
+  
+  if(is_gotm_yaml){
+    yml_txt <- readLines(con = filepath)
+    the_lines <- grep("-  source:", yml_txt)
+    
+    for(i in the_lines){
+      yml_txt[i] <- gsub("-  source:", "- source:",
+                         yml_txt[i])
+    }
+    
+    writeLines(yml_txt, con = filepath)
+  }
+}

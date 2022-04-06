@@ -115,6 +115,7 @@ create_input_tables <- function(folder = ".", config_file, folder_out = folder, 
   modules <- names(lst_config)[!(names(lst_config) %in% c("models",
                                                           "config_files",
                                                           "run_settings",
+                                                          "input",
                                                           "output"))]
   modules <- sapply(modules, function (x) if(lst_config[[x]][["use"]]) x)
   modules <- unlist(modules)
