@@ -266,6 +266,10 @@ set_coupling <- function(config_file, folder){
           wq_config[[j]]["doc_miner_product_variable"] <- "CAR_dic"
           wq_config[[j]]["dom_miner_oxy_reactant_var "] <- "OXY_oxy"
           wq_config[[j]]["dom_miner_nit_reactant_var "] <- "NIT_nit"
+          wq_config[[j]]["simRPools"] <- ".true."
+          wq_config[[j]]["simphotolysis"] <- ".false."
+          wq_config[[j]]["resus_link"] <- "NCS_resus"
+          wq_config[[j]]["extra_diag"] <- ".false."
         }else if(j == "aed2_phytoplankton"){
           wq_config[[j]]["p_excretion_target_variable"] <- "OGM_dop"
           wq_config[[j]]["n_excretion_target_variable"] <- "OGM_don"
@@ -281,10 +285,7 @@ set_coupling <- function(config_file, folder){
           wq_config[[j]]["si_uptake_target_variable"] <- "SIL_rsi"
           wq_config[[j]]["do_uptake_target_variable"] <- "OXY_oxy"
           wq_config[[j]]["c_uptake_target_variable"] <- "CAR_dic"
-          wq_config[[j]]["simRPools"] <- ".true."
-          wq_config[[j]]["simphotolysis"] <- ".false."
-          wq_config[[j]]["resus_link"] <- "NCS_resus"
-          wq_config[[j]]["extra_diag"] <- ".false."
+          wq_config[[j]]["dbase"] <- "aed2_phyto_pars.nml"
         }else if(j == "aed2_phytoplankton"){
           wq_config[[j]]["dbase"] <- "aed2_phyto_pars.nml"
           wq_config[[j]]["dn_target_variable"] <- "OGM_don"
