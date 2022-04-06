@@ -77,6 +77,18 @@ export_inputs <- function(config_file, folder = ".",
     names(df_inflow)[1L] <- "datetime"
   }
   
+  # Inflow discharge also needs to be collected, for Simstrat, MyLake, and PCLake
+  # Scaling still needs to happen afterwards!
+  inflow_file <- lst_config_ler[["inflows"]][["file"]]
+  inflow <- read.csv(file.path(folder, inflow_file))
+  inflow[, 1] <- as.POSIXct(inflow[, 1])
+  start_date <- lst_config_ler[["time"]][["start"]]
+  stop_date <- lst_config_ler[["time"]][["stop"]]
+  inflow_start <- which(inflow$datetime == as.POSIXct(start_date))
+  inflow_stop <- which(inflow$datetime == as.POSIXct(stop_date))
+  inflow <- inflow[inflow_start:inflow_stop, ]
+  LakeEnsemblR:::chk_names_flow(inflow, num_inflows, inflow_file)
+  
   # For every model: write in correct model config file and write file
   for(i in models_coupled){
     model_name_parsed <- strsplit(i, "-")[[1L]]
@@ -104,6 +116,9 @@ export_inputs <- function(config_file, folder = ".",
         
         cnfg_name <- wq_var_dic[wq_var_dic$standard_name == var_name,
                                 wq_model]
+        
+        if(cnfg_name == "-") next
+        
         if(length(cnfg_name) == 0L){
           stop("Nutrient input not understood for model ", i, "!")
         }
@@ -152,6 +167,9 @@ export_inputs <- function(config_file, folder = ".",
         var_name <- gsub("_\\d+$", "", names(df_inflow)[j])
         cnfg_name <- wq_var_dic[wq_var_dic$standard_name == var_name,
                                 wq_model]
+        
+        if(cnfg_name == "-") next
+        
         if(length(cnfg_name) == 0L){
           stop("Nutrient input not understood for model ", i, "!")
         }
@@ -200,20 +218,6 @@ export_inputs <- function(config_file, folder = ".",
       
       # Flow_metersCubedPerSecond also needs to be provided, in case averaging
       # over multiple inflows is needed (after scaling)
-      ### Import data
-      inflow_file <- lst_config_ler[["inflows"]][["file"]]
-      inflow <- read.csv(file.path(folder, inflow_file))
-      inflow[, 1] <- as.POSIXct(inflow[, 1])
-      start_date <- lst_config_ler[["time"]][["start"]]
-      # Stop date
-      stop_date <- lst_config_ler[["time"]][["stop"]]
-      inflow_start <- which(inflow$datetime == as.POSIXct(start_date))
-      inflow_stop <- which(inflow$datetime == as.POSIXct(stop_date))
-      inflow <- inflow[inflow_start:inflow_stop, ]
-      
-      ### Naming conventions standard input
-      LakeEnsemblR:::chk_names_flow(inflow, num_inflows, inflow_file)
-      
       if(!is.null(lst_config_ler$scaling_factors$Simstrat$inflow)){
         scale_param_tmp <- lst_config_ler$scaling_factors$Simstrat$inflow
       }else{
@@ -239,7 +243,7 @@ export_inputs <- function(config_file, folder = ".",
         # just to ensure that the columns get averaged according to the discharge.
         
         inflow_ls <- list()
-        for(k in 1:num_inflows){
+        for(k in seq_len(num_inflows)){
           inflow_ls[[paste0("inflow_", k)]] <-
             data.frame(datetime = as.POSIXct(df_inflow_sim$datetime),
                        Flow_metersCubedPerSecond = inflow_tmp[[paste0("Flow_metersCubedPerSecond_", k)]],
@@ -266,13 +270,108 @@ export_inputs <- function(config_file, folder = ".",
         qin_file[1L] <- paste0("Time [d]\t", col_header, " [", col_unit,"]")
         writeLines(qin_file, file.path(folder, i, paste0(col_header, "_inflow.dat")))
       }
+    }else if(phys_model == "MyLake"){
+      # Average DOP/TP concentration over all inflows must be computed,
+      # so discharges are required as well
+      if(!is.null(lst_config_ler$scaling_factors$MyLake$inflow)){
+        scale_param_tmp <- lst_config_ler$scaling_factors$MyLake$inflow
+      }else{
+        if(!is.null(lst_config_ler$scaling_factors$all$inflow)){
+          scale_param_tmp <- lst_config_ler$scaling_factors$all$inflow
+        }else{
+          scale_param_tmp <- rep(1, num_inflows)
+        }
+      }
+      inflow_tmp <- LakeEnsemblR:::scale_flow(inflow, num_inflows,
+                                              scale_param_tmp)
       
+      df_inflow_ml <- df_inflow
+      df_inflow_ml$datetime <- as.POSIXct(df_inflow_ml$datetime)
+      df_inflow_ml <- merge(df_inflow_ml,
+                            inflow_tmp[, "datetime", drop = FALSE],
+                            by = "datetime", all.y = TRUE)
+      
+      # MyLake nutrient input in Inflw:
+      # 6th column is DOP, 5th column is TP (incl. DOP)
+      # wq_var_dic tells what columns add to what
+      
+      # Step 1: sum DOP and TP within each inflow
+      cols_for_dop <- wq_var_dic[wq_var_dic$mylake == "DOP", "standard_name"]
+      cols_for_tp <- wq_var_dic[wq_var_dic$mylake == "DOP" |
+                                  wq_var_dic$mylake == "TP", "standard_name"]
+      
+      if(verbose){
+        message("In MyLake, DOP and POP inflow inputs are added to the 'DOP'",
+                " fraction. All forms of P are added to 'TP'.")
+      }
+      
+      for(j in seq_len(num_inflows)){
+        cols_to_select <- which(names(df_inflow_ml) %in% paste0(cols_for_dop, "_", j))
+        if(length(cols_to_select) == 0L){
+          df_inflow_ml[[paste0("DOP_", j)]] <- 0.0
+        }else{
+          df_inflow_ml[[paste0("DOP_", j)]] <- rowSums(df_inflow_ml[, cols_to_select,
+                                                                    drop = FALSE])
+        }
+        
+        cols_to_select <- which(names(df_inflow_ml) %in% paste0(cols_for_tp, "_", j))
+        if(length(cols_to_select) == 0L){
+          df_inflow_ml[[paste0("TP_", j)]] <- 0.0
+        }else{
+          df_inflow_ml[[paste0("TP_", j)]] <- rowSums(df_inflow_ml[, cols_to_select,
+                                                          drop = FALSE])
+        }
+      }
+      
+      # Step 2: Use LakeEnsemblR::format_inflow to average concentrations
+      #         scaled by discharge
+      # This solution is a bit hacky, as format_inflow needs water temperature,
+      # and salinity, and can't accept nutrients. But the method of averaging
+      # is the same, so this works. 
+      inflow_ls <- list()
+      for(j in seq_len(num_inflows)){
+        inflow_ls[[paste0("inflow_", j)]] <-
+          data.frame(datetime = as.POSIXct(df_inflow_ml$datetime),
+                     Flow_metersCubedPerSecond = inflow_tmp[[paste0("Flow_metersCubedPerSecond_", j)]],
+                     Water_Temperature_celsius = df_inflow_ml[[paste0("DOP_", j)]],
+                     Salinity_practicalSalinityUnits = df_inflow_ml[[paste0("TP_", j)]])
+      }
+      
+      mylake_inflow <- format_inflow(inflow = inflow_ls, model = "MyLake",
+                                     config_file = ler_config_file)
+      names(mylake_inflow) <- gsub("Water_Temperature_celsius",
+                                   "DOP_gramsPerMeterCubed",
+                                   names(mylake_inflow))
+      names(mylake_inflow) <- gsub("Salinity_practicalSalinityUnits",
+                                   "TP_gramsPerMeterCubed",
+                                   names(mylake_inflow))
+      
+      # Step 3: Enter values in the MyLake config file
+      path_mylake_config <- file.path(folder,
+                                      get_yaml_value(ler_config_file,
+                                                     "config_files",
+                                                     "MyLake"))
+      load(path_mylake_config)
+      
+      inflw_matrix <- mylake_config[["Inflw"]]
+      # Unit correction: g/m3 to mg/m3
+      inflw_matrix[, 5] <- mylake_inflow$TP_gramsPerMeterCubed * 1000
+      inflw_matrix[, 6] <- mylake_inflow$DOP_gramsPerMeterCubed * 1000
+      mylake_config[["Inflw"]] <- inflw_matrix
+      
+      temp_fil <- gsub(".*/", "", path_mylake_config)
+      save(mylake_config, file = file.path(folder, "MyLake", temp_fil))
     }
     
-    # At this point, PCLake and MyLake are not yet included in this function
+    # At this point, PCLake is not yet included in this function
     
   }
   
   
   # Then handle additional sources, such as constants for atmo input
+  
+  if(verbose){
+    message("export_inputs completed!")
+  }
+  
 }
