@@ -52,7 +52,6 @@ carbon,sediment,water_sediment_exchange,sediment_flux_methane,aed2,theta_sed_ch4
 carbon,water,decomposition,oxidation_methane,aed2,Rch4ox,aed2_carbon/Rch4ox,-,10,1.0.0,Methane oxidation rate
 carbon,water,decomposition,oxidation_methane,aed2,Kch4ox,aed2_carbon/Kch4ox,-,0.5,1.0.0,Saturation concentration for the oxidation of methane
 carbon,water,decomposition,oxidation_methane,aed2,vTch4ox,aed2_carbon/vTch4ox,-,1.08,1.0.0,Arrhenius temperature multiplier for methane oxidation
-carbon,water,decomposition,oxidation_methane,aed2,methane_reactant_variable,aed2_carbon/methane_reactant_variable,(text),OXY_oxy',1.0.0,Methane decomposition reactant variable
 carbon,water,initial_conditions,initial_dim,wet,sDIMW,abiotic_water/initialization/sDIMW,g/m3,none,1.0.0,initial inorganic matter
 carbon,water,initial_conditions,initial_pom,wet,sDPOMW,abiotic_water/initialization/sDPOMW,g/m3,none,1.0.0,initial particulate org. matter DW
 carbon,water,initial_conditions,initial_dom,wet,sDDOMW,abiotic_water/initialization/sDDOMW,g/m3,none,1.0.0,initial dissolved org. matter DW
@@ -152,7 +151,6 @@ nitrogen,sediment,nitrification,nitrification,pclake,kNitrS,parameters/kNitrS,d-
 nitrogen,water,nitrification,nitrification,pclake,cThetaNitr,parameters/cThetaNitr,degC,1.08,1.0.0,Temperature_coefficient_of_nitrification
 nitrogen,water,nitrification,nitrification,pclake,hO2Nitr,parameters/hO2Nitr,g O2 m-3,2,1.0.0,Half-sat_O2_conc_for_nitrification_in_water
 nitrogen,water,nitrification,nitrification,aed2,theta_nitrif,aed2_nitrogen/theta_nitrif,-,1.08,1.0.0,Arrhenius temperature multiplier for nitrification
-nitrogen,water,nitrification,equation_options,aed2,nitrif_reactant_variable,aed2_nitrogen/nitrif_reactant_variable,(text),OXY_oxy',1.0.0,nitrification reactant variable
 nitrogen,water,nitrification,nitrification,aed2,Rnh4o2,aed2_nitrogen/Rnh4o2,?,1,1.0.0,reaction rate
 nitrogen,water,nitrification,nitrification,aed2,Rno2o2,aed2_nitrogen/Rno2o2,?,1,1.0.0,reaction rate
 nitrogen,water,nitrification,equation_options,aed2,simN2O,aed2_nitrogen/simN2O,(integer),0,1.0.0,"1:, 2:"
@@ -362,14 +360,8 @@ carbon,water,organic,organic,aed2,Rpop_hydrol ,aed2_organic_matter/Rpop_hydrol ,
 carbon,water,organic,organic,aed2,theta_hydrol ,aed2_organic_matter/theta_hydrol ,?,1.08,1.0.0,OM
 carbon,water,organic,organic,aed2,theta_minerl ,aed2_organic_matter/theta_minerl ,?,1.08,1.0.0,OM
 carbon,water,organic,organic,aed2,simDenitrification ,aed2_organic_matter/simDenitrification ,?,1,1.0.0,OM
-carbon,water,organic,organic,aed2,dom_miner_oxy_reactant_var ,aed2_organic_matter/dom_miner_oxy_reactant_var ,?,OXY_oxy',1.0.0,OM
-carbon,water,organic,organic,aed2,doc_miner_product_variable ,aed2_organic_matter/doc_miner_product_variable ,?,',1.0.0,OM
-carbon,water,organic,organic,aed2,don_miner_product_variable ,aed2_organic_matter/don_miner_product_variable ,?,NIT_amm',1.0.0,OM
-carbon,water,organic,organic,aed2,dop_miner_product_variable,aed2_organic_matter/dop_miner_product_variable,?,PHS_frp',1.0.0,OM
-carbon,water,organic,organic,aed2,dom_miner_nit_reactant_var ,aed2_organic_matter/dom_miner_nit_reactant_var ,?,NIT_nit',1.0.0,OM
 carbon,water,organic,organic,aed2,f_an ,aed2_organic_matter/f_an ,?,1,1.0.0,OM
 carbon,water,organic,organic,aed2,K_nit ,aed2_organic_matter/K_nit ,?,10,1.0.0,OM
-carbon,water,organic,organic,aed2,simRPools ,aed2_organic_matter/simRPools ,?,.true.,1.0.0,OM
 carbon,water,organic,organic,aed2,Rdomr_minerl ,aed2_organic_matter/Rdomr_minerl ,?,5.00E-04,1.0.0,OM
 carbon,water,organic,organic,aed2,Rcpom_bdown ,aed2_organic_matter/Rcpom_bdown ,?,0.001,1.0.0,OM
 carbon,water,organic,organic,aed2,X_cpom_n,aed2_organic_matter/X_cpom_n,?,0.005,1.0.0,OM
@@ -378,7 +370,6 @@ carbon,water,organic,organic,aed2,KeDOM ,aed2_organic_matter/KeDOM ,?,5.00E-05,1
 carbon,water,organic,organic,aed2,KePOM ,aed2_organic_matter/KePOM ,?,0.001,1.0.0,OM
 carbon,water,organic,organic,aed2,KeDOMR ,aed2_organic_matter/KeDOMR ,?,0.05,1.0.0,OM
 carbon,water,organic,organic,aed2,KeCPOM ,aed2_organic_matter/KeCPOM ,?,0.00096,1.0.0,OM
-carbon,water,organic,organic,aed2,simphotolysis ,aed2_organic_matter/simphotolysis ,?,.false.,1.0.0,OM
 carbon,water,organic,organic,aed2,photo_c ,aed2_organic_matter/photo_c ,?,0.75,1.0.0,OM
 carbon,water,organic,organic,aed2,settling ,aed2_organic_matter/settling ,?,3,1.0.0,OM
 carbon,water,organic,organic,aed2,w_pom ,aed2_organic_matter/w_pom ,?,-0.5,1.0.0,OM
@@ -388,7 +379,6 @@ carbon,water,organic,organic,aed2,w_cpom,aed2_organic_matter/w_cpom,?,-0.01,1.0.
 carbon,water,organic,organic,aed2,d_cpom,aed2_organic_matter/d_cpom,?,1.00E-05,1.0.0,OM
 carbon,water,organic,organic,aed2,rho_cpom,aed2_organic_matter/rho_cpom,?,1400,1.0.0,OM
 carbon,water,organic,organic,aed2,resuspension,aed2_organic_matter/resuspension,?,0,1.0.0,OM
-carbon,water,organic,organic,aed2,resus_link,aed2_organic_matter/resus_link,?,NCS_resus',1.0.0,OM
 carbon,water,organic,organic,aed2,sedimentOMfrac,aed2_organic_matter/sedimentOMfrac,?,2.00E-04,1.0.0,OM
 carbon,water,organic,organic,aed2,Xsc,aed2_organic_matter/Xsc,?,0.5,1.0.0,OM
 carbon,water,organic,organic,aed2,Xsn,aed2_organic_matter/Xsn,?,0.05,1.0.0,OM
@@ -398,5 +388,3 @@ carbon,water,organic,organic,aed2,Fsed_don,aed2_organic_matter/Fsed_don,?,0,1.0.
 carbon,water,organic,organic,aed2,Fsed_dop,aed2_organic_matter/Fsed_dop,?,0,1.0.0,OM
 carbon,water,organic,organic,aed2,Ksed_dom,aed2_organic_matter/Ksed_dom,?,4.5,1.0.0,OM
 carbon,water,organic,organic,aed2,theta_sed_dom,aed2_organic_matter/theta_sed_dom,?,1.08,1.0.0,OM
-carbon,water,organic,organic,aed2,extra_diag,aed2_organic_matter/extra_diag,?,.false.,1.0.0,OM
-phytoplankton,water,groups,database,aed2,dbase,aed2_phytoplankton/dbase,?,aed2_phyto_pars.nml',1.0.0,Phytoplankton database
