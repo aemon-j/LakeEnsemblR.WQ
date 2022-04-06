@@ -345,4 +345,60 @@ phytoplankton,sediment,mortality,excretion,wet,fDOMS,{group_name}/parameters/fDO
 phytoplankton,water,growth,growth_rate,pclake,cMuMaxDiat,parameters/cMuMaxDiat,d-1,2,1.0.0,maximum growth rate diatoms at optimum temperature 
 phytoplankton,water,growth,growth_rate,pclake,cMuMaxGren,parameters/cMuMaxGren,d-1,1.5,1.0.0,maximum growth rate green algae at optimum temperature 
 phytoplankton,water,growth,growth_rate,pclake,cMuMaxBlue,parameters/cMuMaxBlue,d-1,0.6,1.0.0,maximum growth rate cyanobacteria at optimum temperature 
-zooplankton,water,grazing,grazing_rate,aed2,Rgrz_zoo,zoop_params/zoop_param%Rgrz_zoo,d-1,1,1.0.0,Zooplankton grazing rate
+zooplankton,water,grazing,grazing_rate,aed2,Rgrz_zoo,zoop_params/zoop_param%Rgrz_zoo,d-1,1,1.0.0,OM
+organic_matter,water,organic,organic,aed2,poc_initial,aed2_organic_matter/poc_initial,?,78.5,1.0.0,OM
+organic_matter,water,organic,organic,aed2,doc_initial,aed2_organic_matter/poc_initial,?,30,1.0.0,OM
+organic_matter,water,organic,organic,aed2,pon_initial ,aed2_organic_matter/poc_initial,?,0.1,1.0.0,OM
+organic_matter,water,organic,organic,aed2,don_initial ,aed2_organic_matter/poc_initial,?,0.1,1.0.0,OM
+organic_matter,water,organic,organic,aed2,pop_initial ,aed2_organic_matter/poc_initial,?,0.1,1.0.0,OM
+organic_matter,water,organic,organic,aed2,dop_initial ,aed2_organic_matter/poc_initial,?,1.5,1.0.0,OM
+organic_matter,water,organic,organic,aed2,docr_initial ,aed2_organic_matter/poc_initial,?,120,1.0.0,OM
+organic_matter,water,organic,organic,aed2,dopr_initial ,aed2_organic_matter/poc_initial,?,0.1,1.0.0,OM
+organic_matter,water,organic,organic,aed2,cpom_initial ,aed2_organic_matter/poc_initial,?,100,1.0.0,OM
+organic_matter,water,organic,organic,aed2,Rdom_minerl ,aed2_organic_matter/poc_initial,?,0.5,1.0.0,OM
+organic_matter,water,organic,organic,aed2,Kpom_hydrol ,aed2_organic_matter/poc_initial,?,60,1.0.0,OM
+organic_matter,water,organic,organic,aed2,Kdom_minerl ,aed2_organic_matter/poc_initial,?,100,1.0.0,OM
+organic_matter,water,organic,organic,aed2,Rpoc_hydrol ,aed2_organic_matter/poc_initial,?,0.07,1.0.0,OM
+organic_matter,water,organic,organic,aed2,Rpon_hydrol ,aed2_organic_matter/poc_initial,?,0.05,1.0.0,OM
+organic_matter,water,organic,organic,aed2,Rpop_hydrol ,aed2_organic_matter/poc_initial,?,0.08,1.0.0,OM
+organic_matter,water,organic,organic,aed2,theta_hydrol ,aed2_organic_matter/poc_initial,?,1.08,1.0.0,OM
+organic_matter,water,organic,organic,aed2,theta_minerl ,aed2_organic_matter/poc_initial,?,1.08,1.0.0,OM
+organic_matter,water,organic,organic,aed2,simDenitrification ,aed2_organic_matter/poc_initial,?,1,1.0.0,OM
+organic_matter,water,organic,organic,aed2,dom_miner_oxy_reactant_var ,aed2_organic_matter/poc_initial,?,OXY_oxy',1.0.0,OM
+organic_matter,water,organic,organic,aed2,doc_miner_product_variable ,aed2_organic_matter/poc_initial,?,',1.0.0,OM
+organic_matter,water,organic,organic,aed2,don_miner_product_variable ,aed2_organic_matter/poc_initial,?,NIT_amm',1.0.0,OM
+organic_matter,water,organic,organic,aed2,dop_miner_product_variable,aed2_organic_matter/poc_initial,?,PHS_frp',1.0.0,OM
+organic_matter,water,organic,organic,aed2,dom_miner_nit_reactant_var ,aed2_organic_matter/poc_initial,?,NIT_nit',1.0.0,OM
+organic_matter,water,organic,organic,aed2,f_an ,aed2_organic_matter/poc_initial,?,1,1.0.0,OM
+organic_matter,water,organic,organic,aed2,K_nit ,aed2_organic_matter/poc_initial,?,10,1.0.0,OM
+organic_matter,water,organic,organic,aed2,simRPools ,aed2_organic_matter/poc_initial,?,.true.,1.0.0,OM
+organic_matter,water,organic,organic,aed2,Rdomr_minerl ,aed2_organic_matter/poc_initial,?,5.00E-04,1.0.0,OM
+organic_matter,water,organic,organic,aed2,Rcpom_bdown ,aed2_organic_matter/poc_initial,?,0.001,1.0.0,OM
+organic_matter,water,organic,organic,aed2,X_cpom_n,aed2_organic_matter/poc_initial,?,0.005,1.0.0,OM
+organic_matter,water,organic,organic,aed2,X_cpom_p ,aed2_organic_matter/poc_initial,?,0.001,1.0.0,OM
+organic_matter,water,organic,organic,aed2,KeDOM ,aed2_organic_matter/poc_initial,?,5.00E-05,1.0.0,OM
+organic_matter,water,organic,organic,aed2,KePOM ,aed2_organic_matter/poc_initial,?,0.001,1.0.0,OM
+organic_matter,water,organic,organic,aed2,KeDOMR ,aed2_organic_matter/poc_initial,?,0.05,1.0.0,OM
+organic_matter,water,organic,organic,aed2,KeCPOM ,aed2_organic_matter/poc_initial,?,0.00096,1.0.0,OM
+organic_matter,water,organic,organic,aed2,simphotolysis ,aed2_organic_matter/poc_initial,?,.false.,1.0.0,OM
+organic_matter,water,organic,organic,aed2,photo_c ,aed2_organic_matter/poc_initial,?,0.75,1.0.0,OM
+organic_matter,water,organic,organic,aed2,settling ,aed2_organic_matter/poc_initial,?,3,1.0.0,OM
+organic_matter,water,organic,organic,aed2,w_pom ,aed2_organic_matter/poc_initial,?,-0.5,1.0.0,OM
+organic_matter,water,organic,organic,aed2,d_pom,aed2_organic_matter/poc_initial,?,1.00E-05,1.0.0,OM
+organic_matter,water,organic,organic,aed2,rho_pom,aed2_organic_matter/poc_initial,?,1200,1.0.0,OM
+organic_matter,water,organic,organic,aed2,w_cpom,aed2_organic_matter/poc_initial,?,-0.01,1.0.0,OM
+organic_matter,water,organic,organic,aed2,d_cpom,aed2_organic_matter/poc_initial,?,1.00E-05,1.0.0,OM
+organic_matter,water,organic,organic,aed2,rho_cpom,aed2_organic_matter/poc_initial,?,1400,1.0.0,OM
+organic_matter,water,organic,organic,aed2,resuspension,aed2_organic_matter/poc_initial,?,0,1.0.0,OM
+organic_matter,water,organic,organic,aed2,resus_link,aed2_organic_matter/poc_initial,?,NCS_resus',1.0.0,OM
+organic_matter,water,organic,organic,aed2,sedimentOMfrac,aed2_organic_matter/poc_initial,?,2.00E-04,1.0.0,OM
+organic_matter,water,organic,organic,aed2,Xsc,aed2_organic_matter/poc_initial,?,0.5,1.0.0,OM
+organic_matter,water,organic,organic,aed2,Xsn,aed2_organic_matter/poc_initial,?,0.05,1.0.0,OM
+organic_matter,water,organic,organic,aed2,Xsp,aed2_organic_matter/poc_initial,?,0.005,1.0.0,OM
+organic_matter,water,organic,organic,aed2,Fsed_doc,aed2_organic_matter/poc_initial,?,10,1.0.0,OM
+organic_matter,water,organic,organic,aed2,Fsed_don,aed2_organic_matter/poc_initial,?,0,1.0.0,OM
+organic_matter,water,organic,organic,aed2,Fsed_dop,aed2_organic_matter/poc_initial,?,0,1.0.0,OM
+organic_matter,water,organic,organic,aed2,Ksed_dom,aed2_organic_matter/poc_initial,?,4.5,1.0.0,OM
+organic_matter,water,organic,organic,aed2,theta_sed_dom,aed2_organic_matter/poc_initial,?,1.08,1.0.0,OM
+organic_matter,water,organic,organic,aed2,extra_diag,aed2_organic_matter/poc_initial,?,.false.,1.0.0,OM
+phytoplankton,water,groups,database,aed2,dbase ,aed2_phytoplankton/dbase,?,aed2_phyto_pars.nml',1.0.0,Phytoplankton database
