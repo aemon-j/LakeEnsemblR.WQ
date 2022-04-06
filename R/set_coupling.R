@@ -247,11 +247,11 @@ set_coupling <- function(config_file, folder){
       for(j in names(wq_config)){
         
         if(j == "aed2_carbon"){
-          wq_config[[j]]["Fsed_dic_variable"] <- "SDF_Fsed_dic"
+          #wq_config[[j]]["Fsed_dic_variable"] <- "SDF_Fsed_dic"
           wq_config[[j]]["methane_reactant_variable"] <- "OXY_oxy"
         }else if(j == "aed2_silica"){
           wq_config[[j]]["silica_reactant_variable"] <- "OXY_oxy"
-          wq_config[[j]]["Fsed_rsi_variable"] <- "SDF_Fsed_rsi"
+          #wq_config[[j]]["Fsed_rsi_variable"] <- "SDF_Fsed_rsi"
         }else if(j == "aed2_nitrogen"){
           wq_config[[j]]["nitrif_reactant_variable"] <- "OXY_oxy"
           wq_config[[j]]["denit_product_variable"] <- ""
@@ -262,8 +262,10 @@ set_coupling <- function(config_file, folder){
         }else if(j == "aed2_organic_matter"){
           wq_config[[j]]["don_miner_product_variable"] <- "NIT_amm"
           wq_config[[j]]["dop_miner_product_variable"] <- "PHS_frp"
-          wq_config[[j]]["doc_miner_reactant_variable"] <- "OXY_oxy"
+          wq_config[[j]]["doc_miner_reactant_variable"] <- ""
           wq_config[[j]]["doc_miner_product_variable"] <- "CAR_dic"
+          wq_config[[j]]["dom_miner_oxy_reactant_var "] <- "OXY_oxy"
+          wq_config[[j]]["dom_miner_nit_reactant_var "] <- "NIT_nit"
         }else if(j == "aed2_phytoplankton"){
           wq_config[[j]]["p_excretion_target_variable"] <- "OGM_dop"
           wq_config[[j]]["n_excretion_target_variable"] <- "OGM_don"
@@ -279,7 +281,13 @@ set_coupling <- function(config_file, folder){
           wq_config[[j]]["si_uptake_target_variable"] <- "SIL_rsi"
           wq_config[[j]]["do_uptake_target_variable"] <- "OXY_oxy"
           wq_config[[j]]["c_uptake_target_variable"] <- "CAR_dic"
+          wq_config[[j]]["simRPools"] <- ".true."
+          wq_config[[j]]["simphotolysis"] <- ".false."
+          wq_config[[j]]["resus_link"] <- "NCS_resus"
+          wq_config[[j]]["extra_diag"] <- ".false."
         }else if(j == "aed2_phytoplankton"){
+          wq_config[[j]]["dbase"] <- "aed2_phyto_pars.nml"
+          wq_config[[j]]["dn_target_variable"] <- "OGM_don"
           wq_config[[j]]["dn_target_variable"] <- "OGM_don"
           wq_config[[j]]["pn_target_variable"] <- "OGM_pon"
           wq_config[[j]]["dp_target_variable"] <- "OGM_dop"
