@@ -153,8 +153,6 @@ nitrogen,water,nitrification,nitrification,pclake,cThetaNitr,parameters/cThetaNi
 nitrogen,water,nitrification,nitrification,pclake,hO2Nitr,parameters/hO2Nitr,g O2 m-3,2,1.0.0,Half-sat_O2_conc_for_nitrification_in_water
 nitrogen,water,nitrification,nitrification,aed2,theta_nitrif,aed2_nitrogen/theta_nitrif,-,1.08,1.0.0,Arrhenius temperature multiplier for nitrification
 nitrogen,water,nitrification,equation_options,aed2,nitrif_reactant_variable,aed2_nitrogen/nitrif_reactant_variable,(text),OXY_oxy',1.0.0,nitrification reactant variable
-nitrogen,water,nitrification,equation_options,aed2,nitrif_ph_variable,aed2_nitrogen/nitrif_ph,(text),',1.0.0,ph reactant variable for nitrification
-nitrogen,water,nitrification,equation_options,aed2,simNitrfpH,aed2_nitrogen/simNitrfpH,(integer),.false.,1.0.0,"1:, 2:"
 nitrogen,water,nitrification,nitrification,aed2,Rnh4o2,aed2_nitrogen/Rnh4o2,?,1,1.0.0,reaction rate
 nitrogen,water,nitrification,nitrification,aed2,Rno2o2,aed2_nitrogen/Rno2o2,?,1,1.0.0,reaction rate
 nitrogen,water,nitrification,equation_options,aed2,simN2O,aed2_nitrogen/simN2O,(integer),0,1.0.0,"1:, 2:"
@@ -401,4 +399,4 @@ carbon,water,organic,organic,aed2,Fsed_dop,aed2_organic_matter/Fsed_dop,?,0,1.0.
 carbon,water,organic,organic,aed2,Ksed_dom,aed2_organic_matter/Ksed_dom,?,4.5,1.0.0,OM
 carbon,water,organic,organic,aed2,theta_sed_dom,aed2_organic_matter/theta_sed_dom,?,1.08,1.0.0,OM
 carbon,water,organic,organic,aed2,extra_diag,aed2_organic_matter/extra_diag,?,.false.,1.0.0,OM
-phytoplankton,water,groups,database,aed2,dbase ,aed2_phytoplankton/dbase,?,aed2_phyto_pars.nml',1.0.0,Phytoplankton database
+phytoplankton,water,groups,database,aed2,dbase,aed2_phytoplankton/dbase,?,aed2_phyto_pars.nml',1.0.0,Phytoplankton database
