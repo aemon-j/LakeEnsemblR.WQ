@@ -19,6 +19,7 @@
 export_inputs <- function(config_file, folder = ".",
                           ler_config_file = "LakeEnsemblR.yaml",
                           verbose = FALSE){
+  
   # Fix time zone
   original_tz <- Sys.getenv("TZ")
   on.exit({
@@ -388,10 +389,70 @@ export_inputs <- function(config_file, folder = ".",
       
       temp_fil <- gsub(".*/", "", path_mylake_config)
       save(mylake_config, file = file.path(folder, "MyLake", temp_fil))
+    }else if(phys_model == "PCLake"){
+      # Total loads must be computed, so discharges are required as well
+      if(!is.null(lst_config_ler$scaling_factors$PCLake$inflow)){
+        scale_param_tmp <- lst_config_ler$scaling_factors$PCLake$inflow
+      }else{
+        if(!is.null(lst_config_ler$scaling_factors$all$inflow)){
+          scale_param_tmp <- lst_config_ler$scaling_factors$all$inflow
+        }else{
+          scale_param_tmp <- rep(1, num_inflows)
+        }
+      }
+      inflow_tmp <- LakeEnsemblR:::scale_flow(inflow, num_inflows,
+                                              scale_param_tmp)
+      
+      df_inflow_pcl <- df_inflow
+      df_inflow_pcl$datetime <- as.POSIXct(df_inflow_pcl$datetime)
+      df_inflow_pcl <- merge(df_inflow_pcl,
+                            inflow_tmp[, "datetime", drop = FALSE],
+                            by = "datetime", all.y = TRUE)
+      
+      unique_wq_vars <- gsub("_\\d+$", "", names(df_inflow))
+      unique_wq_vars <- unique(unique_wq_vars[unique_wq_vars != "datetime"])
+      # Need to get the surface area to calculate total loads
+      hyp <- read.csv(get_yaml_value(ler_config_file, "location", "hypsograph"))
+      surface_depth <- hyp$Depth_meter == 0.0
+      surf_area <- hyp[surface_depth, "Area_meterSquared"]
+      
+      for(j in unique_wq_vars){
+        cnfg_name <- wq_var_dic[wq_var_dic$standard_name == j, wq_model]
+        if(cnfg_name == "-") next
+        
+        # First calculate the load in g/m2/d for each inflow,
+        # then sum and write
+        df_loads <- data.frame(datetime = df_inflow_pcl$datetime)
+        for(k in seq_len(num_inflows)){
+          df_loads[[paste0("load_", k)]] <- inflow_tmp[[paste0("Flow_metersCubedPerSecond_", k)]] *
+            df_inflow_pcl[[paste0(j, "_", k)]] * 86400 / surf_area
+        }
+        df_load_pcl <- data.frame(dTime = df_loads$datetime,
+                                  dValue = rowSums(df_loads[, -1,
+                                                            drop = FALSE]),
+                                  TMP = -1)
+        names(df_load_pcl)[3] <- "-1"
+        
+        file_argument <- strsplit(cnfg_name, "/")[[1]][1]
+        read_switches <- strsplit(cnfg_name, "/")[[1]][2]
+        read_switches <- strsplit(read_switches, ",")[[1]]
+        
+        inp_lst_pclake <- list()
+        inp_lst_pclake[[file_argument]] <- 1
+        for(k in read_switches){
+          inp_lst_pclake[[k]] <- 1
+        }
+        
+        path_pclake_config <- lst_config[["config_files"]][["PCLake"]]
+        
+        input_pclakeconfig(path_pclake_config, inp_lst_pclake,
+                           verbose = verbose)
+        
+        write.table(df_load_pcl, file.path(dirname(path_pclake_config),
+                                           paste0(file_argument, ".txt")),
+                    sep = "\t", quote = FALSE, row.names = FALSE)
+      }
     }
-    
-    # At this point, PCLake is not yet included in this function
-    
   }
   
   # Not yet done: handle additional sources, such as constants for atmo input
@@ -399,5 +460,4 @@ export_inputs <- function(config_file, folder = ".",
   if(verbose){
     message("export_inputs completed!")
   }
-  
 }

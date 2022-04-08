@@ -36,6 +36,13 @@ export_config <- function(config_file, folder = ".", verbose = FALSE,
   # of groups for phytoplankton etc., and default values.
   set_up_configs(config_file, folder = folder)
   
+  # Set PCLake physical settings
+  if("PCLake" %in% lst_config[["models"]]){
+    export_pclake_physics(config_file, folder = folder,
+                          ler_config_file = ler_config_file,
+                          verbose = verbose)
+  }
+  
   # Reads the nutrient inputs - through inflows and additional sources
   export_inputs(config_file, folder = folder, verbose = verbose,
                 ler_config_file = ler_config_file)
