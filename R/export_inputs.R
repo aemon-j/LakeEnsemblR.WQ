@@ -69,7 +69,6 @@ export_inputs <- function(config_file, folder = ".",
   
   # Check header names (see helpers.R)
   chk_names_nutr_flow(names(df_inflow))
-  # Note: LER might need an update to not crash on headers that have "wq_"?
   
   # Standardise inflow headers; add _1 if there is only one inflow
   if(!any(grepl("_\\d+$", names(df_inflow)))){
@@ -87,7 +86,6 @@ export_inputs <- function(config_file, folder = ".",
   inflow_start <- which(inflow$datetime == as.POSIXct(start_date))
   inflow_stop <- which(inflow$datetime == as.POSIXct(stop_date))
   inflow <- inflow[inflow_start:inflow_stop, ]
-  LakeEnsemblR:::chk_names_flow(inflow, num_inflows, inflow_file)
   
   # For every model: write in correct model config file and write file
   for(i in models_coupled){
@@ -139,6 +137,22 @@ export_inputs <- function(config_file, folder = ".",
       cols_to_use <- names(df_inflow)[grepl("wq_", names(df_inflow)) |
                                         names(df_inflow) == "datetime"]
       df_inflow_gotm <- df_inflow[, cols_to_use]
+      
+      # Unit conversion needed for Selmaprotbas (WET already in right units)
+      if(wq_model == "selmaprotbas"){
+        # Determine what nutrient it is, and convert using wq_conv
+        for(j in seq_len(ncol(df_inflow_gotm))){
+          if(j == 1L) next
+          
+          var_name <- gsub("_\\d+$", "", names(df_inflow_gotm)[j])
+          nutrient <- wq_var_dic[wq_var_dic$standard_name == var_name,
+                                 "nutrient"]
+          mol_mass <- wq_conv[[paste0("mol_mass_", nutrient)]]
+          df_inflow_gotm[[j]] <- df_inflow_gotm[[j]] / mol_mass * 1000
+          names(df_inflow_gotm)[j] <- gsub("grams", "millimoles", names(df_inflow_gotm)[j])
+        }
+      }
+      
       names(df_inflow_gotm)[1] <- "!datetime"
       write.table(df_inflow_gotm, file.path(folder, i, name_file),
                   row.names = FALSE, quote = FALSE, sep = "\t")
@@ -149,12 +163,6 @@ export_inputs <- function(config_file, folder = ".",
       
       glm_nml <- read_nml(file.path(folder, i,
                                     basename(lst_config_ler[["config_files"]][["GLM"]])))
-      
-      if(verbose){
-        message("If the datetimes of discharge and nutrienst are not the ",
-                "same, this will lead to errors for GLM. LER.WQ does not ",
-                "yet interpolate these values.")
-      }
       
       for(j in seq_len(ncol(df_inflow))){
         if(!grepl("wq_", names(df_inflow)[j])) next
@@ -191,13 +199,21 @@ export_inputs <- function(config_file, folder = ".",
           df_inflow_tmp <- merge(df_inflow[, c("datetime", names(df_inflow)[j])],
                                  df_inf_file_glm[, "datetime", drop = FALSE],
                                  by = "datetime", all.y = TRUE)
-          df_inf_file_glm[[names(df_inflow)[j]]] <- df_inflow_tmp[[names(df_inflow)[j]]]
+          df_inf_file_glm[[cnfg_name]] <- df_inflow_tmp[[names(df_inflow)[j]]]
         }else{
           df_inf_file_glm <- merge(df_inf_file_glm, df_inflow[, c("datetime", names(df_inflow)[j])],
                                    by = "datetime", all.x = TRUE)
+          names(df_inf_file_glm)[names(df_inf_file_glm) == names(df_inflow)[j]] <- cnfg_name
         }
+        
+        # Unit conversion (mmol/m3)
+        nutrient <- wq_var_dic[wq_var_dic$standard_name == var_name,
+                               "nutrient"]
+        mol_mass <- wq_conv[[paste0("mol_mass_", nutrient)]]
+        df_inf_file_glm[[cnfg_name]] <- df_inf_file_glm[[cnfg_name]] / mol_mass * 1000
+        
+        # Writing
         names(df_inf_file_glm)[1] <- "Time"
-        names(df_inf_file_glm)[names(df_inf_file_glm) == names(df_inflow)[j]] <- cnfg_name
         write.csv(df_inf_file_glm, file.path(folder, i, inf_file),
                   row.names = FALSE, quote = FALSE)
       }
@@ -237,7 +253,7 @@ export_inputs <- function(config_file, folder = ".",
       
       for(j in unique_wq_vars){
         # Use the format_inflow function of LER 
-        # Note: This is a rather hacky solution, but it avoid that we have
+        # Note: This is a rather hacky solution, but it avoids that we have
         # to rewrite the LakeEnsemblR format_inflow and format_flow_simstrat
         # functions. I name the column of the wq var "Salinity_practicalSalinityUnits"
         # just to ensure that the columns get averaged according to the discharge.
@@ -250,12 +266,22 @@ export_inputs <- function(config_file, folder = ".",
                        Salinity_practicalSalinityUnits = df_inflow_sim[[paste0(j, "_", k)]])
         }
         
+        # Unit conversion
+        nutrient <- wq_var_dic[wq_var_dic$standard_name == j,
+                               "nutrient"]
+        mol_mass <- wq_conv[[paste0("mol_mass_", nutrient)]]
+        for(k in seq_len(num_inflows)){
+          inflow_ls[[paste0("inflow_", k)]][["Salinity_practicalSalinityUnits"]] <-
+            inflow_ls[[paste0("inflow_", k)]][["Salinity_practicalSalinityUnits"]] /
+            mol_mass * 1000
+        }
+        
         sim_inflow <- format_inflow(inflow = inflow_ls, model = "Simstrat",
                                     config_file = file.path(folder, ler_config_file))
         
         # Prepare other arguments for the format_flow_simstrat functions
         sim_par <- file.path(folder, lst_config_ler[["config_files"]][["Simstrat"]])
-        lvl_inflows <- rep(-1, num_inflows) # 2022-03-31: this is fixed in LER
+        lvl_inflows <- rep(-1, num_inflows) # 2022-03-31: this is always -1 in LER
         
         qin_file <- LakeEnsemblR:::format_flow_simstrat(flow_file = sim_inflow,
                                                         levels = lvl_inflows,
@@ -267,6 +293,7 @@ export_inputs <- function(config_file, folder = ".",
         # Correcting headers and writing
         col_header <- wq_var_dic[wq_var_dic$standard_name == j, wq_model]
         col_unit <- wq_var_dic[wq_var_dic$standard_name == j, "unit"]
+        col_unit <- gsub("grams", "millimoles", col_unit)
         qin_file[1L] <- paste0("Time [d]\t", col_header, " [", col_unit,"]")
         writeLines(qin_file, file.path(folder, i, paste0(col_header, "_inflow.dat")))
       }
@@ -354,7 +381,7 @@ export_inputs <- function(config_file, folder = ".",
       load(path_mylake_config)
       
       inflw_matrix <- mylake_config[["Inflw"]]
-      # Unit correction: g/m3 to mg/m3
+      # Unit conversion: g/m3 to mg/m3
       inflw_matrix[, 5] <- mylake_inflow$TP_gramsPerMeterCubed * 1000
       inflw_matrix[, 6] <- mylake_inflow$DOP_gramsPerMeterCubed * 1000
       mylake_config[["Inflw"]] <- inflw_matrix
@@ -367,8 +394,7 @@ export_inputs <- function(config_file, folder = ".",
     
   }
   
-  
-  # Then handle additional sources, such as constants for atmo input
+  # Not yet done: handle additional sources, such as constants for atmo input
   
   if(verbose){
     message("export_inputs completed!")
