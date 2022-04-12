@@ -110,12 +110,10 @@ nitrogen,water,initial_conditions,initial_nitrate,wet,sNO3W,abiotic_water/initia
 nitrogen,water,initial_conditions,initial_nitrate,pclake,sNO3WEpi0,initialstates/sNO3WEpi0,g N m-2,none,1.0.0,initial dissolved nitrate in the epilimnion
 nitrogen,water,initial_conditions,initial_nitrate,pclake,sNO3WHyp0,initialstates/sNO3WHyp0,g N m-2,none,1.0.0,initial dissolved nitrate in the hypolimnion
 nitrogen,water,initial_conditions,initial_n2o,aed2,n2o_initial,aed2_nitrogen/n2o_initial,?,0.1,1.0.0,initial n2o in the water column
-nitrogen,water,initial_conditions,initial_pom,aed2,ponr_initial,aed2_organic_matter/ponr_initial,mmol N m-3,0.1,1.0.0,initial PON conc
 nitrogen,water,initial_conditions,initial_pom,selmaprotbas,dd_n,selmaprotbas/initialization/dd_n,mmol N m-3,none,1.0.0,initial detritus-N in the water column
 nitrogen,water,initial_conditions,initial_pom,wet,sNPOMW,abiotic_water/initialization/sNPOMW,g m-3,none,1.0.0,particulate organic N
 nitrogen,water,initial_conditions,initial_pom,pclake,sNDetWEpi0,initialstates/sNDetWEpi0,g N m-2,none,1.0.0,Detritus_N_in_epilimnion_lake_water
 nitrogen,water,initial_conditions,initial_pom,pclake,sNDetWHyp0,initialstates/sNDetWHyp0,g N m-2,none,1.0.0,Detritus_N_in_hypolimnion_lake_water
-nitrogen,water,initial_conditions,initial_dom,aed2,donr_initial,aed2_organic_matter/donr_initial,mmol N m-3,13,1.0.0,initial DON conc
 nitrogen,water,initial_conditions,initial_dom,wet,sNDOMW,abiotic_water/initialization/sNDOMW,g m-3,none,1.0.0,dissolved organic N
 nitrogen,sediment,initial_conditions,initial_nitrogen,selmaprotbas,fl_n,selmaprotbas/initialization/fl_n,mmol N m-2,none,1.0.0,initial nitrogen fluff (= active sediment)
 nitrogen,sediment,initial_conditions,initial_ammonium,wet,sNH4S,abiotic_sediment/initialization/sNH4S,g N m-2,none,1.0.0,initial ammonium in sediment
@@ -239,6 +237,7 @@ phytoplankton,water,light,light_attenuation,selmaprotbas,kc,{group_name}/paramet
 phytoplankton,water,stoichiometry,nitrogen_ratio,selmaprotbas,rfn,{group_name}/parameters/rfn,-,0.150943,1.0.0,nitrogen : carbon ratio (mol N/mol C)
 phytoplankton,water,stoichiometry,phosphorus_ratio,selmaprotbas,rfr,{group_name}/parameters/rfr,-,0.009434,1.0.0,phosphorus : carbon ratio (mol P/mol C)
 phytoplankton,water,stoichiometry,silica_ratio,selmaprotbas,rfs,{group_name}/parameters/rfs,-,0,1.0.0,silica : carbon ratio (mol Si/mol C)
+phytoplankton,water,initial_conditions,name,aed2,p_name,phyto_data/pd%p_name,?,NAME,1.0.0,functional species name
 phytoplankton,water,stoichiometry,chlorophyll_ratio,selmaprotbas,Yc,{group_name}/parameters/Yc,mmol C/mg Chl a,6.25,1.0.0,carbon : chlorophyll a ratio
 phytoplankton,water,initial_conditions,initial_phyto,aed2,p_initial,phyto_data/pd%p_initial,mmol C m-3,10,1.0.0,Initial concentration of phytoplankton
 phytoplankton,water,initial_conditions,minimum_concentration,aed2,p0,phyto_data/pd%p0,mmol C m-3,0.03,1.0.0,minimum concentration of phytoplankton
@@ -257,9 +256,9 @@ phytoplankton,water,growth,salt_limitation,aed2,S_maxsp,phyto_data/pd%S_maxsp,g 
 phytoplankton,water,growth,salt_limitation,aed2,S_opt,phyto_data/pd%S_opt,g kg-1,1,1.0.0,salinity_optimum
 phytoplankton,water,growth,equation_options_n_limitation,aed2,simDINUptake,phyto_data/pd%simDINUptake,(integer),1,1.0.0,"1:, 2:"
 phytoplankton,water,growth,equation_options_n_limitation,aed2,simDONUptake,phyto_data/pd%simDONUptake,(integer),0,1.0.0,"1:, 2:"
-phytoplankton,water,growth,equation_options_n_limitation,aed2,SimNFixation,phyto_data/pd%SimNFixation,(integer),0,1.0.0,"1:, 2:"
+phytoplankton,water,growth,equation_options_n_limitation,aed2,simNFixation,phyto_data/pd%simNFixation,(integer),0,1.0.0,"1:, 2:"
 phytoplankton,water,growth,equation_options_n_limitation,aed2,simINDynamics,phyto_data/pd%simINDynamics,(integer),1,1.0.0,"1:, 2:"
-phytoplankton,water,growth,n_limitation,aed2,N_0,phyto_data/pd%N_0,mmol N m-2,0,1.0.0,minimum_concentration
+phytoplankton,water,growth,n_limitation,aed2,N_o,phyto_data/pd%N_o,mmol N m-2,0,1.0.0,minimum_concentration
 phytoplankton,water,growth,n_limitation,aed2,K_N,phyto_data/pd%K_N,mmol N m-3,3.5,1.0.0,saturation_concentration
 phytoplankton,water,growth,n_limitation,aed2,X_ncon,phyto_data/pd%X_ncon,mmol N mmol C-1,0.035,1.0.0,constant_concentration
 phytoplankton,water,growth,n_limitation,aed2,X_nmin,phyto_data/pd%X_nmin,mmol N mmol C-0,0.06,1.0.0,minimum_concentration
@@ -286,9 +285,6 @@ phytoplankton,water,respiration,respiration_rate,aed2,theta_resp,phyto_data/pd%t
 phytoplankton,water,respiration,composition,aed2,k_fres,phyto_data/pd%k_fres,?,0.25,1.0.0,fraction_trueRespiration
 phytoplankton,water,respiration,composition,aed2,k_fdom,phyto_data/pd%k_fdom,?,0.2,1.0.0,fraction_DOM
 phytoplankton,water,vertical_movement,vertical_velocity,aed2,w_p,phyto_data/pd%w_p,m d-1,0,1.0.0,Sedimentation rate (negative is downwards)
-phytoplankton,water,vertical_movement,vertical_velocity,aed2,settling,phyto_data/pd%settling,(integer),3,1.0.0,"1:, 2:"
-phytoplankton,water,vertical_movement,density,aed2,min_rho,phyto_data/pd%min_rho,?,900,1.0.0,minimum_density
-phytoplankton,water,vertical_movement,density,aed2,max_rho,phyto_data/pd%max_rho,?,1200,1.0.0,maximum_density
 phytoplankton,water,stoichiometry,chlorophyll_ratio,aed2,Xcc,phyto_data/pd%Xcc,mg C mg Chla-1,50,1.0.0,carbon : chlorophyll a ratio
 phytoplankton,water,initial_conditions,initial_phyto,wet,sDW,{group_name}/initialization/sDW,g DW m-3,none,1.0.0,Initial water column phytoplankton dryweight
 phytoplankton,water,initial_conditions,initial_phyto,wet,sNW,{group_name}/initialization/sNW,g N m-3,none,1.0.0,Initial water column N in phytoplankton
@@ -351,7 +347,7 @@ carbon,water,organic,organic,aed2,dop_initial ,aed2_organic_matter/dop_initial,?
 carbon,water,organic,organic,aed2,docr_initial ,aed2_organic_matter/docr_initial,?,120,1.0.0,OM
 carbon,water,organic,organic,aed2,dopr_initial ,aed2_organic_matter/dopr_initial,?,0.1,1.0.0,OM
 carbon,water,organic,organic,aed2,cpom_initial ,aed2_organic_matter/cpom_initial,?,100,1.0.0,OM
-carbon,water,organic,organic,aed2,Rdom_minerl ,aed2_organic_matter/poc_Rdom_minerl,?,0.5,1.0.0,OM
+carbon,water,organic,organic,aed2,Rdom_minerl ,aed2_organic_matter/Rdom_minerl,?,0.5,1.0.0,OM
 carbon,water,organic,organic,aed2,Kpom_hydrol ,aed2_organic_matter/Kpom_hydrol,?,60,1.0.0,OM
 carbon,water,organic,organic,aed2,Kdom_minerl ,aed2_organic_matter/Kdom_minerl,?,100,1.0.0,OM
 carbon,water,organic,organic,aed2,Rpoc_hydrol ,aed2_organic_matter/Rpoc_hydrol,?,0.07,1.0.0,OM
@@ -360,31 +356,15 @@ carbon,water,organic,organic,aed2,Rpop_hydrol ,aed2_organic_matter/Rpop_hydrol ,
 carbon,water,organic,organic,aed2,theta_hydrol ,aed2_organic_matter/theta_hydrol ,?,1.08,1.0.0,OM
 carbon,water,organic,organic,aed2,theta_minerl ,aed2_organic_matter/theta_minerl ,?,1.08,1.0.0,OM
 carbon,water,organic,organic,aed2,simDenitrification ,aed2_organic_matter/simDenitrification ,?,1,1.0.0,OM
-carbon,water,organic,organic,aed2,f_an ,aed2_organic_matter/f_an ,?,1,1.0.0,OM
-carbon,water,organic,organic,aed2,K_nit ,aed2_organic_matter/K_nit ,?,10,1.0.0,OM
-carbon,water,organic,organic,aed2,Rdomr_minerl ,aed2_organic_matter/Rdomr_minerl ,?,5.00E-04,1.0.0,OM
-carbon,water,organic,organic,aed2,Rcpom_bdown ,aed2_organic_matter/Rcpom_bdown ,?,0.001,1.0.0,OM
-carbon,water,organic,organic,aed2,X_cpom_n,aed2_organic_matter/X_cpom_n,?,0.005,1.0.0,OM
-carbon,water,organic,organic,aed2,X_cpom_p ,aed2_organic_matter/X_cpom_p ,?,0.001,1.0.0,OM
-carbon,water,organic,organic,aed2,KeDOM ,aed2_organic_matter/KeDOM ,?,5.00E-05,1.0.0,OM
-carbon,water,organic,organic,aed2,KePOM ,aed2_organic_matter/KePOM ,?,0.001,1.0.0,OM
-carbon,water,organic,organic,aed2,KeDOMR ,aed2_organic_matter/KeDOMR ,?,0.05,1.0.0,OM
-carbon,water,organic,organic,aed2,KeCPOM ,aed2_organic_matter/KeCPOM ,?,0.00096,1.0.0,OM
-carbon,water,organic,organic,aed2,photo_c ,aed2_organic_matter/photo_c ,?,0.75,1.0.0,OM
-carbon,water,organic,organic,aed2,settling ,aed2_organic_matter/settling ,?,3,1.0.0,OM
-carbon,water,organic,organic,aed2,w_pom ,aed2_organic_matter/w_pom ,?,-0.5,1.0.0,OM
-carbon,water,organic,organic,aed2,d_pom,aed2_organic_matter/d_pom,?,1.00E-05,1.0.0,OM
-carbon,water,organic,organic,aed2,rho_pom,aed2_organic_matter/rho_pom,?,1200,1.0.0,OM
-carbon,water,organic,organic,aed2,w_cpom,aed2_organic_matter/w_cpom,?,-0.01,1.0.0,OM
-carbon,water,organic,organic,aed2,d_cpom,aed2_organic_matter/d_cpom,?,1.00E-05,1.0.0,OM
-carbon,water,organic,organic,aed2,rho_cpom,aed2_organic_matter/rho_cpom,?,1400,1.0.0,OM
-carbon,water,organic,organic,aed2,resuspension,aed2_organic_matter/resuspension,?,0,1.0.0,OM
-carbon,water,organic,organic,aed2,sedimentOMfrac,aed2_organic_matter/sedimentOMfrac,?,2.00E-04,1.0.0,OM
-carbon,water,organic,organic,aed2,Xsc,aed2_organic_matter/Xsc,?,0.5,1.0.0,OM
-carbon,water,organic,organic,aed2,Xsn,aed2_organic_matter/Xsn,?,0.05,1.0.0,OM
-carbon,water,organic,organic,aed2,Xsp,aed2_organic_matter/Xsp,?,0.005,1.0.0,OM
-carbon,water,organic,organic,aed2,Fsed_doc,aed2_organic_matter/Fsed_doc,?,10,1.0.0,OM
-carbon,water,organic,organic,aed2,Fsed_don,aed2_organic_matter/Fsed_don,?,0,1.0.0,OM
-carbon,water,organic,organic,aed2,Fsed_dop,aed2_organic_matter/Fsed_dop,?,0,1.0.0,OM
-carbon,water,organic,organic,aed2,Ksed_dom,aed2_organic_matter/Ksed_dom,?,4.5,1.0.0,OM
-carbon,water,organic,organic,aed2,theta_sed_dom,aed2_organic_matter/theta_sed_dom,?,1.08,1.0.0,OM
+carbon,water,noncohesive,tracer,aed2,num_ss,aed2_noncohesive/num_ss,?,1,1.0.0,Tracer
+carbon,water,noncohesive,tracer,aed2,ss_initial,aed2_noncohesive/ss_initial,?,1,1.0.0,Tracer
+carbon,water,noncohesive,tracer,aed2,Ke_ss,aed2_noncohesive/Ke_ss,?,0.06,1.0.0,Tracer
+carbon,water,noncohesive,tracer,aed2,settling,aed2_noncohesive/settling,?,3,1.0.0,Tracer
+carbon,water,noncohesive,tracer,aed2,w_ss,aed2_noncohesive/w_ss,?,-0.03,1.0.0,Tracer
+carbon,water,noncohesive,tracer,aed2,d_ss,aed2_noncohesive/d_ss,?,2.00E-06,1.0.0,Tracer
+carbon,water,noncohesive,tracer,aed2,rho_ss,aed2_noncohesive/rho_ss,?,1500,1.0.0,Tracer
+carbon,water,noncohesive,tracer,aed2,resuspension,aed2_noncohesive/resuspension,?,1,1.0.0,Tracer
+carbon,water,noncohesive,tracer,aed2,epsilon,aed2_noncohesive/epsilon,?,0.007,1.0.0,Tracer
+carbon,water,noncohesive,tracer,aed2,tau_0,aed2_noncohesive/tau_0,?,0.03,1.0.0,Tracer
+carbon,water,noncohesive,tracer,aed2,tau_r,aed2_noncohesive/tau_r,?,1,1.0.0,Tracer
+carbon,water,noncohesive,tracer,aed2,Ktau_0,aed2_noncohesive/Ktau_0,?,0.001,1.0.0,Tracer

@@ -262,14 +262,9 @@ set_coupling <- function(config_file, folder){
         }else if(j == "aed2_organic_matter"){
           wq_config[[j]]["don_miner_product_variable"] <- "NIT_amm"
           wq_config[[j]]["dop_miner_product_variable"] <- "PHS_frp"
-          wq_config[[j]]["doc_miner_reactant_variable"] <- ""
           wq_config[[j]]["doc_miner_product_variable"] <- "CAR_dic"
           wq_config[[j]]["dom_miner_oxy_reactant_var "] <- "OXY_oxy"
           wq_config[[j]]["dom_miner_nit_reactant_var "] <- "NIT_nit"
-          wq_config[[j]]["simRPools"] <- ".true."
-          wq_config[[j]]["simphotolysis"] <- ".false."
-          wq_config[[j]]["resus_link"] <- "NCS_resus"
-          wq_config[[j]]["extra_diag"] <- ".false."
         }else if(j == "aed2_phytoplankton"){
           wq_config[[j]]["p_excretion_target_variable"] <- "OGM_dop"
           wq_config[[j]]["n_excretion_target_variable"] <- "OGM_don"
@@ -301,6 +296,17 @@ set_coupling <- function(config_file, folder){
       
       write_nml(wq_config, file.path(folder,
                                      lst_config[["config_files"]][[models_coupled[i]]]))
+      
+      if(lst_config[["phytoplankton"]][["use"]]){
+        loc <- file.path(folder,
+                         lst_config[["config_files"]][[models_coupled[i]]])
+        phy_config <- read_nml(file.path(paste0(sub("\\.nml.*", "", loc),'_phyto_pars.nml')))
+        
+        phy_config[[1]]["pd%p_name"] = toString(names(lst_config[["phytoplankton"]]$groups))
+        
+        write_nml(phy_config, file.path(folder,
+                                        file.path(paste0(sub("\\.nml.*", "", loc),'_phyto_pars.nml'))))
+      }
       
     }
     
