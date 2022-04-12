@@ -19,6 +19,7 @@
 export_inputs <- function(config_file, folder = ".",
                           ler_config_file = "LakeEnsemblR.yaml",
                           verbose = FALSE){
+  
   # Fix time zone
   original_tz <- Sys.getenv("TZ")
   on.exit({
@@ -69,7 +70,6 @@ export_inputs <- function(config_file, folder = ".",
   
   # Check header names (see helpers.R)
   chk_names_nutr_flow(names(df_inflow))
-  # Note: LER might need an update to not crash on headers that have "wq_"?
   
   # Standardise inflow headers; add _1 if there is only one inflow
   if(!any(grepl("_\\d+$", names(df_inflow)))){
@@ -87,7 +87,6 @@ export_inputs <- function(config_file, folder = ".",
   inflow_start <- which(inflow$datetime == as.POSIXct(start_date))
   inflow_stop <- which(inflow$datetime == as.POSIXct(stop_date))
   inflow <- inflow[inflow_start:inflow_stop, ]
-  LakeEnsemblR:::chk_names_flow(inflow, num_inflows, inflow_file)
   
   # For every model: write in correct model config file and write file
   for(i in models_coupled){
@@ -139,6 +138,22 @@ export_inputs <- function(config_file, folder = ".",
       cols_to_use <- names(df_inflow)[grepl("wq_", names(df_inflow)) |
                                         names(df_inflow) == "datetime"]
       df_inflow_gotm <- df_inflow[, cols_to_use]
+      
+      # Unit conversion needed for Selmaprotbas (WET already in right units)
+      if(wq_model == "selmaprotbas"){
+        # Determine what nutrient it is, and convert using wq_conv
+        for(j in seq_len(ncol(df_inflow_gotm))){
+          if(j == 1L) next
+          
+          var_name <- gsub("_\\d+$", "", names(df_inflow_gotm)[j])
+          nutrient <- wq_var_dic[wq_var_dic$standard_name == var_name,
+                                 "nutrient"]
+          mol_mass <- wq_conv[[paste0("mol_mass_", nutrient)]]
+          df_inflow_gotm[[j]] <- df_inflow_gotm[[j]] / mol_mass * 1000
+          names(df_inflow_gotm)[j] <- gsub("grams", "millimoles", names(df_inflow_gotm)[j])
+        }
+      }
+      
       names(df_inflow_gotm)[1] <- "!datetime"
       write.table(df_inflow_gotm, file.path(folder, i, name_file),
                   row.names = FALSE, quote = FALSE, sep = "\t")
@@ -149,12 +164,6 @@ export_inputs <- function(config_file, folder = ".",
       
       glm_nml <- read_nml(file.path(folder, i,
                                     basename(lst_config_ler[["config_files"]][["GLM"]])))
-      
-      if(verbose){
-        message("If the datetimes of discharge and nutrienst are not the ",
-                "same, this will lead to errors for GLM. LER.WQ does not ",
-                "yet interpolate these values.")
-      }
       
       for(j in seq_len(ncol(df_inflow))){
         if(!grepl("wq_", names(df_inflow)[j])) next
@@ -191,13 +200,21 @@ export_inputs <- function(config_file, folder = ".",
           df_inflow_tmp <- merge(df_inflow[, c("datetime", names(df_inflow)[j])],
                                  df_inf_file_glm[, "datetime", drop = FALSE],
                                  by = "datetime", all.y = TRUE)
-          df_inf_file_glm[[names(df_inflow)[j]]] <- df_inflow_tmp[[names(df_inflow)[j]]]
+          df_inf_file_glm[[cnfg_name]] <- df_inflow_tmp[[names(df_inflow)[j]]]
         }else{
           df_inf_file_glm <- merge(df_inf_file_glm, df_inflow[, c("datetime", names(df_inflow)[j])],
                                    by = "datetime", all.x = TRUE)
+          names(df_inf_file_glm)[names(df_inf_file_glm) == names(df_inflow)[j]] <- cnfg_name
         }
+        
+        # Unit conversion (mmol/m3)
+        nutrient <- wq_var_dic[wq_var_dic$standard_name == var_name,
+                               "nutrient"]
+        mol_mass <- wq_conv[[paste0("mol_mass_", nutrient)]]
+        df_inf_file_glm[[cnfg_name]] <- df_inf_file_glm[[cnfg_name]] / mol_mass * 1000
+        
+        # Writing
         names(df_inf_file_glm)[1] <- "Time"
-        names(df_inf_file_glm)[names(df_inf_file_glm) == names(df_inflow)[j]] <- cnfg_name
         write.csv(df_inf_file_glm, file.path(folder, i, inf_file),
                   row.names = FALSE, quote = FALSE)
       }
@@ -237,7 +254,7 @@ export_inputs <- function(config_file, folder = ".",
       
       for(j in unique_wq_vars){
         # Use the format_inflow function of LER 
-        # Note: This is a rather hacky solution, but it avoid that we have
+        # Note: This is a rather hacky solution, but it avoids that we have
         # to rewrite the LakeEnsemblR format_inflow and format_flow_simstrat
         # functions. I name the column of the wq var "Salinity_practicalSalinityUnits"
         # just to ensure that the columns get averaged according to the discharge.
@@ -250,12 +267,22 @@ export_inputs <- function(config_file, folder = ".",
                        Salinity_practicalSalinityUnits = df_inflow_sim[[paste0(j, "_", k)]])
         }
         
+        # Unit conversion
+        nutrient <- wq_var_dic[wq_var_dic$standard_name == j,
+                               "nutrient"]
+        mol_mass <- wq_conv[[paste0("mol_mass_", nutrient)]]
+        for(k in seq_len(num_inflows)){
+          inflow_ls[[paste0("inflow_", k)]][["Salinity_practicalSalinityUnits"]] <-
+            inflow_ls[[paste0("inflow_", k)]][["Salinity_practicalSalinityUnits"]] /
+            mol_mass * 1000
+        }
+        
         sim_inflow <- format_inflow(inflow = inflow_ls, model = "Simstrat",
                                     config_file = file.path(folder, ler_config_file))
         
         # Prepare other arguments for the format_flow_simstrat functions
         sim_par <- file.path(folder, lst_config_ler[["config_files"]][["Simstrat"]])
-        lvl_inflows <- rep(-1, num_inflows) # 2022-03-31: this is fixed in LER
+        lvl_inflows <- rep(-1, num_inflows) # 2022-03-31: this is always -1 in LER
         
         qin_file <- LakeEnsemblR:::format_flow_simstrat(flow_file = sim_inflow,
                                                         levels = lvl_inflows,
@@ -267,6 +294,7 @@ export_inputs <- function(config_file, folder = ".",
         # Correcting headers and writing
         col_header <- wq_var_dic[wq_var_dic$standard_name == j, wq_model]
         col_unit <- wq_var_dic[wq_var_dic$standard_name == j, "unit"]
+        col_unit <- gsub("grams", "millimoles", col_unit)
         qin_file[1L] <- paste0("Time [d]\t", col_header, " [", col_unit,"]")
         writeLines(qin_file, file.path(folder, i, paste0(col_header, "_inflow.dat")))
       }
@@ -354,24 +382,82 @@ export_inputs <- function(config_file, folder = ".",
       load(path_mylake_config)
       
       inflw_matrix <- mylake_config[["Inflw"]]
-      # Unit correction: g/m3 to mg/m3
+      # Unit conversion: g/m3 to mg/m3
       inflw_matrix[, 5] <- mylake_inflow$TP_gramsPerMeterCubed * 1000
       inflw_matrix[, 6] <- mylake_inflow$DOP_gramsPerMeterCubed * 1000
       mylake_config[["Inflw"]] <- inflw_matrix
       
       temp_fil <- gsub(".*/", "", path_mylake_config)
       save(mylake_config, file = file.path(folder, "MyLake", temp_fil))
+    }else if(phys_model == "PCLake"){
+      # Total loads must be computed, so discharges are required as well
+      if(!is.null(lst_config_ler$scaling_factors$PCLake$inflow)){
+        scale_param_tmp <- lst_config_ler$scaling_factors$PCLake$inflow
+      }else{
+        if(!is.null(lst_config_ler$scaling_factors$all$inflow)){
+          scale_param_tmp <- lst_config_ler$scaling_factors$all$inflow
+        }else{
+          scale_param_tmp <- rep(1, num_inflows)
+        }
+      }
+      inflow_tmp <- LakeEnsemblR:::scale_flow(inflow, num_inflows,
+                                              scale_param_tmp)
+      
+      df_inflow_pcl <- df_inflow
+      df_inflow_pcl$datetime <- as.POSIXct(df_inflow_pcl$datetime)
+      df_inflow_pcl <- merge(df_inflow_pcl,
+                            inflow_tmp[, "datetime", drop = FALSE],
+                            by = "datetime", all.y = TRUE)
+      
+      unique_wq_vars <- gsub("_\\d+$", "", names(df_inflow))
+      unique_wq_vars <- unique(unique_wq_vars[unique_wq_vars != "datetime"])
+      # Need to get the surface area to calculate total loads
+      hyp <- read.csv(get_yaml_value(ler_config_file, "location", "hypsograph"))
+      surface_depth <- hyp$Depth_meter == 0.0
+      surf_area <- hyp[surface_depth, "Area_meterSquared"]
+      
+      for(j in unique_wq_vars){
+        cnfg_name <- wq_var_dic[wq_var_dic$standard_name == j, wq_model]
+        if(cnfg_name == "-") next
+        
+        # First calculate the load in g/m2/d for each inflow,
+        # then sum and write
+        df_loads <- data.frame(datetime = df_inflow_pcl$datetime)
+        for(k in seq_len(num_inflows)){
+          df_loads[[paste0("load_", k)]] <- inflow_tmp[[paste0("Flow_metersCubedPerSecond_", k)]] *
+            df_inflow_pcl[[paste0(j, "_", k)]] * 86400 / surf_area
+        }
+        df_load_pcl <- data.frame(dTime = df_loads$datetime,
+                                  dValue = rowSums(df_loads[, -1,
+                                                            drop = FALSE]),
+                                  TMP = -1)
+        names(df_load_pcl)[3] <- "-1"
+        
+        file_argument <- strsplit(cnfg_name, "/")[[1]][1]
+        read_switches <- strsplit(cnfg_name, "/")[[1]][2]
+        read_switches <- strsplit(read_switches, ",")[[1]]
+        
+        inp_lst_pclake <- list()
+        inp_lst_pclake[[file_argument]] <- 1
+        for(k in read_switches){
+          inp_lst_pclake[[k]] <- 1
+        }
+        
+        path_pclake_config <- lst_config[["config_files"]][["PCLake"]]
+        
+        input_pclakeconfig(path_pclake_config, inp_lst_pclake,
+                           verbose = verbose)
+        
+        write.table(df_load_pcl, file.path(dirname(path_pclake_config),
+                                           paste0(file_argument, ".txt")),
+                    sep = "\t", quote = FALSE, row.names = FALSE)
+      }
     }
-    
-    # At this point, PCLake is not yet included in this function
-    
   }
   
-  
-  # Then handle additional sources, such as constants for atmo input
+  # Not yet done: handle additional sources, such as constants for atmo input
   
   if(verbose){
     message("export_inputs completed!")
   }
-  
 }

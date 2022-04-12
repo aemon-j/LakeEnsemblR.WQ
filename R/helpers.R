@@ -407,3 +407,41 @@ lerwq_write_yaml_file <- function(yml, filepath, is_gotm_yaml = NULL){
     writeLines(yml_txt, con = filepath)
   }
 }
+
+
+#'Sets a value in a PCLake par data.frame
+#'@description
+#'Sets a value in a PCLake parameter or initial states file
+#' that has been read into R as a data.frame
+#'
+#'@param file data.frame; 
+#'@param par_list list; parameter names without underscores and corresponding
+#' value to enter
+#'@param column character; column name to change in file. defaults to sSet1
+#'@param verbose logical; print changed parameters to screen
+#'
+#'@examples
+#'
+
+set_pclake_r <- function(file, par_list,
+                         column = "sSet1", verbose = FALSE){
+  
+  for(i in names(par_list)){
+    ind <- which(file[["sName"]] == paste0("_", i, "_"))
+    
+    if(length(ind) == 0L){
+      stop("Could not find parameter ", i, " in pclake par file!")
+    }else if(length(ind) > 1L){
+      stop("Parameter ", i, " found multiple times in pclake par file!")
+    }
+    
+    old_val <- file[ind, column]
+    file[ind, column] <- par_list[[i]]
+    
+    if(verbose & !identical(old_val, par_list[[i]])){
+      message("PCLake: replaced ", i, ": ", old_val, " by ", par_list[[i]])
+    }
+  }
+  
+  return(file)
+}

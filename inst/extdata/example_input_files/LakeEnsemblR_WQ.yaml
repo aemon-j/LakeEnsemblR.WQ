@@ -11,7 +11,7 @@ config_files:
    GLM-AED2: GLM-AED2/aed2.nml
    Simstrat-AED2: Simstrat-AED2/aed2.nml
    MyLake: MyLake/mylake.Rdata
-   PCLake: PCLake/PCLake_parameters.csv
+   PCLake: PCLake/parameters.txt
 run_settings:
    bio-shading: true
    ode_method: Euler # Options: Euler, RK2, RK4, Pat1, PatRK2, PatRK4, ModPat1, ModPatRK2, ModPatRK4, ExtModPat1, ExtModPatRK2; default = Euler 
