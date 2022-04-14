@@ -301,8 +301,8 @@ set_coupling <- function(config_file, folder){
         loc <- file.path(folder,
                          lst_config[["config_files"]][[models_coupled[i]]])
         phy_config <- read_nml(file.path(paste0(sub("\\.nml.*", "", loc),'_phyto_pars.nml')))
-        
-        phy_config[[1]]["pd%p_name"] = toString(names(lst_config[["phytoplankton"]]$groups))
+        strng <- toString(names(lst_config[["phytoplankton"]]$groups))
+        phy_config[[1]]["pd%p_name"] = gsub(" ", "", strng, fixed = TRUE)
         
         write_nml(phy_config, file.path(folder,
                                         file.path(paste0(sub("\\.nml.*", "", loc),'_phyto_pars.nml'))))
