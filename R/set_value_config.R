@@ -91,7 +91,7 @@ set_value_config <- function(config_file, module, group_name = NULL, group_posit
       group_position = 1L
     }
     
-    aed_config[[path_parts[1]]][[path_parts[2]]][group_position] <- value
+    aed_config[[path_parts[1]]][[path_parts[2]]][group_position] <- as.numeric(value)
     write_nml(aed_config, aed_config_path)
     
   }else if(model_coupled == "GOTM-Selmaprotbas" | model_coupled == "GOTM-WET"){
