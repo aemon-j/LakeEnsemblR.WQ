@@ -41,13 +41,13 @@ set_value_config <- function(config_file, module, group_name = NULL, group_posit
                              domain, process, subprocess, model_coupled, parameter, value,
                              folder, verbose = FALSE){
   
-  model <- strsplit(model_coupled, "-")[[1]]
+  model <- strsplit(as.character(model_coupled), "-")[[1]]
   model <- tolower(model[length(model)])
   
   # Check if arguments are allowed
   chck_args <- sapply(c("module", "domain", "process", "subprocess", "model", "parameter"),
                      function(x) get(x) %in% LakeEnsemblR_WQ_dictionary[[x]])
-  if(!all(chck_args)){
+  if(!all(as.character(unlist(chck_args)))){
     wrong_args <- c("module", "domain", "process",
                     "subprocess", "model", "parameter")[!chck_args]
     error_string <- unlist(lapply(wrong_args, function(x) paste0("\n", x, ": ", get(x))))
@@ -81,7 +81,7 @@ set_value_config <- function(config_file, module, group_name = NULL, group_posit
     }
     aed_config <- read_nml(aed_config_path)
     
-    path_parts <- strsplit(row_dict[1, "path"], "/")[[1]]
+    path_parts <- strsplit(as.character(row_dict[1, "path"]), "/")[[1]]
     if(length(path_parts) != 2L){
       stop("Path for AED2 parameter does not consist of two parts; needs ",
            "to be section/par_name")
@@ -91,11 +91,11 @@ set_value_config <- function(config_file, module, group_name = NULL, group_posit
       group_position = 1L
     }
     
-    aed_config[[path_parts[1]]][[path_parts[2]]][group_position] <- value
+    aed_config[[path_parts[1]]][[path_parts[2]]][group_position] <- as.numeric(value)
     write_nml(aed_config, aed_config_path)
     
   }else if(model_coupled == "GOTM-Selmaprotbas" | model_coupled == "GOTM-WET"){
-    path_parts <- strsplit(row_dict[1, "path"], "/")[[1]]
+    path_parts <- strsplit(as.character(row_dict[1, "path"]), "/")[[1]]
     path_parts[path_parts == "{group_name}"] <- group_name
     names(path_parts) <- paste0("key", 1:length(path_parts))
     
@@ -116,7 +116,7 @@ set_value_config <- function(config_file, module, group_name = NULL, group_posit
         # Name: mylake_config
         load(file.path(folder, model_config))
         
-        path_parts <- strsplit(row_dict[1, "path"], "/")[[1]]
+        path_parts <- strsplit(as.character(row_dict[1, "path"]), "/")[[1]]
         if(length(path_parts) == 1L){
           
           mylake_config[[path_parts]] <- matrix(value,
@@ -138,7 +138,7 @@ set_value_config <- function(config_file, module, group_name = NULL, group_posit
     }
   }else if(model_coupled == "PCLake"){
     
-    path_parts <- strsplit(row_dict[1, "path"], "/")[[1]]
+    path_parts <- strsplit(as.character(row_dict[1, "path"]), "/")[[1]]
     if(path_parts[1] == "parameters"){
       file_name <- "parameters.txt"
     }else if(path_parts[1] == "initialstates"){
