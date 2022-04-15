@@ -188,13 +188,28 @@ nitrogen,sediment,decomposition,mineralisation_pom,wet,kNMinPOMS,abiotic_sedimen
 ",1.0.0,decomposition constant of POM-N at 20*C 
 nitrogen,sediment,decomposition,mineralisation_dom,wet,kNMinDOMS,abiotic_sediment/parameters/kNMinDOMS,d-1," 0.003
 ",1.0.0,mineralization constant of DOM-N at 20*C 
+phosphorus,water,initial_conditions,initial_phosphate,selmaprotbas,po,selmaprotbas/initialization/po,mmol P m-3,none,1.0.0,initial dissolved phosphate in the water column
+phosphorus,water,initial_conditions,initial_pom,selmaprotbas,dd_p,selmaprotbas/initialization/dd_p,mmol P m-3,none,1.0.0,initial detritus-P in the water column
+phosphorus,sediment,initial_conditions,initial_phosphorus,selmaprotbas,fl_p,selmaprotbas/initialization/fl_p,mmol P m-2,none,1.0.0,initial phosphorus fluff (= active sediment)
+phosphorus,sediment,initial_conditions,initial_phosphorus,selmaprotbas,pb,selmaprotbas/initialization/pb,mmol P m-2,none,1.0.0,initial phosphorus bound to iron in the sediment
+phosphorus,water,initial_conditions,initial_phosphorus,selmaprotbas,pw,selmaprotbas/initialization/pw,mmol P m-3,none,1.0.0,initial phosphorus bound to iron in the water column
 phosphorus,water,initial_conditions,initial_tp,mylake,In.TPz,In.TPz,mg m-3,none,1.0.0,Initial total P profile read from initial profiles file (incl. DOP & Chla)
 phosphorus,sediment,initial_conditions,initial_tp,mylake,In.TPz.sed,In.TPz.sed,mg m-3,none,1.0.0,Initial total P profile in the sediment compartments read from initial profiles file
+phosphorus,water,vertical_movement,sedimentation,selmaprotbas,wpo4,selmaprotbas/parameters/wpo4,m d-1,-1,1.0.0,"vertical velocity of suspended P-Fe (positive: upwards/floating, negative: downwards/sinking)"
+phosphorus,water,water_sediment_exchange,sedimentation,selmaprotbas,sedratepo4,selmaprotbas/parameters/sedratepo4,m d-1,0.5,1.0.0,P-Fe sedimentation rate
+phosphorus,sediment,water_sediment_exchange,resuspension,selmaprotbas,eroratepo4,selmaprotbas/parameters/eroratepo4,d-1,6,1.0.0,P-Fe erosion rate
+phosphorus,sediment,water_sediment_exchange,adsorption,selmaprotbas,po4ret,selmaprotbas/parameters/po4ret,-,0.18,1.0.0,"phosphate retention rate, oxic sediments"
+phosphorus,sediment,burial,burial,selmaprotbas,pburialrate,selmaprotbas/parameters/pburialrate,d-1,0.007,1.0.0,phosphate burial rate
+phosphorus,sediment,water_sediment_exchange,adsorption,selmaprotbas,pliberationrate,selmaprotbas/parameters/pliberationrate,d-1,0.1,1.0.0,"phosphate liberation rate, anoxic sediments"
+phosphorus,sediment,burial,burial,selmaprotbas,ipo4th,selmaprotbas/parameters/ipo4th,mmol P m-2,100,1.0.0,maximum phosphorus density available for burial
 phosphorus,water,water_column_processes,phosphorus,aed2,frp_initial ,aed2_phosphorus/frp_initial,mmol P m-3,0.06,1.0.0,-
 phosphorus,water,water_sediment_exchange,phosphorus,aed2,Fsed_frp,aed2_phosphorus/Fsed_frp,mmol P m-3 d-1,0.5,1.0.0,Sediment-water flux for inorganic phosphorus
 phosphorus,water,water_sediment_exchange,phosphorus,aed2,theta_sed_frp,aed2_phosphorus/theta_sed_frp,-,1.08,1.0.0,half-saturation concentration of  inorganic phosphorus sediment flux
 phosphorus,water,water_sediment_exchange,phosphorus,aed2,Ksed_frp,aed2_phosphorus/Ksed_frp,mmol P m-3,200,1.0.0,Arrhenius temperature multiplier for sediment  inorganic phosphorus flux
 phosphorus,water,water_column_processes,adsorption,aed2,Qmax,aed2_phosphorus/Qmax,-,1,1.0.0,Sorption constant
+silicate,water,initial_conditions,initial_silicate,selmaprotbas,si,selmaprotbas/initialization/si,mmol Si m-3,none,1.0.0,initial dissolved silicate in the water column
+silicate,water,initial_conditions,initial_pom,selmaprotbas,dd_si,selmaprotbas/initialization/dd_si,mmol Si m-3,none,1.0.0,initial detritus-Si in the water column
+silicate,sediment,initial_conditions,initial_silicate,selmaprotbas,fl_si,selmaprotbas/initialization/fl_si,mmol Si m-2,none,1.0.0,initial silicate fluff (= active sediment)
 silica,water,water_column_processes,sedimentation,aed2,Fsed_rsi,aed2_silica/Fsed_rsi,?,4,1.0.0,Sedimentation flux for silica
 phytoplankton,water,initial_conditions,initial_phyto,mylake,In.Chlz,In.Chlz,mg m-3,none,1.0.0,Initial chlorophyll a profile read from initial profiles file
 phytoplankton,water,initial_conditions,initial_phyto,mylake,In.Chlz_sed,In.Chlz.sed,mg m-3,none,1.0.0,Initial chlorophyll a profile in the sediment compartments read from initial profiles file
@@ -337,6 +352,22 @@ phytoplankton,sediment,mortality,excretion,wet,fDOMS,{group_name}/parameters/fDO
 phytoplankton,water,growth,growth_rate,pclake,cMuMaxDiat,parameters/cMuMaxDiat,d-1,2,1.0.0,maximum growth rate diatoms at optimum temperature 
 phytoplankton,water,growth,growth_rate,pclake,cMuMaxGren,parameters/cMuMaxGren,d-1,1.5,1.0.0,maximum growth rate green algae at optimum temperature 
 phytoplankton,water,growth,growth_rate,pclake,cMuMaxBlue,parameters/cMuMaxBlue,d-1,0.6,1.0.0,maximum growth rate cyanobacteria at optimum temperature 
+zooplankton,water,initial_conditions,initial_zoo,selmaprotbas,c,{group_name}/initialization/c,mmol C m-3,none,1.0.0,Initial concentration of zooplankton
+zooplankton,water,initial_conditions,minimum_concentration,selmaprotbas,c0,{group_name}/parameters/c0,mmol C m-3,0,1.0.0,background concentration
+zooplankton,water,stoichiometry,phosphorus_ratio,selmaprotbas,rfr,{group_name}/parameters/rfr,-,0.009434,1.0.0,phosphorus : carbon ratio (mol P/mol C)
+zooplankton,water,stoichiometry,nitrogen_ratio,selmaprotbas,rfn,{group_name}/parameters/rfn,-,0.150943,1.0.0,nitrogen : carbon ratio (mol N/mol C)
+zooplankton,water,stoichiometry,silica_ratio,selmaprotbas,rfs,{group_name}/parameters/rfs,-,0,1.0.0,silica : carbon ratio (mol Si/mol C)
+zooplankton,water,grazing,prey_identity,selmaprotbas,nprey,{group_name}/parameters/nprey,(integer),1,1.0.0,number of prey
+zooplankton,water,grazing,preference,selmaprotbas,pref{prey_num},{group_name}/parameters/pref{prey_num},-,1,1.0.0,preference for prey number x
+zooplankton,water,grazing,prey_stoichiometry,selmaprotbas,prey_rfr{prey_num},{group_name}/parameters/prey_rfr{prey_num},-,0.009434,1.0.0,phosphorus : carbon ratio of prey number x
+zooplankton,water,grazing,prey_stoichiometry,selmaprotbas,prey_rfn{prey_num},{group_name}/parameters/prey_rfn{prey_num},-,0.150943,1.0.0,nitrogen : carbon ratio of prey number x
+zooplankton,water,grazing,prey_stoichiometry,selmaprotbas,prey_rfs{prey_num},{group_name}/parameters/prey_rfs{prey_num},-,0,1.0.0,silica : carbon ratio of prey number x
+zooplankton,water,respiration,respiration_rate,selmaprotbas,nue,{group_name}/parameters/nue,m3 d-1 mmol C-1,0.001509,1.0.0,respiration rate
+zooplankton,water,mortality,mortality_rate,selmaprotbas,sigma_b,{group_name}/parameters/sigma_b,m3 d-1 mmol C-1,0.004528,1.0.0,mortality rate
+zooplankton,water,grazing,grazing_rate,selmaprotbas,iv,{group_name}/parameters/iv,(mmol C m-3)-2,0.27341,1.0.0,"Ivlev constant, quadratic"
+zooplankton,water,grazing,grazing_rate,selmaprotbas,graz,{group_name}/parameters/graz,d-1,0.5,1.0.0,grazing rate
+zooplankton,water,grazing,grazing_rate,selmaprotbas,toptz,{group_name}/parameters/toptz,degC,20,1.0.0,optimal temperature for grazing
+zooplankton,water,mortality,mortality_rate,selmaprotbas,zcl1,{group_name}/parameters/zcl1,-,50,1.0.0,closure parameter
 zooplankton,water,grazing,grazing_rate,aed2,Rgrz_zoo,zoop_params/zoop_param%Rgrz_zoo,d-1,1,1.0.0,OM
 carbon,water,organic,organic,aed2,poc_initial,aed2_organic_matter/poc_initial,?,78.5,1.0.0,OM
 carbon,water,organic,organic,aed2,doc_initial,aed2_organic_matter/doc_initial,?,30,1.0.0,OM
