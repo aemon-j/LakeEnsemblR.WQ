@@ -99,6 +99,11 @@ carbon,sediment,water_sediment_exchange,resuspension,wet,fLutumRef,resus_sed/par
 carbon,sediment,water_sediment_exchange,resuspension,wet,cThetaSed,resus_sed/parameters/cThetaSed,1/e^*C,1.01,1.0.0,temperature coefficient of sedimentation 
 carbon,sediment,water_sediment_exchange,resuspension,wet,cVSedIM,resus_sed/parameters/cVSedIM,m/d,1,1.0.0,IM sedimentation velocity constant at 20*C 
 carbon,sediment,water_sediment_exchange,resuspension,wet,cVSedPOM,resus_sed/parameters/cVSedPOM,m/d,0.5,1.0.0,POM sedimentation velocity constant at 20*C 
+carbon,sediment,initial_conditions,initial_inorganic,mylake,In.FIM,In.FIM,-,0.92,1.0.0,Initial profile of volume fraction of inorganic matter in the sediment solids (dry weight basis)
+carbon,sediment,water_sediment_exchange,resuspension,mylake,S_res_epi,Bio.par/S_res_epi,m d-1,3.63E-07,1.0.0,"Particle resuspension mass transfer coefficient, epilimnion"
+carbon,sediment,water_sediment_exchange,resuspension,mylake,S_res_hypo,Bio.par/S_res_hypo,m d-1,3.63E-08,1.0.0,"Particle resuspension mass transfer coefficient, hypolimnion"
+carbon,sediment,sediment_characteristics,active_layer_depth,mylake,H_sed,Bio.par/H_sed,m,0.03,1.0.0,height of active sediment layer
+carbon,water,vertical_movement,sedimentation,mylake,Uz_Sz,Bio.par/Uz_Sz,m d-1,0.25,1.0.0,Settling velocity for S
 nitrogen,water,initial_conditions,initial_ammonium,aed2,amm_initial,aed2_nitrogen/amm_initial,mmol N m-3,2.6,1.0.0,initial NH4 concentration
 nitrogen,water,initial_conditions,initial_ammonium,selmaprotbas,aa,selmaprotbas/initialization/aa,mmol N m-3,none,1.0.0,initial dissolved ammonium in the water column
 nitrogen,water,initial_conditions,initial_ammonium,wet,sNH4W,abiotic_water/initialization/sNH4W,g m-3,none,1.0.0,initial dissolved ammonium in the water column
@@ -173,28 +178,24 @@ nitrogen,sediment,water_sediment_exchange,sediment_flux_n2o,aed2,Fsed_n2o,aed2_n
 nitrogen,sediment,water_sediment_exchange,sediment_flux_n2o,aed2,Ksed_n2o,aed2_nitrogen/Ksed_n2o,?,100,1.0.0,saturation concentration in n2o sediment equation
 nitrogen,water,decomposition,mineralisation_pom,wet,kNMinPOMW,abiotic_water/parameters/kNMinPOMW,d-1,0.01,1.0.0,decomposition constant of POM-N at 20*C 
 nitrogen,water,decomposition,mineralisation_dom,wet,kNMinDOMW,abiotic_water/parameters/kNMinDOMW,d-1,0.01,1.0.0,mineralization constant of DOM-N at 20*C 
-nitrogen,water,water_atmosphere_exchange,pom,wet,tNDepoPOM,abiotic_water/parameters/tNDepoPOM,g m-2 d-1," 0.0
-",1.0.0,organic matter N deposition
-nitrogen,water,water_atmosphere_exchange,ammonium,wet,tNDepoNH4,abiotic_water/parameters/tNDepoNH4,g m-2 d-1," 0.0
-",1.0.0,ammonium deposition 
-nitrogen,water,water_atmosphere_exchange,nitrate,wet,tNDepoNO3,abiotic_water/parameters/tNDepoNO3,g m-2 d-1," 0.0
-",1.0.0,nitrate deposition 
-nitrogen,sediment,denitrification,denitrification,wet,hNO3DenitS,abiotic_sediment/parameters/hNO3DenitS,mgN l-1," 0.5
-",1.0.0,quadratic half-sat. NO3 conc. for denitrification 
+nitrogen,water,water_atmosphere_exchange,pom,wet,tNDepoPOM,abiotic_water/parameters/tNDepoPOM,g m-2 d-1,0,1.0.0,organic matter N deposition
+nitrogen,water,water_atmosphere_exchange,ammonium,wet,tNDepoNH4,abiotic_water/parameters/tNDepoNH4,g m-2 d-1,0,1.0.0,ammonium deposition 
+nitrogen,water,water_atmosphere_exchange,nitrate,wet,tNDepoNO3,abiotic_water/parameters/tNDepoNO3,g m-2 d-1,0,1.0.0,nitrate deposition 
+nitrogen,sediment,denitrification,denitrification,wet,hNO3DenitS,abiotic_sediment/parameters/hNO3DenitS,mgN l-1,0.5,1.0.0,quadratic half-sat. NO3 conc. for denitrification 
 nitrogen,sediment,water_sediment_exchange,diffusion,wet,kNDifNO3,abiotic_sediment/parameters/kNDifNO3,m2 d-1,8.60E-05,1.0.0,NO3 diffusion constant at 20*C 
 nitrogen,sediment,water_sediment_exchange,diffusion,wet,kNDifNH4,abiotic_sediment/parameters/kNDifNO3,m2 d-1,0.000112,1.0.0,NH4 diffusion constant at 20*C 
 nitrogen,sediment,water_sediment_exchange,diffusion,wet,kNDifDOM,abiotic_sediment/parameters/kNDifDOM,m2 d-1,8.50E-05,1.0.0,DOM diffusion constant N at 20*C 
-nitrogen,sediment,decomposition,mineralisation_pom,wet,kNMinPOMS,abiotic_sediment/parameters/kNMinPOMS,d-1," 0.002
+nitrogen,sediment,decomposition,mineralisation_pom,wet,kNMinPOMS,abiotic_sediment/parameters/kNMinPOMS,d-1,"0.002
 ",1.0.0,decomposition constant of POM-N at 20*C 
-nitrogen,sediment,decomposition,mineralisation_dom,wet,kNMinDOMS,abiotic_sediment/parameters/kNMinDOMS,d-1," 0.003
+nitrogen,sediment,decomposition,mineralisation_dom,wet,kNMinDOMS,abiotic_sediment/parameters/kNMinDOMS,d-1,"0.003
 ",1.0.0,mineralization constant of DOM-N at 20*C 
 phosphorus,water,initial_conditions,initial_phosphate,selmaprotbas,po,selmaprotbas/initialization/po,mmol P m-3,none,1.0.0,initial dissolved phosphate in the water column
 phosphorus,water,initial_conditions,initial_pom,selmaprotbas,dd_p,selmaprotbas/initialization/dd_p,mmol P m-3,none,1.0.0,initial detritus-P in the water column
 phosphorus,sediment,initial_conditions,initial_phosphorus,selmaprotbas,fl_p,selmaprotbas/initialization/fl_p,mmol P m-2,none,1.0.0,initial phosphorus fluff (= active sediment)
 phosphorus,sediment,initial_conditions,initial_phosphorus,selmaprotbas,pb,selmaprotbas/initialization/pb,mmol P m-2,none,1.0.0,initial phosphorus bound to iron in the sediment
 phosphorus,water,initial_conditions,initial_phosphorus,selmaprotbas,pw,selmaprotbas/initialization/pw,mmol P m-3,none,1.0.0,initial phosphorus bound to iron in the water column
-phosphorus,water,initial_conditions,initial_tp,mylake,In.TPz,In.TPz,mg m-3,none,1.0.0,Initial total P profile read from initial profiles file (incl. DOP & Chla)
-phosphorus,sediment,initial_conditions,initial_tp,mylake,In.TPz.sed,In.TPz.sed,mg m-3,none,1.0.0,Initial total P profile in the sediment compartments read from initial profiles file
+phosphorus,water,initial_conditions,initial_tp,mylake,In.TPz,In.TPz,mg m-3,21,1.0.0,Initial total P profile read from initial profiles file (incl. DOP & Chla)
+phosphorus,sediment,initial_conditions,initial_tp,mylake,In.TPz.sed,In.TPz.sed,mg m-3,756732,1.0.0,Initial total P profile in the sediment compartments read from initial profiles file
 phosphorus,water,vertical_movement,sedimentation,selmaprotbas,wpo4,selmaprotbas/parameters/wpo4,m d-1,-1,1.0.0,"vertical velocity of suspended P-Fe (positive: upwards/floating, negative: downwards/sinking)"
 phosphorus,water,water_sediment_exchange,sedimentation,selmaprotbas,sedratepo4,selmaprotbas/parameters/sedratepo4,m d-1,0.5,1.0.0,P-Fe sedimentation rate
 phosphorus,sediment,water_sediment_exchange,resuspension,selmaprotbas,eroratepo4,selmaprotbas/parameters/eroratepo4,d-1,6,1.0.0,P-Fe erosion rate
@@ -207,14 +208,13 @@ phosphorus,water,water_sediment_exchange,phosphorus,aed2,Fsed_frp,aed2_phosphoru
 phosphorus,water,water_sediment_exchange,phosphorus,aed2,theta_sed_frp,aed2_phosphorus/theta_sed_frp,-,1.08,1.0.0,half-saturation concentration of  inorganic phosphorus sediment flux
 phosphorus,water,water_sediment_exchange,phosphorus,aed2,Ksed_frp,aed2_phosphorus/Ksed_frp,mmol P m-3,200,1.0.0,Arrhenius temperature multiplier for sediment  inorganic phosphorus flux
 phosphorus,water,water_column_processes,adsorption,aed2,Qmax,aed2_phosphorus/Qmax,-,1,1.0.0,Sorption constant
+phosphorus,water,water_column_processes,adsorption,mylake,Psat_Lang,Bio.par/Psat_Lang,mg m-3,2500,1.0.0,Half saturation parameter for Langmuir isotherm
+phosphorus,water,water_column_processes,adsorption,mylake,Fmax_Lang,Bio.par/Fmax_Lang,-,8000,1.0.0,Scaling parameter for Langmuir isotherm
+phosphorus,water,decomposition,mineralisation_dom,mylake,k_dop_twty,Bio.par/k_dop_twty,d-1,0,1.0.0,specific DOP to P transformation rate (day-1) at 20 deg C
 silicate,water,initial_conditions,initial_silicate,selmaprotbas,si,selmaprotbas/initialization/si,mmol Si m-3,none,1.0.0,initial dissolved silicate in the water column
 silicate,water,initial_conditions,initial_pom,selmaprotbas,dd_si,selmaprotbas/initialization/dd_si,mmol Si m-3,none,1.0.0,initial detritus-Si in the water column
 silicate,sediment,initial_conditions,initial_silicate,selmaprotbas,fl_si,selmaprotbas/initialization/fl_si,mmol Si m-2,none,1.0.0,initial silicate fluff (= active sediment)
 silica,water,water_column_processes,sedimentation,aed2,Fsed_rsi,aed2_silica/Fsed_rsi,?,4,1.0.0,Sedimentation flux for silica
-phytoplankton,water,initial_conditions,initial_phyto,mylake,In.Chlz,In.Chlz,mg m-3,none,1.0.0,Initial chlorophyll a profile read from initial profiles file
-phytoplankton,water,initial_conditions,initial_phyto,mylake,In.Chlz_sed,In.Chlz.sed,mg m-3,none,1.0.0,Initial chlorophyll a profile in the sediment compartments read from initial profiles file
-phytoplankton,water,growth,growth_rate,mylake,g_twty,Bio.par/g_twty,d-1,none,1.0.0,specific growth rate at 20 deg C
-phytoplankton,water,vertical_movement,vertical_velocity,mylake,Uz_Chl,Bio.par/Uz_Chl,m d-1,none,1.0.0,settling velocity for Chl a
 phytoplankton,water,initial_conditions,initial_phyto,selmaprotbas,c,{group_name}/initialization/c,mmol C m-3,none,1.0.0,Initial concentration of phytoplankton
 phytoplankton,water,initial_conditions,minimum_concentration,selmaprotbas,c0,{group_name}/parameters/c0,mmol C m-3,0,1.0.0,background concentration
 phytoplankton,water,growth,growth_rate,selmaprotbas,r0,{group_name}/parameters/r0,d-1,1.3,1.0.0,maximum growth rate at 20 degrees C
@@ -352,6 +352,16 @@ phytoplankton,sediment,mortality,excretion,wet,fDOMS,{group_name}/parameters/fDO
 phytoplankton,water,growth,growth_rate,pclake,cMuMaxDiat,parameters/cMuMaxDiat,d-1,2,1.0.0,maximum growth rate diatoms at optimum temperature 
 phytoplankton,water,growth,growth_rate,pclake,cMuMaxGren,parameters/cMuMaxGren,d-1,1.5,1.0.0,maximum growth rate green algae at optimum temperature 
 phytoplankton,water,growth,growth_rate,pclake,cMuMaxBlue,parameters/cMuMaxBlue,d-1,0.6,1.0.0,maximum growth rate cyanobacteria at optimum temperature 
+phytoplankton,water,initial_conditions,initial_phyto,mylake,In.Chlz,In.Chlz,mg m-3,7,1.0.0,Initial chlorophyll a profile read from initial profiles file
+phytoplankton,water,initial_conditions,initial_phyto,mylake,In.Chlz_sed,In.Chlz.sed,mg m-3,196747,1.0.0,Initial chlorophyll a profile in the sediment compartments read from initial profiles file
+phytoplankton,water,growth,growth_rate,mylake,g_twty,Bio.par/g_twty,d-1,2.1,1.0.0,specific growth rate at 20 deg C
+phytoplankton,water,vertical_movement,vertical_velocity,mylake,Uz_Chl,Bio.par/Uz_Chl,m d-1,0.2,1.0.0,settling velocity for Chl a
+phytoplankton,water,stoichiometry,chlorophyll_ratio,mylake,Y_cp,Bio.par/Y_cp,-,1,1.0.0,yield coefficient (chlorophyll to carbon) * (carbon to phosphorus) ratio
+phytoplankton,water,mortality,mortality_rate,mylake,m_twty,Bio.par/m_twty,d-1,0.2,1.0.0,loss rate (1/day) at 20 deg C
+phytoplankton,sediment,mortality,mortality_rate,mylake,k_sed_twty,Bio.par/k_sed_twty,d-1,2.00E-04,1.0.0,specific Chl a to P transformation rate (1/day) at 20 deg C
+phytoplankton,water,growth,p_limitation,mylake,P_half,Bio.par/P_half,mg m-3,0.4,1.0.0,Half saturation growth P level
+phytoplankton,water,growth,light_limitation,mylake,PAR_sat,Phys.par/PAR_sat,mol(quanta) m-2 s-1,1.00E-05,1.0.0,PAR saturation level for phytoplankton growth
+phytoplankton,water,light,light_attenuation,mylake,beta_chl,Phys.par/beta_chl,m2 mg-1,0.015,1.0.0,Optical cross_section of chlorophyll
 zooplankton,water,initial_conditions,initial_zoo,selmaprotbas,c,{group_name}/initialization/c,mmol C m-3,none,1.0.0,Initial concentration of zooplankton
 zooplankton,water,initial_conditions,minimum_concentration,selmaprotbas,c0,{group_name}/parameters/c0,mmol C m-3,0,1.0.0,background concentration
 zooplankton,water,stoichiometry,phosphorus_ratio,selmaprotbas,rfr,{group_name}/parameters/rfr,-,0.009434,1.0.0,phosphorus : carbon ratio (mol P/mol C)
