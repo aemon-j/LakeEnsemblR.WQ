@@ -1,411 +1,935 @@
 module,domain,process,subprocess,model,parameter,path,unit,default,version,note
-oxygen,water,initial_conditions,initial_oxygen,aed2,oxy_initial,aed2_oxygen/oxy_initial,mmol O2 m-3,300,1.0.0,-
-oxygen,water,initial_conditions,initial_oxygen,selmaprotbas,o2,selmaprotbas/initialization/o2,mmol O2 m-3,none,1.0.0,-
-oxygen,water,initial_conditions,initial_oxygen,wet,sO2W,abiotic_water/initialization/sO2W,g O2 m-3,none,1.0.0,-
-oxygen,water,initial_conditions,initial_oxygen,pclake,sO2WEpi0,initialstates/sO2WEpi0,g O2 m-2,none,1.0.0,Oxygen_in_epilimnion_lake_water
-oxygen,water,initial_conditions,initial_oxygen,pclake,sO2WHyp0,initialstates/sO2WHyp0,g O2 m-2,none,1.0.0,Oxygen_in_hypolimnion_lake_water
-oxygen,water,water_atmosphere_exchange,reaeration_parameters,wet,cThetaAer,abiotic_water/parameters/cThetaAer,1/e^*C,1.011,1.0.0,-
-oxygen,water,water_atmosphere_exchange,reaeration_parameters,pclake,cAerRoot,parameters/cAerRoot,m1.5 s0.5 d-1,0.727,1.0.0,Coefficient_for_VWind^05
-oxygen,water,water_atmosphere_exchange,reaeration_parameters,pclake,cAerLin,parameters/cAerLin,s d-1,-0.371,1.0.0,Coefficient_for_VWind_(is_negative)
-oxygen,water,water_atmosphere_exchange,reaeration_parameters,pclake,cAerSquare,parameters/cAerSquare,s2 m-1 d-1,0.0376,1.0.0,Coefficient_for_VWind^2
-oxygen,water,water_atmosphere_exchange,reaeration_parameters,pclake,cThetaAer,parameters/cThetaAer,1^[_oC_^-1],1.024,1.0.0,Temperature_coeff_for_reaeration_(Downing_&_Truesdale_1955)
-oxygen,water,water_atmosphere_exchange,piston_velocity,selmaprotbas,pvel,selmaprotbas/parameters/pvel,m d-1,5,1.0.0,piston velocity
-oxygen,water,water_atmosphere_exchange,equation_options,selmaprotbas,newflux,selmaprotbas/parameters/newflux,(integer),2,1.0.0,"1: piston velocity depends on winds and saturation according to Weiss, 2: polynomial approximation"
-oxygen,sediment,water_sediment_exchange,sediment_flux,aed2,Fsed_oxy,aed2_oxygen/Fsed_oxy,mmol m-2 d-1,48,1.0.0,Sediment-water flux for oxygen
-oxygen,sediment,water_sediment_exchange,sediment_flux,aed2,Ksed_oxy,aed2_oxygen/Ksed_oxy,mmol m-3,150,1.0.0,half-saturation concentration of oxygen sediment flux
-oxygen,sediment,water_sediment_exchange,sediment_flux,aed2,theta_sed_oxy,aed2_oxygen/theta_sed_oxy,-,1.08,1.0.0,Arrhenius temperature multiplier for sediment oxygen flux
-oxygen,sediment,water_sediment_exchange,diffusion,wet,kO2Dif,abiotic_sediment/parameters/kO2Dif,m2 d-1,0.00017,1.0.0,O2 diffusion constant at 20 degC
-oxygen,sediment,water_sediment_exchange,diffusion,wet,cThetaDif,abiotic_sediment/parameters/cThetaDif,1/e^degC,1.016,1.0.0,temperature coefficient for diffusion
-oxygen,sediment,water_sediment_exchange,diffusion,wet,cTurbDifO2,abiotic_sediment/parameters/cTurbDifO2,-,5,1.0.0,bioturbation factor for oxygen diffusion
-oxygen,sediment,water_sediment_exchange,diffusion,pclake,kO2Dif,parameters/kO2Dif,m2 d-1,2.60E-05,1.0.0,Mol_O2_diffusion_constant
-oxygen,sediment,water_sediment_exchange,diffusion,pclake,cThetaDif,parameters/cThetaDif,degC,1.02,1.0.0,Temperature_coefficient_for_diffusion
-oxygen,sediment,water_sediment_exchange,diffusion,pclake,cTurbDifO2,parameters/cTurbDifO2,-,5,1.0.0,Bioturbation_factor_for_diffusion
-carbon,water,initial_conditions,initial_pom,selmaprotbas,dd_c,selmaprotbas/initialization/dd_c,mmol C m-3,none,1.0.0,Initial carbon detritus
-carbon,sediment,initial_conditions,initial_pom,selmaprotbas,fl_c,selmaprotbas/initialization/fl_c,mmol C m-2,none,1.0.0,Initial carbon fluff
-carbon,water,decomposition,mineralisation,selmaprotbas,dn,selmaprotbas/parameters/dn,d-1,0.003,1.0.0,Detritus mineralisation rate at 20 degC
-carbon,water,decomposition,mineralisation,selmaprotbas,q10_rec,selmaprotbas/parameters/q10_rec,K-1,0.15,1.0.0,temperature dependence of detritus remineralization
-carbon,water,light_extinction,light_extinction,selmaprotbas,kc,selmaprotbas/parameters/kc,m2 mmolC-1,0.075,1.0.0,specific light attenuation of detritus
-carbon,water,vertical_movement,sedimentation,selmaprotbas,wdz,selmaprotbas/parameters/wdz,m d-1,-4.5,1.0.0,"vertical velocity of detritus (positive: upwards/floating, negative: downwards/sinking)"
+birds,water,birds,birds,pclake,cBirdsPerha,parameters/cBirdsPerha,coot*ha^-1,0,1.0.0,Number_of_birds_per_ha_vegetated_lake_(Default_=_0)
+birds,water,birds,birds,pclake,cDGrazPerBird,parameters/cDGrazPerBird,gDW*coot^-1*d^-1,45,1.0.0,Daily_grazing_of_birds
+birds,water,birds,birds,pclake,cDayEndBirds,parameters/cDayEndBirds,d,288,1.0.0,Yearly_last_day_of_birds_presence
+birds,water,birds,birds,pclake,cDayStartBirds,parameters/cDayStartBirds,d,46,1.0.0,Yearly_first_day_of_birds_presence
+birds,water,birds,birds,pclake,cYearStartBirds,parameters/cYearStartBirds,y,0,1.0.0,First_year_of_birds_presence
+birds,water,birds,birds,pclake,fDAssBird,parameters/fDAssBird,-,0.5,1.0.0,Birds_assim_efficiency
+birds,water,birds,birds,pclake,fDissEgesBird,parameters/fDissEgesBird,-,0.25,1.0.0,Fraction_dissolved_nutrient_of_coot_egestion
+birds,water,birds,birds,pclake,hDVegBird,parameters/hDVegBird,gDW*m^-2,5,1.0.0,Half-sat_vegetation_biomass_for_birds_grazing
+carbon,sediment,burial,burial,selmaprotbas,fl_burialrate,selmaprotbas/parameters/fl_burialrate,d-1,0.001,1.0.0,sediment burial rate
+carbon,sediment,decomposition,mineralisation,pclake,cThetaMinS,parameters/cThetaMinS,-,1.07,1.0.0,Expon_temp_constant_of_sediment_mineralization
 carbon,sediment,decomposition,mineralisation,selmaprotbas,dn_sed,selmaprotbas/parameters/dn_sed,d-1,0.002,1.0.0,Sediment mineralisation rate at 20 degC
 carbon,sediment,decomposition,mineralisation,selmaprotbas,q10_recs,selmaprotbas/parameters/q10_recs,K-1,0.175,1.0.0,temperature dependence of sediment remineralization
-carbon,sediment,water_sediment_exchange,resuspension,selmaprotbas,tau_crit,selmaprotbas/parameters/tau_crit,N m-2,0.07,1.0.0,critical shear stress
-carbon,water,water_sediment_exchange,sedimentation,selmaprotbas,sedrate,selmaprotbas/parameters/sedrate,m d-1,2.25,1.0.0,detritus sedimentation rate
-carbon,sediment,water_sediment_exchange,resuspension,selmaprotbas,erorate,selmaprotbas/parameters/erorate,d-1 ,6,1.0.0,sediment erosion rate
+carbon,sediment,decomposition,mineralisation_dom,wet,cThetaMinDOMS,abiotic_sediment/parameters/cThetaMinDOMS,1/e^*C,none,1.0.0,temperature coefficient of DOM mineralization 
+carbon,sediment,decomposition,mineralisation_dom,wet,kDMinDOMS,abiotic_sediment/parameters/kDMinDOMS,d-1,none,1.0.0,mineralization constant of DOM-DW at 20*C 
+carbon,sediment,decomposition,mineralisation_humus,wet,kDMinHum,abiotic_sediment/parameters/kDMinHum,d-1,none,1.0.0,humic decomposition constant at 20*C
+carbon,sediment,decomposition,mineralisation_poc,pclake,kDMinDetS,parameters/kDMinDetS,d^-1,0.002,1.0.0,Decomposition_constant_of_sediment_detritus
+carbon,sediment,decomposition,mineralisation_pom,wet,cThetaMinPOMS,abiotic_sediment/parameters/cThetaMinPOMS,1/e^*C,none,1.0.0,temperature coefficient of POM mineralization 
+carbon,sediment,decomposition,mineralisation_pom,wet,kDMinPOMS,abiotic_sediment/parameters/kDMinPOMS,d-1,none,1.0.0,decomposition constant of POM-DW at 20*C 
+carbon,sediment,dredging,dredging,pclake,cDredInterval,parameters/cDredInterval,y,9999000,1.0.0,Dredging_interval
+carbon,sediment,dredging,dredging,pclake,cDredStart,parameters/cDredStart,y,9999000,1.0.0,First_dredging_year_(should_be_n_times_cDredInterval_)
+carbon,sediment,dredging,dredging,pclake,cLengDred,parameters/cLengDred,d,10,1.0.0,Length_of_dredging_period
+carbon,sediment,dredging,dredging,pclake,fEffDred,parameters/fEffDred,-,0.95,1.0.0,Dredging_efficiency_(<10)
+carbon,sediment,erosion,erosion,pclake,fSedErosIM,parameters/fSedErosIM,-,0.95,1.0.0,Instantly_sedimenting_fraction_of_IM
+carbon,sediment,initial_conditions,initial_dom,pclake,sDIMS0,initialstates/sDIMS0,gDW*m^-2,,1.0.0,Inorganic_matter_in_lake_sediment
+carbon,sediment,initial_conditions,initial_dom,wet,sDDOMS,abiotic_sediment/initialization/sDDOMS,g/m2,none,1.0.0,initial dissolved organic matter in the sediment
+carbon,sediment,initial_conditions,initial_humus,pclake,sDHumS0,initialstates/sDHumS0,gDW*m^-2,,1.0.0,Humus_DW_in_lake_sediment
+carbon,sediment,initial_conditions,initial_humus,wet,sDHumS,abiotic_sediment/initialization/sDHumS,g/m2,none,1.0.0,initial humus DW in the sediment
+carbon,sediment,initial_conditions,initial_inorganic,mylake,In.FIM,In.FIM,-,0.92,1.0.0,Initial profile of volume fraction of inorganic matter in the sediment solids (dry weight basis)
+carbon,sediment,initial_conditions,initial_pom,pclake,bDTotS0,initialstates/bDTotS0,gDW*m^-2,,1.0.0,Total_dry-weight_in_top_layer
+carbon,sediment,initial_conditions,initial_pom,pclake,fDDetS0,initialstates/fDDetS0,gDW*gDW^-1,0.05,1.0.0,Initial_detritus_fraction_of_sediment_organic_matter
+carbon,sediment,initial_conditions,initial_pom,pclake,fDOrgS0,initialstates/fDOrgS0,gDW*gDW^-1,0.08,1.0.0,Initial_organic_fraction_of_sediment_DW
+carbon,sediment,initial_conditions,initial_pom,pclake,fDTotS0,initialstates/fDTotS0,gDW*gDW^-1,0.2,1.0.0,Initial_dry-weight_fraction_in_sediment
+carbon,sediment,initial_conditions,initial_pom,pclake,sDDetS0,initialstates/sDDetS0,gDW*m^-2,,1.0.0,Detritus_DW_in_lake_sediment
+carbon,sediment,initial_conditions,initial_pom,selmaprotbas,fl_c,selmaprotbas/initialization/fl_c,mmol C m-2,none,1.0.0,Initial carbon fluff
+carbon,sediment,initial_conditions,initial_pom,wet,sDPOMS,abiotic_sediment/initialization/sDPOMS,g/m2,none,1.0.0,initial particulate organic DW in the sediment
+carbon,sediment,initial_conditions,initial_sediment,pclake,bPorS0,initialstates/bPorS0,m^3*m^-3,,1.0.0,Porosity
+carbon,sediment,initial_conditions,initial_sediment,pclake,bRhoTotS0,initialstates/bRhoTotS0,gDW*m^-3,,1.0.0,Bulk_density_of_sediment
+carbon,sediment,sediment_characteristics,active_layer_depth,mylake,H_sed,Bio.par/H_sed,m,0.03,1.0.0,height of active sediment layer
+carbon,sediment,sediment_characteristics,active_layer_depth,wet,cDepthS,abiotic_sediment/parameters/cDepthS,m,none,1.0.0,sediment depth 
+carbon,sediment,sediment_characteristics,sediment_composition,pclake,cCPerDW,parameters/cCPerDW,gC*gDW^-1,0.4,1.0.0,C_content_of_organic_matter
+carbon,sediment,sediment_characteristics,sediment_composition,pclake,cRhoIM,parameters/cRhoIM,gDW*m^-3,2500000,1.0.0,Density_of_sediment_IM
+carbon,sediment,sediment_characteristics,sediment_composition,pclake,cRhoOM,parameters/cRhoOM,gDW*m^-3,1400000,1.0.0,Density_of_sediment_detritus
+carbon,sediment,sediment_characteristics,sediment_composition,pclake,fDOrgSoil,parameters/fDOrgSoil,-,0.165,1.0.0,Fraction_soil_organic_matter
+carbon,sediment,sediment_characteristics,sediment_composition,pclake,fLutumRef,parameters/fLutumRef,-,0.2,1.0.0,Reference_lutum_fraction_(of_sandy_clay_soils)
+carbon,sediment,sediment_characteristics,sediment_composition,wet,bPorCorS,abiotic_sediment/parameters/bPorCorS,m3/m3,none,1.0.0,sediment porosity, corrected for tortuosity
+carbon,sediment,sediment_characteristics,sediment_composition,wet,bPorS,abiotic_sediment/parameters/bPorS,m3/m3,none,1.0.0,sediment porosity 
+carbon,sediment,sediment_characteristics,sediment_composition,wet,cCPerDWS,abiotic_sediment/parameters/cCPerDWS,gC gDW-1,none,1.0.0,C content of organic DW matter 
+carbon,sediment,sediment_characteristics,sediment_composition,wet,cRhoIM,burial/parameters/cRhoIM,g/m3,none,1.0.0,density of sediment inorganic matter 
+carbon,sediment,sediment_characteristics,sediment_composition,wet,cRhoOM,burial/parameters/cRhoOM,g/m3,none,1.0.0,density of sediment organic matter 
+carbon,sediment,sediment_characteristics,sediment_composition,wet,fDOrgSoil,burial/parameters/fDOrgSoil,-,none,1.0.0,deep sediment organic matter fraction 
+carbon,sediment,vertical_movement,sedimentation,pclake,cThetaSet,parameters/cThetaSet,1^[oC^-1],1.01,1.0.0,Temp_parameter_of_sedimentation
+carbon,sediment,vertical_movement,sedimentation,pclake,cVSetDet,parameters/cVSetDet,m*d^-1,0.25,1.0.0,Max_sedimentation_velocity_of_detritus
+carbon,sediment,vertical_movement,sedimentation,pclake,cVSetIM,parameters/cVSetIM,m*d^-1,1,1.0.0,Max_sedimentation_velocity_of_inert_org_matter_(10)
+carbon,sediment,water_sediment_exchange,diffusion,wet,kDDifDOM,abiotic_sediment/parameters/kDDifDOM,m2/d,none,1.0.0,DOM diffusion constant DW at 20*C 
+carbon,sediment,water_sediment_exchange,resuspension,mylake,S_res_epi,Bio.par/S_res_epi,m d-1,3.63E-07,1.0.0,Particle resuspension mass transfer coefficient, epilimnion
+carbon,sediment,water_sediment_exchange,resuspension,mylake,S_res_hypo,Bio.par/S_res_hypo,m d-1,3.63E-08,1.0.0,Particle resuspension mass transfer coefficient, hypolimnion
+carbon,sediment,water_sediment_exchange,resuspension,pclake,cSuspMax,parameters/cSuspMax,-,25.2,1.0.0,Maximum_value_of_logistic_empirical_suspended_matter_function
+carbon,sediment,water_sediment_exchange,resuspension,pclake,cSuspRef,parameters/cSuspRef,gDW*m^-2*d^-1,0.5,1.0.0,Reference_suspended_matter_function
+carbon,sediment,water_sediment_exchange,resuspension,pclake,cSuspSlope,parameters/cSuspSlope,m,2.1,1.0.0,Slope_of_logistic_empirical_suspended_matter_function
 carbon,sediment,water_sediment_exchange,resuspension,selmaprotbas,br0,selmaprotbas/parameters/br0,d-1,0.03,1.0.0,bioresuspension rate
-carbon,sediment,burial,burial,selmaprotbas,fl_burialrate,selmaprotbas/parameters/fl_burialrate,d-1,0.001,1.0.0,sediment burial rate
-carbon,water,initial_conditions,initial_pH,aed2,pH_initial,aed2_carbon/pH_initial,-,8.4,1.0.0,initial pH
-carbon,water,initial_conditions,initial_dim,aed2,dic_initial,aed2_carbon/dic_initial,-,200,1.0.0,initial dic
-carbon,water,initial_conditions,initial_methane,aed2,ch4_initial,aed2_carbon/ch4_initial,-,5,1.0.0,initial methane
-carbon,water,water_atmosphere_exchange,co2,aed2,atm_co2,aed2_carbon/atm_co2,-,4.00E-04,1.0.0,Atmospheric CO2 concentration
-carbon,water,water_atmosphere_exchange,equation_options_co2,aed2,co2_model,aed2_carbon/co2_model,(integer),1,1.0.0,"1:, 2:"
-carbon,water,water_atmosphere_exchange,equation_options_alkalinity,aed2,alk_mode,aed2_carbon/alk_mode,(integer),2,1.0.0,"1:, 2:"
-carbon,water,water_atmosphere_exchange,alkalinity,aed2,ionic,aed2_carbon/ionic,-,0.1,1.0.0,Ionic strength
-carbon,water,water_atmosphere_exchange,equation_options_co2,aed2,co2_piston_model,aed2_carbon/co2_piston_model,(integer),1,1.0.0,"1:, 2:"
-carbon,water,water_atmosphere_exchange,methane,aed2,atm_ch4,aed2_carbon/atm_ch4,-,1.76E-06,1.0.0,Atmospheric methane concentration
-carbon,water,water_atmosphere_exchange,equation_options_methane,aed2,ch4_piston_model,aed2_carbon/ch4_piston_model,(integer),1,1.0.0,"1:, 2:"
+carbon,sediment,water_sediment_exchange,resuspension,selmaprotbas,erorate,selmaprotbas/parameters/erorate,d-1 ,6,1.0.0,sediment erosion rate
+carbon,sediment,water_sediment_exchange,resuspension,selmaprotbas,tau_crit,selmaprotbas/parameters/tau_crit,N m-2,0.07,1.0.0,critical shear stress
+carbon,sediment,water_sediment_exchange,resuspension,wet,alpha,resus_sed/parameters/alpha,g/m/d,9000,1.0.0,qResus = 2; gross rate of sediment erosion 
+carbon,sediment,water_sediment_exchange,resuspension,wet,cFetch,resus_sed/parameters/cFetch,m,1000,1.0.0,qResus = 1; length of water body in prevailing wind direction 
+carbon,sediment,water_sediment_exchange,resuspension,wet,cFetchRef,resus_sed/parameters/cFetchRef,m,1000,1.0.0,qResus = 1; reference fetch 
+carbon,sediment,water_sediment_exchange,resuspension,wet,cSuspMax,resus_sed/parameters/cSuspMax,-,25.2,1.0.0,qResus = 1; maximum value of logistic function 
+carbon,sediment,water_sediment_exchange,resuspension,wet,cSuspMin,resus_sed/parameters/cSuspMin,-,6.1,1.0.0,qResus = 1; minimum value of logistic function 
+carbon,sediment,water_sediment_exchange,resuspension,wet,cSuspRef,resus_sed/parameters/cSuspRef,-,0,1.0.0,qResus = 1; reference suspended matter function 
+carbon,sediment,water_sediment_exchange,resuspension,wet,cSuspSlope,resus_sed/parameters/cSuspSlope,-,2.1,1.0.0,qResus = 1; slope of logistic function 
+carbon,sediment,water_sediment_exchange,resuspension,wet,cThetaSed,resus_sed/parameters/cThetaSed,1/e^*C,1.01,1.0.0,temperature coefficient of sedimentation 
+carbon,sediment,water_sediment_exchange,resuspension,wet,cVSedIM,resus_sed/parameters/cVSedIM,m/d,1,1.0.0,IM sedimentation velocity constant at 20*C 
+carbon,sediment,water_sediment_exchange,resuspension,wet,cVSedPOM,resus_sed/parameters/cVSedPOM,m/d,0.5,1.0.0,POM sedimentation velocity constant at 20*C 
+carbon,sediment,water_sediment_exchange,resuspension,wet,cVSetMain,resus_sed/parameters/cVSetMain,m/d,0.5,1.0.0,qResus = 2; depth averaged settling velocity 
+carbon,sediment,water_sediment_exchange,resuspension,wet,crt_shear,resus_sed/parameters/crt_shear,N/m,0.02,1.0.0,qResus = 2; critical shear stress 
+carbon,sediment,water_sediment_exchange,resuspension,wet,eta,resus_sed/parameters/eta,-,1,1.0.0,qResus = 2; shear stress correction factor 
+carbon,sediment,water_sediment_exchange,resuspension,wet,fLutum,resus_sed/parameters/fLutum,-,0.1,1.0.0,lutum fraction of inorganic matter 
+carbon,sediment,water_sediment_exchange,resuspension,wet,fLutumRef,resus_sed/parameters/fLutumRef,-,0.2,1.0.0,reference lutum fraction of inorganic matter 
+carbon,sediment,water_sediment_exchange,resuspension,wet,hDepthSusp,resus_sed/parameters/hDepthSusp,-,2,1.0.0,qResus = 1; half-sat. value of depth in logistic function 
+carbon,sediment,water_sediment_exchange,resuspension,wet,qResus,resus_sed/parameters/qResus,(integer),2,1.0.0,1=original PCLake; 2=based on shear stress 
+carbon,sediment,water_sediment_exchange,resuspension,wet,ref_shear,resus_sed/parameters/ref_shear,N/m,1,1.0.0,qResus = 2; reference shear stress 
 carbon,sediment,water_sediment_exchange,sediment_flux_dim,aed2,Fsed_dic,aed2_carbon/Fsed_dic,-,250,1.0.0,Sediment-water flux for dic
 carbon,sediment,water_sediment_exchange,sediment_flux_dim,aed2,Ksed_dic,aed2_carbon/Ksed_dic,-,7,1.0.0,half-saturation concentration of dic sediment flux
 carbon,sediment,water_sediment_exchange,sediment_flux_dim,aed2,theta_sed_dic,aed2_carbon/theta_sed_dic,-,1.08,1.0.0,Arrhenius temperature multiplier for sediment dic flux
 carbon,sediment,water_sediment_exchange,sediment_flux_methane,aed2,Fsed_ch4,aed2_carbon/Fsed_ch4,-,60,1.0.0,Sediment-water flux for methane
 carbon,sediment,water_sediment_exchange,sediment_flux_methane,aed2,Ksed_ch4,aed2_carbon/Ksed_ch4,-,30,1.0.0,half-saturation concentration of methane sediment flux
 carbon,sediment,water_sediment_exchange,sediment_flux_methane,aed2,theta_sed_ch4,aed2_carbon/theta_sed_ch4,-,1.08,1.0.0,Arrhenius temperature multiplier for sediment methane flux
-carbon,water,decomposition,oxidation_methane,aed2,Rch4ox,aed2_carbon/Rch4ox,-,10,1.0.0,Methane oxidation rate
-carbon,water,decomposition,oxidation_methane,aed2,Kch4ox,aed2_carbon/Kch4ox,-,0.5,1.0.0,Saturation concentration for the oxidation of methane
-carbon,water,decomposition,oxidation_methane,aed2,vTch4ox,aed2_carbon/vTch4ox,-,1.08,1.0.0,Arrhenius temperature multiplier for methane oxidation
-carbon,water,initial_conditions,initial_dim,wet,sDIMW,abiotic_water/initialization/sDIMW,g/m3,none,1.0.0,initial inorganic matter
-carbon,water,initial_conditions,initial_pom,wet,sDPOMW,abiotic_water/initialization/sDPOMW,g/m3,none,1.0.0,initial particulate org. matter DW
-carbon,water,initial_conditions,initial_dom,wet,sDDOMW,abiotic_water/initialization/sDDOMW,g/m3,none,1.0.0,initial dissolved org. matter DW
-carbon,sediment,initial_conditions,initial_dom,wet,sDDOMS,abiotic_sediment/initialization/sDDOMS,g/m2,none,1.0.0,initial dissolved organic matter in the sediment
-carbon,sediment,initial_conditions,initial_pom,wet,sDPOMS,abiotic_sediment/initialization/sDPOMS,g/m2,none,1.0.0,initial particulate organic DW in the sediment
-carbon,sediment,initial_conditions,initial_humus,wet,sDHumS,abiotic_sediment/initialization/sDHumS,g/m2,none,1.0.0,initial humus DW in the sediment
-carbon,water,stoichiometry,stoichiometry_carbon,wet,cCPerDWW,abiotic_water/parameters/cCPerDWW,gC/gDW,none,1.0.0,C content of organic matter 
-carbon,water,vertical_movement,sedimentation,wet,cVSetIM,abiotic_water/parameters/cVSetIM,m/d,none,1.0.0,maximum settling rate of inorganic matter 
-carbon,water,light_extinction,light_extinction,wet,cExtSpPOM,abiotic_water/parameters/cExtSpPOM,m2/gDW,none,1.0.0,specific extinction factor for POM 
-carbon,water,light_extinction,light_extinction,wet,cExtSpIM,abiotic_water/parameters/cExtSpIM,m2/gDW,none,1.0.0,specific extinction inorganic matter 
-carbon,water,decomposition,mineralisation_pom,wet,cThetaMinPOMW,abiotic_water/parameters/cThetaMinPOMW,1/e^*C,none,1.0.0,temperature coefficient of mineralization from POM to DOM 
-carbon,water,decomposition,mineralisation_pom,wet,kDMinPOMW,abiotic_water/parameters/kDMinPOMW,1/d,none,1.0.0,decomposition constant of POM-DW at 20*C 
+carbon,sediment_marsh,initial_conditions,initial_pom,pclake,bDTotSM0,initialstates/bDTotSM0,gDW*m^-2,,1.0.0,Total_dry-weight_in_top_layer
+carbon,sediment_marsh,initial_conditions,initial_pom,pclake,fDDetSM0,initialstates/fDDetSM0,gDW*gDW^-1,0.05,1.0.0,Initial_detritus_fraction_of_sediment_organic_matter
+carbon,sediment_marsh,initial_conditions,initial_pom,pclake,fDOrgSM0,initialstates/fDOrgSM0,gDW*gDW^-1,0.1,1.0.0,Initial_organic_fraction_of_sed
+carbon,sediment_marsh,initial_conditions,initial_pom,pclake,fDTotSM0,initialstates/fDTotSM0,gDW*gDW^-1,0.3,1.0.0,Initial_dry-weight_fraction_in_sediment
+carbon,sediment_marsh,initial_conditions,initial_sediment,pclake,bPorSM0,initialstates/bPorSM0,m^3*m^-3,,1.0.0,Porosity
+carbon,sediment_marsh,initial_conditions,initial_sediment,pclake,bRhoTotSM0,initialstates/bRhoTotSM0,gDW*m^-3,,1.0.0,Bulk_density_of_sediment
+carbon,sediment_marsh,sediment_characteristics,active_layer_depth,pclake,cDepthSM,parameters/cDepthSM,m,0.1,1.0.0,Sediment_depth
+carbon,water,burial,equation_options_burial,pclake,InclBur,parameters/InclBur,-,1,1.0.0,Include_burial_module
+carbon,water,decomposition,mineralisation,pclake,cThetaMinW,parameters/cThetaMinW,-,1.07,1.0.0,Expon_temp_constant_of_mineralization_in_water
+carbon,water,decomposition,mineralisation,selmaprotbas,dn,selmaprotbas/parameters/dn,d-1,0.003,1.0.0,Detritus mineralisation rate at 20 degC
+carbon,water,decomposition,mineralisation,selmaprotbas,q10_rec,selmaprotbas/parameters/q10_rec,K-1,0.15,1.0.0,temperature dependence of detritus remineralization
 carbon,water,decomposition,mineralisation_dom,wet,cThetaMinDOMW,abiotic_water/parameters/cThetaMinDOMW,1/e^*C,none,1.0.0,temperature coefficient of DOM mineralization 
 carbon,water,decomposition,mineralisation_dom,wet,kDMinDOMW,abiotic_water/parameters/kDMinDOMW,1/d,none,1.0.0,mineralization constant of DOM-DW at 20*C 
-carbon,water,water_atmosphere_exchange,dic,wet,tDDepoIM,abiotic_water/parameters/tDDepoIM,g/m2/d,none,1.0.0,inorganic matter deposition 
-carbon,water,water_atmosphere_exchange,pom,wet,tDDepoPOM,abiotic_water/parameters/tDDepoPOM,g/m2/d,none,1.0.0,organic matter deposition
-carbon,sediment,sediment_characteristics,sediment_composition,wet,cCPerDWS,abiotic_sediment/parameters/cCPerDWS,gC gDW-1,none,1.0.0,C content of organic DW matter 
-carbon,sediment,sediment_characteristics,sediment_composition,wet,bPorS,abiotic_sediment/parameters/bPorS,m3/m3,none,1.0.0,sediment porosity 
-carbon,sediment,sediment_characteristics,sediment_composition,wet,bPorCorS,abiotic_sediment/parameters/bPorCorS,m3/m3,none,1.0.0,"sediment porosity, corrected for tortuosity"
-carbon,sediment,sediment_characteristics,sediment_composition,wet,cRhoIM,burial/parameters/cRhoIM,g/m3,none,1.0.0,density of sediment inorganic matter 
-carbon,sediment,sediment_characteristics,sediment_composition,wet,cRhoOM,burial/parameters/cRhoOM,g/m3,none,1.0.0,density of sediment organic matter 
-carbon,sediment,sediment_characteristics,sediment_composition,wet,fDOrgSoil,burial/parameters/fDOrgSoil,-,none,1.0.0,deep sediment organic matter fraction 
-carbon,sediment,sediment_characteristics,active_layer_depth,wet,cDepthS,abiotic_sediment/parameters/cDepthS,m,none,1.0.0,sediment depth 
-carbon,sediment,decomposition,mineralisation_humus,wet,kDMinHum,abiotic_sediment/parameters/kDMinHum,d-1,none,1.0.0,humic decomposition constant at 20*C
-carbon,sediment,decomposition,mineralisation_pom,wet,cThetaMinPOMS,abiotic_sediment/parameters/cThetaMinPOMS,1/e^*C,none,1.0.0,temperature coefficient of POM mineralization 
-carbon,sediment,decomposition,mineralisation_pom,wet,kDMinPOMS,abiotic_sediment/parameters/kDMinPOMS,d-1,none,1.0.0,decomposition constant of POM-DW at 20*C 
-carbon,sediment,decomposition,mineralisation_dom,wet,cThetaMinDOMS,abiotic_sediment/parameters/cThetaMinDOMS,1/e^*C,none,1.0.0,temperature coefficient of DOM mineralization 
-carbon,sediment,decomposition,mineralisation_dom,wet,kDMinDOMS,abiotic_sediment/parameters/kDMinDOMS,d-1,none,1.0.0,mineralization constant of DOM-DW at 20*C 
-carbon,sediment,water_sediment_exchange,diffusion,wet,kDDifDOM,abiotic_sediment/parameters/kDDifDOM,m2/d,none,1.0.0,DOM diffusion constant DW at 20*C 
-carbon,sediment,water_sediment_exchange,resuspension,wet,qResus,resus_sed/parameters/qResus,(integer),2,1.0.0,1=original PCLake; 2=based on shear stress 
-carbon,sediment,water_sediment_exchange,resuspension,wet,cSuspRef,resus_sed/parameters/cSuspRef,-,0,1.0.0,qResus = 1; reference suspended matter function 
-carbon,sediment,water_sediment_exchange,resuspension,wet,cSuspMin,resus_sed/parameters/cSuspMin,-,6.1,1.0.0,qResus = 1; minimum value of logistic function 
-carbon,sediment,water_sediment_exchange,resuspension,wet,cSuspMax,resus_sed/parameters/cSuspMax,-,25.2,1.0.0,qResus = 1; maximum value of logistic function 
-carbon,sediment,water_sediment_exchange,resuspension,wet,cSuspSlope,resus_sed/parameters/cSuspSlope,-,2.1,1.0.0,qResus = 1; slope of logistic function 
-carbon,sediment,water_sediment_exchange,resuspension,wet,hDepthSusp,resus_sed/parameters/hDepthSusp,-,2,1.0.0,qResus = 1; half-sat. value of depth in logistic function 
-carbon,sediment,water_sediment_exchange,resuspension,wet,cFetchRef,resus_sed/parameters/cFetchRef,m,1000,1.0.0,qResus = 1; reference fetch 
-carbon,sediment,water_sediment_exchange,resuspension,wet,cFetch,resus_sed/parameters/cFetch,m,1000,1.0.0,qResus = 1; length of water body in prevailing wind direction 
-carbon,sediment,water_sediment_exchange,resuspension,wet,crt_shear,resus_sed/parameters/crt_shear,N/m,0.02,1.0.0,qResus = 2; critical shear stress 
-carbon,sediment,water_sediment_exchange,resuspension,wet,ref_shear,resus_sed/parameters/ref_shear,N/m,1,1.0.0,qResus = 2; reference shear stress 
-carbon,sediment,water_sediment_exchange,resuspension,wet,alpha,resus_sed/parameters/alpha,g/m/d,9000,1.0.0,qResus = 2; gross rate of sediment erosion 
-carbon,sediment,water_sediment_exchange,resuspension,wet,eta,resus_sed/parameters/eta,-,1,1.0.0,qResus = 2; shear stress correction factor 
-carbon,sediment,water_sediment_exchange,resuspension,wet,cVSetMain,resus_sed/parameters/cVSetMain,m/d,0.5,1.0.0,qResus = 2; depth averaged settling velocity 
-carbon,sediment,water_sediment_exchange,resuspension,wet,fLutum,resus_sed/parameters/fLutum,-,0.1,1.0.0,lutum fraction of inorganic matter 
-carbon,sediment,water_sediment_exchange,resuspension,wet,fLutumRef,resus_sed/parameters/fLutumRef,-,0.2,1.0.0,reference lutum fraction of inorganic matter 
-carbon,sediment,water_sediment_exchange,resuspension,wet,cThetaSed,resus_sed/parameters/cThetaSed,1/e^*C,1.01,1.0.0,temperature coefficient of sedimentation 
-carbon,sediment,water_sediment_exchange,resuspension,wet,cVSedIM,resus_sed/parameters/cVSedIM,m/d,1,1.0.0,IM sedimentation velocity constant at 20*C 
-carbon,sediment,water_sediment_exchange,resuspension,wet,cVSedPOM,resus_sed/parameters/cVSedPOM,m/d,0.5,1.0.0,POM sedimentation velocity constant at 20*C 
-carbon,sediment,initial_conditions,initial_inorganic,mylake,In.FIM,In.FIM,-,0.92,1.0.0,Initial profile of volume fraction of inorganic matter in the sediment solids (dry weight basis)
-carbon,sediment,water_sediment_exchange,resuspension,mylake,S_res_epi,Bio.par/S_res_epi,m d-1,3.63E-07,1.0.0,"Particle resuspension mass transfer coefficient, epilimnion"
-carbon,sediment,water_sediment_exchange,resuspension,mylake,S_res_hypo,Bio.par/S_res_hypo,m d-1,3.63E-08,1.0.0,"Particle resuspension mass transfer coefficient, hypolimnion"
-carbon,sediment,sediment_characteristics,active_layer_depth,mylake,H_sed,Bio.par/H_sed,m,0.03,1.0.0,height of active sediment layer
+carbon,water,decomposition,mineralisation_humus,pclake,kDMinHum,parameters/kDMinHum,d^-1,1.00E-05,1.0.0,Maximum_decomposition_constant_of_humic_material_(1D-5)
+carbon,water,decomposition,mineralisation_poc,pclake,kDMinDetW,parameters/kDMinDetW,d^-1,0.01,1.0.0,Decomposition_constant_of_detritus
+carbon,water,decomposition,mineralisation_pom,wet,cThetaMinPOMW,abiotic_water/parameters/cThetaMinPOMW,1/e^*C,none,1.0.0,temperature coefficient of mineralization from POM to DOM 
+carbon,water,decomposition,mineralisation_pom,wet,kDMinPOMW,abiotic_water/parameters/kDMinPOMW,1/d,none,1.0.0,decomposition constant of POM-DW at 20*C 
+carbon,water,decomposition,oxidation_methane,aed2,Kch4ox,aed2_carbon/Kch4ox,-,0.5,1.0.0,Saturation concentration for the oxidation of methane
+carbon,water,decomposition,oxidation_methane,aed2,Rch4ox,aed2_carbon/Rch4ox,-,10,1.0.0,Methane oxidation rate
+carbon,water,decomposition,oxidation_methane,aed2,vTch4ox,aed2_carbon/vTch4ox,-,1.08,1.0.0,Arrhenius temperature multiplier for methane oxidation
+carbon,water,erosion,erosion,pclake,fHypErosIM,parameters/fHypErosIM,-,0,1.0.0,Fraction_of_IM_from_banks_to_hypolymnion
+carbon,water,initial_conditions,initial_dim,aed2,dic_initial,aed2_carbon/dic_initial,-,200,1.0.0,initial dic
+carbon,water,initial_conditions,initial_dim,wet,sDIMW,abiotic_water/initialization/sDIMW,g/m3,none,1.0.0,initial inorganic matter
+carbon,water,initial_conditions,initial_dom,pclake,sDIMWEpi0,initialstates/sDIMWEpi0,gDW*m^-2,,1.0.0,Inorganic_matter_in_epilimnion_lake_water
+carbon,water,initial_conditions,initial_dom,pclake,sDIMWHyp0,initialstates/sDIMWHyp0,gDW*m^-2,,1.0.0,Inorganic_matter_in_hypolimnion_lake_water
+carbon,water,initial_conditions,initial_dom,wet,sDDOMW,abiotic_water/initialization/sDDOMW,g/m3,none,1.0.0,initial dissolved org. matter DW
+carbon,water,initial_conditions,initial_methane,aed2,ch4_initial,aed2_carbon/ch4_initial,-,5,1.0.0,initial methane
+carbon,water,initial_conditions,initial_pH,aed2,pH_initial,aed2_carbon/pH_initial,-,8.4,1.0.0,initial pH
+carbon,water,initial_conditions,initial_pom,pclake,sDDetWEpi0,initialstates/sDDetWEpi0,gDW*m^-2,,1.0.0,Detritus_DW_in_epilimnion_lake_water
+carbon,water,initial_conditions,initial_pom,pclake,sDDetWHyp0,initialstates/sDDetWHyp0,gDW*m^-2,,1.0.0,Detritus_DW_in_hypolimnion_lake_water
+carbon,water,initial_conditions,initial_pom,pclake,sDExtTotT0,initialstates/sDExtTotT0,gDW*m^-2,,1.0.0,Total_amount_of_DW_moved_into_or_out_from_the_system
+carbon,water,initial_conditions,initial_pom,pclake,uDTotT0,initialstates/uDTotT0,gDW*m^-2,,1.0.0,Total_initial_DW_in_the_lake
+carbon,water,initial_conditions,initial_pom,pclake,uDTotTHyp0,initialstates/uDTotTHyp0,gDW*m^-2,,1.0.0,Total_initial_DW_in_the_lake
+carbon,water,initial_conditions,initial_pom,pclake,uDTotTSurf0,initialstates/uDTotTSurf0,gDW*m^-2,,1.0.0,Total_initial_DW_at_the_surface
+carbon,water,initial_conditions,initial_pom,selmaprotbas,dd_c,selmaprotbas/initialization/dd_c,mmol C m-3,none,1.0.0,Initial carbon detritus
+carbon,water,initial_conditions,initial_pom,wet,sDPOMW,abiotic_water/initialization/sDPOMW,g/m3,none,1.0.0,initial particulate org. matter DW
+carbon,water,light_extinction,light_extinction,pclake,cExtSpDet,parameters/cExtSpDet,m^2*gDW^-1,0.15,1.0.0,Specific_extinction_detritus
+carbon,water,light_extinction,light_extinction,pclake,cExtSpIM,parameters/cExtSpIM,m^2*gDW^-1,0.05,1.0.0,Specific_extinction_inert_matter
+carbon,water,light_extinction,light_extinction,selmaprotbas,kc,selmaprotbas/parameters/kc,m2 mmolC-1,0.075,1.0.0,specific light attenuation of detritus
+carbon,water,light_extinction,light_extinction,wet,cExtSpIM,abiotic_water/parameters/cExtSpIM,m2/gDW,none,1.0.0,specific extinction inorganic matter 
+carbon,water,light_extinction,light_extinction,wet,cExtSpPOM,abiotic_water/parameters/cExtSpPOM,m2/gDW,none,1.0.0,specific extinction factor for POM 
+carbon,water,noncohesive,tracer,aed2,Ke_ss,aed2_noncohesive/Ke_ss,?,0.06,1.0.0,Tracer
+carbon,water,noncohesive,tracer,aed2,Ktau_0,aed2_noncohesive/Ktau_0,?,0.001,1.0.0,Tracer
+carbon,water,noncohesive,tracer,aed2,d_ss,aed2_noncohesive/d_ss,?,2.00E-06,1.0.0,Tracer
+carbon,water,noncohesive,tracer,aed2,epsilon,aed2_noncohesive/epsilon,?,0.007,1.0.0,Tracer
+carbon,water,noncohesive,tracer,aed2,num_ss,aed2_noncohesive/num_ss,?,1,1.0.0,Tracer
+carbon,water,noncohesive,tracer,aed2,resuspension,aed2_noncohesive/resuspension,?,1,1.0.0,Tracer
+carbon,water,noncohesive,tracer,aed2,rho_ss,aed2_noncohesive/rho_ss,?,1500,1.0.0,Tracer
+carbon,water,noncohesive,tracer,aed2,settling,aed2_noncohesive/settling,?,3,1.0.0,Tracer
+carbon,water,noncohesive,tracer,aed2,ss_initial,aed2_noncohesive/ss_initial,?,1,1.0.0,Tracer
+carbon,water,noncohesive,tracer,aed2,tau_0,aed2_noncohesive/tau_0,?,0.03,1.0.0,Tracer
+carbon,water,noncohesive,tracer,aed2,tau_r,aed2_noncohesive/tau_r,?,1,1.0.0,Tracer
+carbon,water,noncohesive,tracer,aed2,w_ss,aed2_noncohesive/w_ss,?,-0.03,1.0.0,Tracer
+carbon,water,organic,organic,aed2,Kdom_minerl ,aed2_organic_matter/Kdom_minerl,?,100,1.0.0,OM
+carbon,water,organic,organic,aed2,Kpom_hydrol ,aed2_organic_matter/Kpom_hydrol,?,60,1.0.0,OM
+carbon,water,organic,organic,aed2,Rdom_minerl ,aed2_organic_matter/Rdom_minerl,?,0.5,1.0.0,OM
+carbon,water,organic,organic,aed2,Rpoc_hydrol ,aed2_organic_matter/Rpoc_hydrol,?,0.07,1.0.0,OM
+carbon,water,organic,organic,aed2,Rpon_hydrol ,aed2_organic_matter/Rpon_hydrol ,?,0.05,1.0.0,OM
+carbon,water,organic,organic,aed2,Rpop_hydrol ,aed2_organic_matter/Rpop_hydrol ,?,0.08,1.0.0,OM
+carbon,water,organic,organic,aed2,cpom_initial ,aed2_organic_matter/cpom_initial,?,100,1.0.0,OM
+carbon,water,organic,organic,aed2,doc_initial,aed2_organic_matter/doc_initial,?,30,1.0.0,OM
+carbon,water,organic,organic,aed2,docr_initial ,aed2_organic_matter/docr_initial,?,120,1.0.0,OM
+carbon,water,organic,organic,aed2,don_initial ,aed2_organic_matter/don_initial,?,0.1,1.0.0,OM
+carbon,water,organic,organic,aed2,dop_initial ,aed2_organic_matter/dop_initial,?,1.5,1.0.0,OM
+carbon,water,organic,organic,aed2,dopr_initial ,aed2_organic_matter/dopr_initial,?,0.1,1.0.0,OM
+carbon,water,organic,organic,aed2,poc_initial,aed2_organic_matter/poc_initial,?,78.5,1.0.0,OM
+carbon,water,organic,organic,aed2,pon_initial ,aed2_organic_matter/poc_initial,?,0.1,1.0.0,OM
+carbon,water,organic,organic,aed2,pop_initial ,aed2_organic_matter/pop_initial,?,0.1,1.0.0,OM
+carbon,water,organic,organic,aed2,simDenitrification ,aed2_organic_matter/simDenitrification ,?,1,1.0.0,OM
+carbon,water,organic,organic,aed2,theta_hydrol ,aed2_organic_matter/theta_hydrol ,?,1.08,1.0.0,OM
+carbon,water,organic,organic,aed2,theta_minerl ,aed2_organic_matter/theta_minerl ,?,1.08,1.0.0,OM
+carbon,water,sediment_characteristics,sediment_composition,pclake,fAlDIM,parameters/fAlDIM,gAl*gDW^-1,0.01,1.0.0,Al_content_of_inorg_matter
+carbon,water,sediment_characteristics,sediment_composition,pclake,fFeDIM,parameters/fFeDIM,gFe*gDW^-1,0.01,1.0.0,Fe_content_of_inorg_matter
+carbon,water,sediment_characteristics,sediment_composition,pclake,fLutum,parameters/fLutum,-,0.1,1.0.0,Lutum_content_of_inorg_matter
+carbon,water,stoichiometry,stoichiometry_carbon,wet,cCPerDWW,abiotic_water/parameters/cCPerDWW,gC/gDW,none,1.0.0,C content of organic matter 
 carbon,water,vertical_movement,sedimentation,mylake,Uz_Sz,Bio.par/Uz_Sz,m d-1,0.25,1.0.0,Settling velocity for S
-nitrogen,water,initial_conditions,initial_ammonium,aed2,amm_initial,aed2_nitrogen/amm_initial,mmol N m-3,2.6,1.0.0,initial NH4 concentration
-nitrogen,water,initial_conditions,initial_ammonium,selmaprotbas,aa,selmaprotbas/initialization/aa,mmol N m-3,none,1.0.0,initial dissolved ammonium in the water column
-nitrogen,water,initial_conditions,initial_ammonium,wet,sNH4W,abiotic_water/initialization/sNH4W,g m-3,none,1.0.0,initial dissolved ammonium in the water column
-nitrogen,water,initial_conditions,initial_ammonium,pclake,sNH4WEpi0,initialstates/sNH4WEpi0,g N m-2,none,1.0.0,initial dissolved ammonium in the epilimnion
-nitrogen,water,initial_conditions,initial_ammonium,pclake,sNH4WHyp0,initialstates/sNH4WHyp0,g N m-2,none,1.0.0,initial dissolved ammonium in the hypolimnion
-nitrogen,water,initial_conditions,initial_nitrate,aed2,nit_initial,aed2_nitrogen/nit_initial,mmol N m-3,0.1,1.0.0,initial NO3 concentration
-nitrogen,water,initial_conditions,initial_nitrate,selmaprotbas,nn,selmaprotbas/initialization/nn,mmol N m-3,none,1.0.0,initial dissolved nitrate in the water column
-nitrogen,water,initial_conditions,initial_nitrate,wet,sNO3W,abiotic_water/initialization/sNO3W,g m-3,none,1.0.0,initial dissolved nitrate in the water column
-nitrogen,water,initial_conditions,initial_nitrate,pclake,sNO3WEpi0,initialstates/sNO3WEpi0,g N m-2,none,1.0.0,initial dissolved nitrate in the epilimnion
-nitrogen,water,initial_conditions,initial_nitrate,pclake,sNO3WHyp0,initialstates/sNO3WHyp0,g N m-2,none,1.0.0,initial dissolved nitrate in the hypolimnion
-nitrogen,water,initial_conditions,initial_n2o,aed2,n2o_initial,aed2_nitrogen/n2o_initial,?,0.1,1.0.0,initial n2o in the water column
-nitrogen,water,initial_conditions,initial_pom,selmaprotbas,dd_n,selmaprotbas/initialization/dd_n,mmol N m-3,none,1.0.0,initial detritus-N in the water column
-nitrogen,water,initial_conditions,initial_pom,wet,sNPOMW,abiotic_water/initialization/sNPOMW,g m-3,none,1.0.0,particulate organic N
-nitrogen,water,initial_conditions,initial_pom,pclake,sNDetWEpi0,initialstates/sNDetWEpi0,g N m-2,none,1.0.0,Detritus_N_in_epilimnion_lake_water
-nitrogen,water,initial_conditions,initial_pom,pclake,sNDetWHyp0,initialstates/sNDetWHyp0,g N m-2,none,1.0.0,Detritus_N_in_hypolimnion_lake_water
-nitrogen,water,initial_conditions,initial_dom,wet,sNDOMW,abiotic_water/initialization/sNDOMW,g m-3,none,1.0.0,dissolved organic N
-nitrogen,sediment,initial_conditions,initial_nitrogen,selmaprotbas,fl_n,selmaprotbas/initialization/fl_n,mmol N m-2,none,1.0.0,initial nitrogen fluff (= active sediment)
-nitrogen,sediment,initial_conditions,initial_ammonium,wet,sNH4S,abiotic_sediment/initialization/sNH4S,g N m-2,none,1.0.0,initial ammonium in sediment
-nitrogen,sediment,initial_conditions,initial_nitrate,wet,sNO3S,abiotic_sediment/initialization/sNO3S,g N m-2,none,1.0.0,initial nitrate in sediment
-nitrogen,sediment,initial_conditions,initial_dom,wet,sNDOMS,abiotic_sediment/initialization/sNDOMS,g N m-2,none,1.0.0,initial dissolved organic N in sediment
-nitrogen,sediment,initial_conditions,initial_pom,wet,sNPOMS,abiotic_sediment/initialization/sNPOMS,g N m-2,none,1.0.0,initial particulate organic N in sediment
-nitrogen,sediment,initial_conditions,initial_humus,wet,sNHumS,abiotic_sediment/initialization/sNHumS,g N m-2,none,1.0.0,initial humus N in sediment
-nitrogen,sediment,initial_conditions,initial_pom,pclake,sNDetS0,initialstates/sNDetS0,g N m-2,none,1.0.0,Detritus_N_in_lake_sediment
-nitrogen,sediment,initial_conditions,initial_humus,pclake,sNHumS0,initialstates/sNHumS0,g N m-2,none,1.0.0,Humus_N_in_lake_sediment
-nitrogen,water,denitrification,denitrification,aed2,Rdenit,aed2_nitrogen/Rdenit,d-1,0.5,1.0.0,maximum reaction rate of denitrification @ 20C
-nitrogen,water,denitrification,denitrification,selmaprotbas,ade_r0,selmaprotbas/parameters/ade_r0,d-1,0.1,1.0.0,maximum chemoautolithotrophic denitrification rate
-nitrogen,water,denitrification,denitrification,selmaprotbas,alphaade,selmaprotbas/parameters/alphaade,mmol N m-3,1,1.0.0,half-saturation constant for chemoautolithotrophic denitrification
-nitrogen,water,denitrification,denitrification,wet,hNO3DenitW,abiotic_water/parameters/hNO3DenitW,mg N l-1,1,1.0.0,quadratic half saturation NO3 conc. for denitrification
-nitrogen,water,denitrification,denitrification,wet,NO3PerCW,abiotic_water/parameters/NO3PerCW,molN molC-1,1,1.0.0,denitrified NO3 per C mineralised
+carbon,water,vertical_movement,sedimentation,selmaprotbas,wdz,selmaprotbas/parameters/wdz,m d-1,-4.5,1.0.0,vertical velocity of detritus (positive: upwards/floating, negative: downwards/sinking)
+carbon,water,vertical_movement,sedimentation,wet,cVSetIM,abiotic_water/parameters/cVSetIM,m/d,none,1.0.0,maximum settling rate of inorganic matter 
+carbon,water,water_atmosphere_exchange,alkalinity,aed2,ionic,aed2_carbon/ionic,-,0.1,1.0.0,Ionic strength
+carbon,water,water_atmosphere_exchange,co2,aed2,atm_co2,aed2_carbon/atm_co2,-,4.00E-04,1.0.0,Atmospheric CO2 concentration
+carbon,water,water_atmosphere_exchange,dic,wet,tDDepoIM,abiotic_water/parameters/tDDepoIM,g/m2/d,none,1.0.0,inorganic matter deposition 
+carbon,water,water_atmosphere_exchange,equation_options_alkalinity,aed2,alk_mode,aed2_carbon/alk_mode,(integer),2,1.0.0,1:, 2:
+carbon,water,water_atmosphere_exchange,equation_options_co2,aed2,co2_model,aed2_carbon/co2_model,(integer),1,1.0.0,1:, 2:
+carbon,water,water_atmosphere_exchange,equation_options_co2,aed2,co2_piston_model,aed2_carbon/co2_piston_model,(integer),1,1.0.0,1:, 2:
+carbon,water,water_atmosphere_exchange,equation_options_methane,aed2,ch4_piston_model,aed2_carbon/ch4_piston_model,(integer),1,1.0.0,1:, 2:
+carbon,water,water_atmosphere_exchange,methane,aed2,atm_ch4,aed2_carbon/atm_ch4,-,1.76E-06,1.0.0,Atmospheric methane concentration
+carbon,water,water_atmosphere_exchange,pom,wet,tDDepoPOM,abiotic_water/parameters/tDDepoPOM,g/m2/d,none,1.0.0,organic matter deposition
+carbon,water,water_sediment_exchange,diffusion,pclake,cThetaDif,parameters/cThetaDif,oC,1.02,1.0.0,Temperature_coefficient_for_diffusion
+carbon,water,water_sediment_exchange,diffusion,pclake,cTurbDifNut,parameters/cTurbDifNut,-,5,1.0.0,Bioturbation_factor_for_diffusion
+carbon,water,water_sediment_exchange,resuspension,pclake,cSuspMin,parameters/cSuspMin,-,6.1,1.0.0,Minimum_value_of_logistic_empirical_suspended_matter_function
+carbon,water,water_sediment_exchange,sedimentation,selmaprotbas,sedrate,selmaprotbas/parameters/sedrate,m d-1,2.25,1.0.0,detritus sedimentation rate
+fish,sediment,water_sediment_exchange,resuspension,pclake,kTurbFish,parameters/kTurbFish,gDW*gDW^-1*d^-1,1,1.0.0,Relative_resuspension_by_adult_fish_browsing
+fish,water,ageing,ageing,pclake,fAgeFish,parameters/fAgeFish,-,0.5,1.0.0,Yearly_ageing_fraction_of_young_fish
+fish,water,feeding,assimilation_efficiency,pclake,fDAssFiAd,parameters/fDAssFiAd,-,0.4,1.0.0,C_assimilation_efficiency_of_adult_fish
+fish,water,feeding,assimilation_efficiency,pclake,fDAssFiJv,parameters/fDAssFiJv,-,0.4,1.0.0,C_assimilation_efficiency_of_young_fish
+fish,water,feeding,assimilation_efficiency,pclake,fDAssPisc,parameters/fDAssPisc,-,0.4,1.0.0,C_ass_efficiency_of_Pi_sc
+fish,water,feeding,assimilation_efficiency,pclake,kDAssFiAd,parameters/kDAssFiAd,d^-1,0.06,1.0.0,Maximum_assimilation_rate_of_adult_fish
+fish,water,feeding,assimilation_efficiency,pclake,kDAssFiJv,parameters/kDAssFiJv,d^-1,0.12,1.0.0,Maximum_assimilation_rate_of_young_fish
+fish,water,feeding,assimilation_efficiency,pclake,kDAssPisc,parameters/kDAssPisc,d^-1,0.025,1.0.0,Maximum_assimilation_rate
+fish,water,feeding,egestion,pclake,fDissEgesFish,parameters/fDissEgesFish,-,0.25,1.0.0,Soluble_nutrient_fraction_of_by_fish_egested_food
+fish,water,feeding,egestion,pclake,fDissEgesPisc,parameters/fDissEgesPisc,-,0.25,1.0.0,Soluble_P_fraction_of_by_fish_egested_food
+fish,water,feeding,egestion,pclake,fFiAdEgesHyp,parameters/fFiAdEgesHyp,-,0.9,1.0.0,Fraction_of_egested_FiAd_to_hypolimnion
+fish,water,feeding,egestion,pclake,fFiJvEgesHyp,parameters/fFiJvEgesHyp,-,0.1,1.0.0,Fraction_of_egested_FiJv_to_hypolimnion
+fish,water,feeding,egestion,pclake,fPiscEgesHyp,parameters/fPiscEgesHyp,-,0.5,1.0.0,Fraction_of_egested_Pisc_to_hypolimnion
+fish,water,feeding,equation_options_growth,pclake,InclWeb,parameters/InclWeb,-,1,1.0.0,Include_food_web_module
+fish,water,feeding,feeding_rate,pclake,hDBentFiAd,parameters/hDBentFiAd,gDW*m^-2,2.5,1.0.0,Half-saturating_zoobenthos_biomass_for_adult_fish_predation
+fish,water,feeding,feeding_rate,pclake,hDFishPisc,parameters/hDFishPisc,gDW*m^-2,1,1.0.0,Half-saturating_DFish_for_Pi_sc_predation
+fish,water,feeding,feeding_rate,pclake,hDZooFiJv,parameters/hDZooFiJv,gDW*m^-2,1.25,1.0.0,Half-saturating_zooplankton_biomass_for_young_fish_predation
+fish,water,feeding,temperature_limitation,pclake,cSigTmFish,parameters/cSigTmFish,oC,10,1.0.0,Temperature_constant_of_fish(sigma_in_Gaussian_curve)
+fish,water,feeding,temperature_limitation,pclake,cSigTmPisc,parameters/cSigTmPisc,oC,10,1.0.0,Temperature_constant_of_Pi_sc(sigma_in_Gaussian_curve)
+fish,water,feeding,temperature_limitation,pclake,cTmOptFish,parameters/cTmOptFish,oC,25,1.0.0,Optimum_temp_of_fish
+fish,water,feeding,temperature_limitation,pclake,cTmOptPisc,parameters/cTmOptPisc,oC,25,1.0.0,Optimum_temp_of_Pi_sc
+fish,water,feeding,vegetation_limitation,pclake,cCovVegMin,parameters/cCovVegMin,-,40,1.0.0,Min_submveg_coverage_for_Pi_sc
+fish,water,feeding,vegetation_limitation,pclake,cDPhraMinPisc,parameters/cDPhraMinPisc,gDW*m^-2,50,1.0.0,Min_reed_biomass_for_Pi_sc
+fish,water,feeding,vegetation_limitation,pclake,cRelPhraPisc,parameters/cRelPhraPisc,gDW*m^-2,0.075,1.0.0,Rel_Pi_sc_density_per_%_reed_if_subm_veg_absent
+fish,water,feeding,vegetation_limitation,pclake,cRelVegFish,parameters/cRelVegFish,-,0.009,1.0.0,Decrease_of_fish_feeding_per_%_vegetation_cover(max_001)
+fish,water,feeding,vegetation_limitation,pclake,cRelVegPisc,parameters/cRelVegPisc,gDW*m^-2,0.03,1.0.0,Extra_rel_Pi_sc_density_per_%_reed_if_aCovVeg_>_cCovVegMin
+fish,water,feeding,vegetation_limitation,pclake,hDVegPisc,parameters/hDVegPisc,gDW*m^-2,5,1.0.0,Half-sat_vegetation_biomass_for_Pi_sc_growth
+fish,water,initial_conditions,initial_fish,pclake,sDFiAd0,initialstates/sDFiAd0,gDW*m^-2,,1.0.0,Adult_fish_DW_in_lake_water
+fish,water,initial_conditions,initial_fish,pclake,sDFiJv0,initialstates/sDFiJv0,gDW*m^-2,,1.0.0,Young_fish_DW_in_lake_water
+fish,water,initial_conditions,initial_fish,pclake,sDPisc0,initialstates/sDPisc0,gDW*m^-2,,1.0.0,Predatory_fish_DW_in_lake_water
+fish,water,initial_conditions,initial_fish,pclake,sNFiAd0,initialstates/sNFiAd0,gN*m^-2,,1.0.0,Adult_fish_N_in_lake_water
+fish,water,initial_conditions,initial_fish,pclake,sNFiJv0,initialstates/sNFiJv0,gN*m^-2,,1.0.0,Young_fish_N_in_lake_water
+fish,water,initial_conditions,initial_fish,pclake,sPFiAd0,initialstates/sPFiAd0,gP*m^-2,,1.0.0,Adult_fish_P_in_lake_water
+fish,water,initial_conditions,initial_fish,pclake,sPFiJv0,initialstates/sPFiJv0,gP*m^-2,,1.0.0,Young_fish_P_in_lake_water
+fish,water,initial_conditions,initial_fish,pclake,uDFish0,initialstates/uDFish0,gDW*m^-2,,1.0.0,Total_initial_DW_in_white_fish_in_the_lake
+fish,water,initial_conditions,initial_fish,pclake,uNFish0,initialstates/uNFish0,gN*m^-2,,1.0.0,Total_initial_N_in_white_fish_in_the_lake
+fish,water,initial_conditions,initial_fish,pclake,uNPisc0,initialstates/uNPisc0,gN*m^-2,,1.0.0,Total_initial_N_in_pisc_Fish_in_the_lake
+fish,water,initial_conditions,initial_fish,pclake,uPFish0,initialstates/uPFish0,gP*m^-2,,1.0.0,Total_initial_P_in_white_fish_in_the_lake
+fish,water,initial_conditions,initial_fish,pclake,uPPisc0,initialstates/uPPisc0,gP*m^-2,,1.0.0,Total_initial_P_in_pisc_Fish_in_the_lake
+fish,water,initial_conditions,maximum_concentration,pclake,cDCarrFish,parameters/cDCarrFish,gDW*m^-2,23,1.0.0,Carrying_capacity_of_fish(=_100_gFW/m2Grimm_1983)
+fish,water,initial_conditions,maximum_concentration,pclake,cDCarrPiscBare,parameters/cDCarrPiscBare,gDW*m^-2,1,1.0.0,Carrying_capacity_of_Pi_sc_for_lake_without_marsh_zone
+fish,water,initial_conditions,maximum_concentration,pclake,cDCarrPiscMax,parameters/cDCarrPiscMax,gDW*m^-2,1.2,1.0.0,Maximum_carrying_capacity_of_Pi_sc(=75_kg/ha)
+fish,water,initial_conditions,minimum_concentration,pclake,cDCarrPiscMin,parameters/cDCarrPiscMin,gDW*m^-2,0.1,1.0.0,Minimum_carrying_capacity_of_Pi_sc(=6_kg/ha)
+fish,water,management,harvesting,pclake,kHarvFishSum,parameters/kHarvFishSum,d^-1,0,1.0.0,Fish_harvesting_fraction_in_summer
+fish,water,management,harvesting,pclake,kHarvFishWin,parameters/kHarvFishWin,d^-1,0,1.0.0,Fish_harvesting_fraction_in_winter
+fish,water,management,harvesting,pclake,kHarvPiscSum,parameters/kHarvPiscSum,d^-1,0,1.0.0,_Pi_sc_harvesting_fraction_in_summer
+fish,water,management,harvesting,pclake,kHarvPiscWin,parameters/kHarvPiscWin,d^-1,0,1.0.0,_Pi_sc_harvesting_fraction_in_winter
+fish,water,migration,migration,pclake,cDFiAdIn,parameters/cDFiAdIn,gDW*m^-2,0.005,1.0.0,External_fish_density
+fish,water,migration,migration,pclake,cDFiJvIn,parameters/cDFiJvIn,gDW*m^-2,0.005,1.0.0,External_fish_density
+fish,water,migration,migration,pclake,cDPiscIn,parameters/cDPiscIn,gDW*m^-2,0.001,1.0.0,External_Pi_sc_density
+fish,water,migration,migration,pclake,kMigrFish,parameters/kMigrFish,d^-1,0.001,1.0.0,Fish_migration_rate
+fish,water,migration,migration,pclake,kMigrPisc,parameters/kMigrPisc,d^-1,0.001,1.0.0,_Pi_sc_migration_rate
+fish,water,mortality,excretion,pclake,fFiAdExcrHyp,parameters/fFiAdExcrHyp,-,0.9,1.0.0,Fraction_of_excreted_FiAd_to_hypolimnion
+fish,water,mortality,excretion,pclake,fFiJvExcrHyp,parameters/fFiJvExcrHyp,-,0.1,1.0.0,Fraction_of_excreted_FiJv_to_hypolimnion
+fish,water,mortality,excretion,pclake,fPiscExcrHyp,parameters/fPiscExcrHyp,-,0.5,1.0.0,Fraction_of_excreted_Pisc_to_hypolimnion
+fish,water,mortality,mortality_rate,pclake,fFiAdMortHyp,parameters/fFiAdMortHyp,-,0,1.0.0,Fraction_of_mortality_FiAd_to_hypolimnion
+fish,water,mortality,mortality_rate,pclake,fFiJvMortHyp,parameters/fFiJvMortHyp,-,0,1.0.0,Fraction_of_mortality_FiJv_to_hypolimnion
+fish,water,mortality,mortality_rate,pclake,fPiscMortHyp,parameters/fPiscMortHyp,-,0,1.0.0,Fraction_of_mortality_Pisc_to_hypolimnion
+fish,water,mortality,mortality_rate,pclake,kMortFiAd,parameters/kMortFiAd,d^-1,0.00027,1.0.0,Specific_mortality_of_adult_fish(=_01_y-1)
+fish,water,mortality,mortality_rate,pclake,kMortFiJv,parameters/kMortFiJv,d^-1,0.00137,1.0.0,Specific_mortality_of_young_fish(=_01_y-1)
+fish,water,mortality,mortality_rate,pclake,kMortPisc,parameters/kMortPisc,d^-1,0.00027,1.0.0,Specific_mortality_of_Pi_sc_=_01_y-1
+fish,water,reproduction,phenology,pclake,cDayReprFish,parameters/cDayReprFish,-,120,1.0.0,Reproduction_date_of_fish_=_1_May
+fish,water,reproduction,reproction_rate,pclake,fReprFish,parameters/fReprFish,-,0.02,1.0.0,Yearly_reproduction_fraction_of_adult_fish
+fish,water,respiration,respiration_rate,pclake,kDRespFiAd,parameters/kDRespFiAd,d^-1,0.004,1.0.0,Maintenance_respiration_constant_of_adult_fish
+fish,water,respiration,respiration_rate,pclake,kDRespFiJv,parameters/kDRespFiJv,d^-1,0.01,1.0.0,Maintenance_respiration_constant_of_young_fish
+fish,water,respiration,respiration_rate,pclake,kDRespPisc,parameters/kDRespPisc,d^-1,0.005,1.0.0,Maint_respiration_constant_of_Pi_sc
+fish,water,stoichiometry,bone_fraction,pclake,fDBone,parameters/fDBone,-,0.35,1.0.0,Fraction_of_fish_C_fixed_in_bones_and_scales
+fish,water,stoichiometry,bone_fraction,pclake,fPBone,parameters/fPBone,-,0.5,1.0.0,Fraction_of_fish_P_fixed_in_bones_and_scales
+fish,water,stoichiometry,nitrogen_ratio,pclake,cNDFishRef,parameters/cNDFishRef,gN*gDW^-1,0.1,1.0.0,Reference_N/C_ratio_of_Fish
+fish,water,stoichiometry,nitrogen_ratio,pclake,cNDPisc,parameters/cNDPisc,gN*gDW^-1,0.1,1.0.0,Reference_N/C_ratio_of_Pi_sc
+fish,water,stoichiometry,nutrient_ratio,pclake,fDissMortFish,parameters/fDissMortFish,-,0.1,1.0.0,Soluble_nutrient_fraction_of_died_fish(excl_bones_and_scales
+fish,water,stoichiometry,nutrient_ratio,pclake,fDissMortPisc,parameters/fDissMortPisc,-,0.1,1.0.0,Soluble_nutrient_fraction_of_died_Pi_sc(excl_bones_and_scales
+fish,water,stoichiometry,phosphorus_ratio,pclake,cPDFishRef,parameters/cPDFishRef,gP*gDW^-1,0.022,1.0.0,Reference_P/C_ratio_of_Fish
+fish,water,stoichiometry,phosphorus_ratio,pclake,cPDPisc,parameters/cPDPisc,gP*gDW^-1,0.022,1.0.0,Reference_P/C_ratio_of_Pi_sc
+macrophytes,sediment,initial_conditions,initial_macrophytes,pclake,sDRootPhra0,initialstates/sDRootPhra0,gDW*m^-2,,1.0.0,Root_biomass_DW_in_marsh_sediment
+macrophytes,sediment,initial_conditions,initial_macrophytes,pclake,sNRootPhra0,initialstates/sNRootPhra0,gN*m^-2,,1.0.0,Root_biomass_N_in_marsh_sediment
+macrophytes,sediment,initial_conditions,initial_macrophytes,pclake,sPRootPhra0,initialstates/sPRootPhra0,gP*m^-2,,1.0.0,Root_biomass_P_in_marsh_sediment
+macrophytes,sediment,marsh,marsh_area,pclake,fMarsh,parameters/fMarsh,m^2*m^-2,0,1.0.0,Relative_marsh_area_per_lake_area
+macrophytes,sediment,marsh,marsh_area,pclake,hfMarsh,parameters/hfMarsh,m^2*m^-2,0.1,1.0.0,Rel_marsh_area_where_exchange_is_50%
+macrophytes,sediment,stoichiometry,uptake_nutrients,pclake,fSedUptVegCoef,parameters/fSedUptVegCoef,-,2.66,1.0.0,Sigm_regr_coeff_for_sediment_fraction_of_nutrient_uptake
+macrophytes,sediment,stoichiometry,uptake_nutrients,pclake,fSedUptVegExp,parameters/fSedUptVegExp,-,-0.83,1.0.0,Exponent_in_sigm_regr_for_sediment_fraction_of_nutrient_uptake
+macrophytes,sediment,stoichiometry,uptake_nutrients,pclake,fSedUptVegMax,parameters/fSedUptVegMax,-,0.998,1.0.0,Maximum_sediment_fraction_of_nutrient_uptake
+macrophytes,sediment,water_sediment_exchange,resuspension,pclake,kVegResus,parameters/kVegResus,m^2*gDW^-1,0.01,1.0.0,Rel_resuspension_reduction_per_g_vegetation
+macrophytes,sediment_marsh,initial_conditions,initial_macrophytes,pclake,sDDetSM0,initialstates/sDDetSM0,gDW*m^-2,,1.0.0,Detritus_DW_in_marsh_sediment
+macrophytes,sediment_marsh,initial_conditions,initial_macrophytes,pclake,sDHumSM0,initialstates/sDHumSM0,gDW*m^-2,,1.0.0,Humus_DW_in_marsh_sediment
+macrophytes,sediment_marsh,initial_conditions,initial_macrophytes,pclake,sDIMSM0,initialstates/sDIMSM0,gDW*m^-2,,1.0.0,Inorganic_matter_in_marsh_sediment
+macrophytes,sediment_marsh,marsh,exchange_rate,pclake,kExchMaxM,parameters/kExchMaxM,m^3*m^-3*d^-1,1,1.0.0,Maximum_dispersive_marsh_water_exchange_coefficient
+macrophytes,water,areal_coverage,areal_coverage,pclake,cCovSpPhra,parameters/cCovSpPhra,gDW^-1*m^-2,0.1,1.0.0,Specific_coverage
+macrophytes,water,areal_coverage,areal_coverage,pclake,cCovSpVeg,parameters/cCovSpVeg,gDW^-1*m^2,0.5,1.0.0,Specific_cover
+macrophytes,water,growth,allocation_reeds,pclake,fDAllPhra,parameters/fDAllPhra,-,0.3,1.0.0,Allocation_fraction
+macrophytes,water,growth,allocation_reeds,pclake,fDRealPhra,parameters/fDRealPhra,-,0.85,1.0.0,Reallocated_fraction_day
+macrophytes,water,growth,allocation_reeds,pclake,kDAllPhra,parameters/kDAllPhra,d^-1,0.05,1.0.0,Allocation_rate
+macrophytes,water,growth,allocation_reeds,pclake,kDRealPhra,parameters/kDRealPhra,d^-1,0.05,1.0.0,Reallocation_rate_day
+macrophytes,water,growth,depth_restriction,pclake,fDepth1Veg,parameters/fDepth1Veg,-,0,1.0.0,Max_upper_depth_of_submerged_veget_layer_as_fraction_of_water_depth
+macrophytes,water,growth,depth_restriction,pclake,fDepth2Veg,parameters/fDepth2Veg,-,1,1.0.0,Max_lower_depth_of_submerged_veget_layer_as_fraction_of_water_depth
+macrophytes,water,growth,equation_options_growth,pclake,InclVeg,parameters/InclVeg,-,1,1.0.0,Include_vegetation_module
+macrophytes,water,growth,growth_rate,pclake,cMuMaxVeg,parameters/cMuMaxVeg,gDW*gDW^-1*d^-1,0.2,1.0.0,Maximum_growth_rate_of_vegetation_at_20oC
+macrophytes,water,growth,growth_rate,pclake,cMuPhraMax,parameters/cMuPhraMax,d^-1,0.03,1.0.0,Maximum_growth_rate_reed
+macrophytes,water,growth,light_limitation,pclake,cLAlloVeg,parameters/cLAlloVeg,J*s^-1*m^-1,50.1,1.0.0,Integrated_relativized_light_level_at_which_the_plant_will_start_summer_regrowth_strategy
+macrophytes,water,growth,light_limitation,pclake,cPhotInitVeg,parameters/cPhotInitVeg,h,12,1.0.0,Hours_in_day_for_initial_growth__photoperiod_
+macrophytes,water,growth,light_limitation,pclake,hLRefVeg,parameters/hLRefVeg,J*s^-1*m^-2,13,1.0.0,Half-sat_light_at_20_oC
+macrophytes,water,growth,phenology,pclake,cDayWinPhra,parameters/cDayWinPhra,d,259,1.0.0,Begin_autumn(16_Sept)
+macrophytes,water,growth,phenology,pclake,cDayWinVeg,parameters/cDayWinVeg,d,259,1.0.0,End_of_growing_season_=_16_Sep
+macrophytes,water,growth,phenology,pclake,cLengAllo,parameters/cLengAllo,d,15,1.0.0,Duration_of_allocation_and_reallocation_phase
+macrophytes,water,growth,phenology,pclake,cLengMort,parameters/cLengMort,d,15,1.0.0,Duration_of_autumn_mortality_period
+macrophytes,water,growth,phenology,pclake,cVegInitLen,parameters/cVegInitLen,d,22,1.0.0,Number_of_days_until_plant_is_allowed_to_break_from_summer_mode_and_redo_initial_allocation_given_summer_has_ended_and_restarted
+macrophytes,water,growth,phenology,pclake,cVegWinLen,parameters/cVegWinLen,d,22,1.0.0,Number_of_days_until_plant_is_allowed_to_break_from_winter_mode_and_redo_winter_allocation_given_winter_has_ended_and_restarted
+macrophytes,water,growth,phenology,pclake,fDayWin,parameters/fDayWin,-,0.52,1.0.0,Start_autumn
+macrophytes,water,growth,phenology,pclake,fWinVeg,parameters/fWinVeg,-,0.3,1.0.0,Fraction_surviving_in_winter
+macrophytes,water,growth,temperature_limitation,pclake,cQ10ProdPhra,parameters/cQ10ProdPhra,-,2,1.0.0,Temp_quotient_of_production
+macrophytes,water,growth,temperature_limitation,pclake,cQ10ProdVeg,parameters/cQ10ProdVeg,-,1.2,1.0.0,Temperature_quotient_of_production
+macrophytes,water,growth,temperature_limitation,pclake,cSigTmVeg,parameters/cSigTmVeg,oC,20,1.0.0,Temperature_constant_vegetation(sigma_in_Gaussian_curve)
+macrophytes,water,growth,temperature_limitation,pclake,cTmInitPhra,parameters/cTmInitPhra,oC,8,1.0.0,Temp_start_initial_growth
+macrophytes,water,growth,temperature_limitation,pclake,cTmInitVeg,parameters/cTmInitVeg,oC,9,1.0.0,Temperature_for_initial_growth
+macrophytes,water,growth,temperature_limitation,pclake,cTmOptVeg,parameters/cTmOptVeg,oC,20,1.0.0,Optimum_temperature_of_vegetation
+macrophytes,water,initial_conditions,initial_macrophytes,pclake,cNDPhra0,initialstates/cNDPhra0,gN*gDW^-1,0.02,1.0.0,Initial_N/day_ratio_of_reed
+macrophytes,water,initial_conditions,initial_macrophytes,pclake,cNDVeg0,initialstates/cNDVeg0,gN*gDW^-1,0.02,1.0.0,Initial_N_fraction_in_veg
+macrophytes,water,initial_conditions,initial_macrophytes,pclake,cPDPhra0,initialstates/cPDPhra0,gP*gDW^-1,0.002,1.0.0,Initial_P/day_ratio_of_reed
+macrophytes,water,initial_conditions,initial_macrophytes,pclake,cPDVeg0,initialstates/cPDVeg0,gP*gDW^-1,0.002,1.0.0,Initial_P_fraction_in_veg
+macrophytes,water,initial_conditions,initial_macrophytes,pclake,sDShootPhra0,initialstates/sDShootPhra0,gDW*m^-2,,1.0.0,Shoot_biomass_DW_in_marsh_water
+macrophytes,water,initial_conditions,initial_macrophytes,pclake,sDVeg0,initialstates/sDVeg0,gDW*m^-2,,1.0.0,Vegetation_DW_in_lake_water
+macrophytes,water,initial_conditions,initial_macrophytes,pclake,sNShootPhra0,initialstates/sNShootPhra0,gN*m^-2,,1.0.0,Shoot_biomass_N_in_marsh_water
+macrophytes,water,initial_conditions,initial_macrophytes,pclake,sNVeg0,initialstates/sNVeg0,gN*m^-2,,1.0.0,Vegetation_N_in_lake_water
+macrophytes,water,initial_conditions,initial_macrophytes,pclake,sPShootPhra0,initialstates/sPShootPhra0,gP*m^-2,,1.0.0,Shoot_biomass_P_in_marsh_water
+macrophytes,water,initial_conditions,initial_macrophytes,pclake,sPVeg0,initialstates/sPVeg0,gP*m^-2,,1.0.0,Vegetation_P_in_lake_water
+macrophytes,water,initial_conditions,initial_macrophytes,pclake,sVegHeight0,initialstates/sVegHeight0,m,,1.0.0,Height_of_the_vegetation
+macrophytes,water,initial_conditions,initial_macrophytes,pclake,uDVeg0,initialstates/uDVeg0,gDW*m^-2,,1.0.0,Total_initial_DW_vegetation_in_the_lake
+macrophytes,water,initial_conditions,initial_macrophytes,pclake,uNVeg0,initialstates/uNVeg0,gN*m^-2,,1.0.0,Total_initial_N_vegetation_in_the_lake
+macrophytes,water,initial_conditions,initial_macrophytes,pclake,uPVeg0,initialstates/uPVeg0,gP*m^-2,,1.0.0,Total_initial_P_vegetation_in_the_lake
+macrophytes,water,initial_conditions,maximum_concentration,pclake,cDCarrVeg,parameters/cDCarrVeg,gDW*m^-2,1000,1.0.0,Max_vegetation_standing_crop
+macrophytes,water,light,light_attenuation,pclake,cExtSpVeg,parameters/cExtSpVeg,m^2*gDW^-1,0.01,1.0.0,Specific_extinction_of_vegetation
+macrophytes,water,light,light_attenuation,pclake,fVegShade,parameters/fVegShade,-,0,1.0.0,Fraction_reduction_of_light_reaching_plants
+macrophytes,water,management,mowing,pclake,cDayManPhra,parameters/cDayManPhra,d,255,1.0.0,Time_of_management
+macrophytes,water,management,mowing,pclake,cDayManVeg1,parameters/cDayManVeg1,d,-9999000,1.0.0,First_mowing_day_(default_non-existent)
+macrophytes,water,management,mowing,pclake,cDayManVeg2,parameters/cDayManVeg2,d,-9999000,1.0.0,Second_mowing_day_(Note_259_=_16_Sep)
+macrophytes,water,management,mowing,pclake,cLengMan,parameters/cLengMan,d,10,1.0.0,Length_of_mowing_period
+macrophytes,water,management,mowing,pclake,fManPhra,parameters/fManPhra,d^-1,0,1.0.0,Fraction_biomass_loss_by_management
+macrophytes,water,management,mowing,pclake,fManVeg,parameters/fManVeg,-,0,1.0.0,Fraction_removed_by_management_for_submerged_plants
+macrophytes,water,management,mowing,pclake,kDManShootPhra,parameters/kDManShootPhra,d^-1,1,1.0.0,Rate_of_management
+macrophytes,water,marsh,equation_options_marsh,pclake,InclMarsh,parameters/InclMarsh,-,1,1.0.0,Include_marsh_zone_module
+macrophytes,water,migration,migration,pclake,cDVegIn,parameters/cDVegIn,gDW*m^-2,1,1.0.0,External_vegetation_density
+macrophytes,water,migration,migration,pclake,kMigrVeg,parameters/kMigrVeg,d^-1,0.001,1.0.0,Vegetation_migration_rate
+macrophytes,water,mortality,bird_grazing,pclake,cPrefVegBird,parameters/cPrefVegBird,-,1,1.0.0,Edibility_for_birds
+macrophytes,water,mortality,mortality_rate,pclake,kDMortRootPhra,parameters/kDMortRootPhra,d^-1,0.000391,1.0.0,Mortality_rate_roots
+macrophytes,water,mortality,mortality_rate,pclake,kDMortShootPhra,parameters/kDMortShootPhra,d^-1,0,1.0.0,Mortality_rate_shoots
+macrophytes,water,mortality,mortality_rate,pclake,kMortVegSum,parameters/kMortVegSum,d^-1,0.005,1.0.0,Vegetation_mortality_rate_in_Spring_and_Summer_(low)
+macrophytes,water,respiration,respiration_rate,pclake,cQ10RespPhra,parameters/cQ10RespPhra,1^[oC^-1],2.5,1.0.0,Temp_quotient_of_respiration
+macrophytes,water,respiration,respiration_rate,pclake,cQ10RespVeg,parameters/cQ10RespVeg,-,2,1.0.0,Temperature_quotient_of_respiration
+macrophytes,water,respiration,respiration_rate,pclake,kDRespPhra,parameters/kDRespPhra,d^-1,0.001,1.0.0,Respiration_rate_of_reed
+macrophytes,water,respiration,respiration_rate,pclake,kDRespVeg,parameters/kDRespVeg,d^-1,0.016,1.0.0,Dark_respiration_rate_of_vegetation
+macrophytes,water,stoichiometry,emerging_fraction,pclake,fEmergVeg,parameters/fEmergVeg,gDW*gDW^-1,0,1.0.0,Emergent_fraction_of_shoot
+macrophytes,water,stoichiometry,equation_options_uptake_nutrients,pclake,UseEmpUpt,parameters/UseEmpUpt,-,0,1.0.0,False_=_do_not_use_this_empirical_relation
+macrophytes,water,stoichiometry,floating_fraction,pclake,cDLayerVeg,parameters/cDLayerVeg,gDW*m^-2,0,1.0.0,Biomass_of_a_single_layer_floating_leaves
+macrophytes,water,stoichiometry,floating_fraction,pclake,fFloatVeg,parameters/fFloatVeg,gDW*gDW^-1,0,1.0.0,Floating_fraction_of_shoot
+macrophytes,water,stoichiometry,height,pclake,cVegHeight,parameters/cVegHeight,m,3,1.0.0,Height_of_vegetation_in_summer
+macrophytes,water,stoichiometry,height,pclake,cVegHeightWin,parameters/cVegHeightWin,m,2,1.0.0,Height_of_vegetation_in_Winter
+macrophytes,water,stoichiometry,height,pclake,cVegMaxHeight,parameters/cVegMaxHeight,m,3,1.0.0,Maximum_height_of_vegetation
+macrophytes,water,stoichiometry,nitrogen_ratio,pclake,cNDPhraMax,parameters/cNDPhraMax,-,0.03,1.0.0,MaxPhra_N/day_-ratio
+macrophytes,water,stoichiometry,nitrogen_ratio,pclake,cNDPhraMin,parameters/cNDPhraMin,-,0.008,1.0.0,MinPhra_N/day_-ratio
+macrophytes,water,stoichiometry,nitrogen_ratio,pclake,cNDVegMax,parameters/cNDVegMax,gN*gDW^-1,0.035,1.0.0,Maximum_N/day_ratio_vegetation
+macrophytes,water,stoichiometry,nitrogen_ratio,pclake,cNDVegMin,parameters/cNDVegMin,gN*gDW^-1,0.01,1.0.0,Minimum_N/day_ratio_vegetation
+macrophytes,water,stoichiometry,nutrient_ratio,pclake,fDetWMortVeg,parameters/fDetWMortVeg,-,0.1,1.0.0,Fraction_of_shoot_mortality_becoming_water_detritus
+macrophytes,water,stoichiometry,nutrient_ratio,pclake,fDissMortVeg,parameters/fDissMortVeg,-,0.25,1.0.0,Fraction_dissolved_nutrients_from_died_plants
+macrophytes,water,stoichiometry,phosphorus_ratio,pclake,cPDPhraMax,parameters/cPDPhraMax,-,0.003,1.0.0,MaxPhra_P/day_-ratio
+macrophytes,water,stoichiometry,phosphorus_ratio,pclake,cPDPhraMin,parameters/cPDPhraMin,-,8.00E-04,1.0.0,MinPhra_P/day_-ratio
+macrophytes,water,stoichiometry,phosphorus_ratio,pclake,cPDVegMax,parameters/cPDVegMax,gP*gDW^-1,0.0035,1.0.0,Maximum_P/day_ratio_vegetation
+macrophytes,water,stoichiometry,phosphorus_ratio,pclake,cPDVegMin,parameters/cPDVegMin,gP*gDW^-1,8.00E-04,1.0.0,Minimum_P/day_ratio_vegetation
+macrophytes,water,stoichiometry,root_fraction,pclake,fRootVegSum,parameters/fRootVegSum,gDW*gDW^-1,0.1,1.0.0,Root_fraction_outside_growing_season
+macrophytes,water,stoichiometry,root_fraction,pclake,fRootVegWin,parameters/fRootVegWin,gDW*gDW^-1,0.6,1.0.0,Root_fraction_outside_growing_season
+macrophytes,water,stoichiometry,shoot_fraction,pclake,cDShootPhraMax,parameters/cDShootPhraMax,gDW*m^-2,3500,1.0.0,Max_shoot_biomass_of_reed
+macrophytes,water,stoichiometry,stem,pclake,cDStemPhra,parameters/cDStemPhra,gDW*m^-1,6,1.0.0,Average_stem_weight
+macrophytes,water,stoichiometry,stem,pclake,cDStemVeg,parameters/cDStemVeg,gDW*m^-1,1.97,1.0.0,Weight_of_stem_per_m_of_length_grown
+macrophytes,water,stoichiometry,stem,pclake,cDensStemPhra,parameters/cDensStemPhra,m^-2,61.5,1.0.0,Density_stem(+/-_139)
+macrophytes,water,stoichiometry,stem,pclake,cDensVeg,parameters/cDensVeg,m^-2,10,1.0.0,Density_of_vegetation_stems_per_m2
+macrophytes,water,stoichiometry,uptake_n,pclake,cAffNUptPhra,parameters/cAffNUptPhra,m^3*gDW^-1*d^-1,2.00E-04,1.0.0,N_uptake_affinity_reed
+macrophytes,water,stoichiometry,uptake_n,pclake,cAffNUptVeg,parameters/cAffNUptVeg,m^3*gDW^-1*d^-1,0.2,1.0.0,Initial_N_uptake_affinity_vegetation
+macrophytes,water,stoichiometry,uptake_n,pclake,cVNUptMaxVeg,parameters/cVNUptMaxVeg,gN*gDW^-1*d^-1,0.1,1.0.0,Maximum_N_uptake_capacity_of_vegetation
+macrophytes,water,stoichiometry,uptake_n,pclake,cVNUptPhraMax,parameters/cVNUptPhraMax,gN*gDW^-1*d^-1,0.1,1.0.0,Max_uptake_rate_N_001
+macrophytes,water,stoichiometry,uptake_p,pclake,cAffPUptPhra,parameters/cAffPUptPhra,m^3*gDW^-1*d^-1,2.00E-04,1.0.0,P_uptake_affinity_reed
+macrophytes,water,stoichiometry,uptake_p,pclake,cAffPUptVeg,parameters/cAffPUptVeg,m^3*gDW^-1*d^-1,0.2,1.0.0,Initial_P_uptake_affinity_vegetation
+macrophytes,water,stoichiometry,uptake_p,pclake,cVPUptMaxVeg,parameters/cVPUptMaxVeg,gP*gDW^-1*d^-1,0.01,1.0.0,Maximum_P_uptake_capacity_of_vegetation
+macrophytes,water,stoichiometry,uptake_p,pclake,cVPUptPhraMax,parameters/cVPUptPhraMax,gP*gDW^-1,0.01,1.0.0,Max_uptake_rate_P_0001
+macrophytes,water_marsh,initial_conditions,initial_macrophytes,pclake,sDDetWM0,initialstates/sDDetWM0,gDW*m^-2,,1.0.0,Detritus_DW_in_marsh_water
+macrophytes,water_marsh,initial_conditions,initial_macrophytes,pclake,sDIMWM0,initialstates/sDIMWM0,gDW*m^-2,,1.0.0,Inorganic_matter_in_marsh_water
+macrophytes,water_marsh,initial_conditions,initial_macrophytes,pclake,sDepthWM0,initialstates/sDepthWM0,m,,1.0.0,Depth_of_marsh_water
+macrophytes,water_marsh,initial_conditions,initial_macrophytes,pclake,uDTotM0,initialstates/uDTotM0,gDW*m^-2,,1.0.0,Total_initial_DW_in_the_marsh
+nitrogen,sediment,decomposition,mineralisation_dom,wet,kNMinDOMS,abiotic_sediment/parameters/kNMinDOMS,d-1,0.003,1.0.0,mineralization constant of DOM-N at 20*C 
+nitrogen,sediment,decomposition,mineralisation_pom,wet,kNMinPOMS,abiotic_sediment/parameters/kNMinPOMS,d-1,0.002,1.0.0,decomposition constant of POM-N at 20*C 
 nitrogen,sediment,denitrification,denitrification,wet,NO3PerCS,abiotic_sediment/parameters/NO3PerCS,molN molC-1,1,1.0.0,NO3 denitrified per C mineralized in the sediment
-nitrogen,water,denitrification,denitrification,pclake,hNO3Denit,parameters/hNO3Denit,g N m-3,2,1.0.0,Quadratic_half-sat_NO3_conc_for_denitrification
-nitrogen,water,denitrification,denitrification,pclake,NO3PerC,parameters/NO3PerC,-,0.8,1.0.0,Mol_NO3_denitrified_per_mol_C_mineralised
-nitrogen,water,denitrification,denitrification,aed2,theta_denit,aed2_nitrogen/theta_denit,-,1.08,1.0.0,Arrhenius temperature multiplier for denitrification
+nitrogen,sediment,denitrification,denitrification,wet,hNO3DenitS,abiotic_sediment/parameters/hNO3DenitS,mgN l-1,0.5,1.0.0,quadratic half-sat. NO3 conc. for denitrification 
+nitrogen,sediment,denitrification,refractory_fractions,pclake,fRefrDetS,parameters/fRefrDetS,-,0.15,1.0.0,Refractory_fraction_of_sed_detritus
 nitrogen,sediment,denitrification,refractory_fractions,selmaprotbas,fds,selmaprotbas/parameters/fds,-,0.7,1.0.0,fraction of sediment remineralization fueled by denitrification
 nitrogen,sediment,denitrification,refractory_fractions,wet,fRefrPOMS,abiotic_sediment/parameters/fRefrPOMS,-,0.1,1.0.0,refractory fraction of sediment POM
-nitrogen,sediment,denitrification,refractory_fractions,pclake,fRefrDetS,parameters/fRefrDetS,-,0.15,1.0.0,Refractory_fraction_of_sed_detritus
-nitrogen,water,nitrification,nitrification,aed2,Rnitrif,aed2_nitrogen/Rnitrif,d-1,0.5,1.0.0,maximum reaction rate of nitrification @ 20C
-nitrogen,water,nitrification,nitrification,aed2,Knitrif,aed2_nitrogen/Knitrif,?,78.1,1.0.0,saturation concentration for nitrification
-nitrogen,water,nitrification,nitrification,wet,kNitrW,abiotic_water/parameters/kNitrW,d-1,0.3,1.0.0,nitrification rate constant in water at 20*C
-nitrogen,sediment,nitrification,nitrification,wet,kNitrS,abiotic_sediment/parameters/kNitrS,d-1,1.2,1.0.0,nitrification rate constant at 20*C in the sediment
-nitrogen,water,nitrification,nitrification,wet,cThetaNitrW,abiotic_water/parameters/cThetaNitrW,1/e^degC,1.03,1.0.0,temperature coefficient for nitrification
-nitrogen,sediment,nitrification,nitrification,wet,cThetaNitrS,abiotic_sediment/parameters/cThetaNitrS,1/e^degC,1.03,1.0.0,temperature coefficient for nitrification in the sediment
-nitrogen,water,nitrification,nitrification,wet,hO2Nitr,abiotic_water/parameters/hO2Nitr,mg O2 l-1,2,1.0.0,half saturation oxygen conc. for nitrification
-nitrogen,water,nitrification,nitrification,wet,O2PerNH4W,abiotic_water/parameters/O2PerNH4W,molO2 molNH4-1,2,1.0.0,used O2 per NH4 nitrified
+nitrogen,sediment,initial_conditions,initial_ammonium,pclake,sNH4S0,initialstates/sNH4S0,gN*m^-2,,1.0.0,N_in_NH4_in_lake_sediment_pore_water
+nitrogen,sediment,initial_conditions,initial_ammonium,wet,sNH4S,abiotic_sediment/initialization/sNH4S,g N m-2,none,1.0.0,initial ammonium in sediment
+nitrogen,sediment,initial_conditions,initial_dom,wet,sNDOMS,abiotic_sediment/initialization/sNDOMS,g N m-2,none,1.0.0,initial dissolved organic N in sediment
+nitrogen,sediment,initial_conditions,initial_humus,pclake,sNHumS0,initialstates/sNHumS0,gN*m^-2,,1.0.0,Humus_N_in_lake_sediment
+nitrogen,sediment,initial_conditions,initial_humus,wet,sNHumS,abiotic_sediment/initialization/sNHumS,g N m-2,none,1.0.0,initial humus N in sediment
+nitrogen,sediment,initial_conditions,initial_nitrate,pclake,sNO3S0,initialstates/sNO3S0,gN*m^-2,,1.0.0,N_in_NO3_in_lake_sediment_pore_water
+nitrogen,sediment,initial_conditions,initial_nitrate,wet,sNO3S,abiotic_sediment/initialization/sNO3S,g N m-2,none,1.0.0,initial nitrate in sediment
+nitrogen,sediment,initial_conditions,initial_nitrogen,selmaprotbas,fl_n,selmaprotbas/initialization/fl_n,mmol N m-2,none,1.0.0,initial nitrogen fluff (= active sediment)
+nitrogen,sediment,initial_conditions,initial_pom,pclake,sNDetS0,initialstates/sNDetS0,gN*m^-2,,1.0.0,Detritus_N_in_lake_sediment
+nitrogen,sediment,initial_conditions,initial_pom,wet,sNPOMS,abiotic_sediment/initialization/sNPOMS,g N m-2,none,1.0.0,initial particulate organic N in sediment
+nitrogen,sediment,nitrification,nitrification,pclake,kNitrS,parameters/kNitrS,d^-1,1,1.0.0,Nitrification_rate_constant_in_sediment
 nitrogen,sediment,nitrification,nitrification,wet,O2PerNH4S,abiotic_sediment/parameters/O2PerNH4S,molO2 molNH4-1,2,1.0.0,used O2 per NH4 nitrified in the sediment
-nitrogen,water,nitrification,nitrification,pclake,kNitrW,parameters/kNitrW,d-1,0.1,1.0.0,nitrification_constant_in_water
-nitrogen,sediment,nitrification,nitrification,pclake,kNitrS,parameters/kNitrS,d-1,1,1.0.0,nitrification_constant_in_sediment
-nitrogen,water,nitrification,nitrification,pclake,cThetaNitr,parameters/cThetaNitr,degC,1.08,1.0.0,Temperature_coefficient_of_nitrification
-nitrogen,water,nitrification,nitrification,pclake,hO2Nitr,parameters/hO2Nitr,g O2 m-3,2,1.0.0,Half-sat_O2_conc_for_nitrification_in_water
-nitrogen,water,nitrification,nitrification,aed2,theta_nitrif,aed2_nitrogen/theta_nitrif,-,1.08,1.0.0,Arrhenius temperature multiplier for nitrification
-nitrogen,water,nitrification,nitrification,aed2,Rnh4o2,aed2_nitrogen/Rnh4o2,?,1,1.0.0,reaction rate
-nitrogen,water,nitrification,nitrification,aed2,Rno2o2,aed2_nitrogen/Rno2o2,?,1,1.0.0,reaction rate
-nitrogen,water,nitrification,equation_options,aed2,simN2O,aed2_nitrogen/simN2O,(integer),0,1.0.0,"1:, 2:"
-nitrogen,water,nitrification,nitrification,aed2,Rn2o,aed2_nitrogen/Rn2o,?,0.05,1.0.0,reaction rate
-nitrogen,water,ammonium_oxidation,ammonium_oxidation,aed2,Kpart_ammox,aed2_nitrogen/Kpart_ammox,?,1,1.0.0,saturation concentration in ammonium oxidation equation
-nitrogen,water,anammox,anammox,aed2,Kin_deamm,aed2_nitrogen/Kin_deamm,?,1,1.0.0,saturation concentration in deammonification equation
-nitrogen,water,anammox,anammox,aed2,Ranammox,aed2_nitrogen/Ranammox,?,0.001,1.0.0,anaerobic ammonium oxidation rate
-nitrogen,water,anammox,anammox,aed2,Kanmx_nit,aed2_nitrogen/Kanmx_nit,?,2,1.0.0,saturation concentration in anammox equation for nitrate
-nitrogen,water,anammox,anammox,aed2,Kanmx_amm,aed2_nitrogen/Kanmx_amm,?,2,1.0.0,saturation concentration in anammox equation for ammonium
-nitrogen,water,water_atmosphere_exchange,n2o,aed2,atm_n2o,aed2_nitrogen/atm_n2o,?,3.20E-07,1.0.0,atmospheric concentration of n2o
-nitrogen,water,water_atmosphere_exchange,n2o,aed2,n2o_piston_model,aed2_nitrogen/n2o_piston_model,(integer),4,1.0.0,"1:, 2:"
-nitrogen,water,denitrification,denitrification,aed2,Kdenit,aed2_nitrogen/Kdenit,?,3,1.0.0,saturation concentration in denitrification equation
-nitrogen,water,denitrification,nitrate_reduc_to_ammonium,aed2,Rdnra,aed2_nitrogen/Rdnra,?,0.01,1.0.0,rate of dissimilatory nitrate reduction to ammonium
-nitrogen,water,denitrification,nitrate_reduc_to_ammonium,aed2,Kdnra_oxy,aed2_nitrogen/Kdnra_oxy,?,2,1.0.0,saturation concentration in DNRA equation
+nitrogen,sediment,nitrification,nitrification,wet,cThetaNitrS,abiotic_sediment/parameters/cThetaNitrS,1/e^degC,1.03,1.0.0,temperature coefficient for nitrification in the sediment
+nitrogen,sediment,nitrification,nitrification,wet,kNitrS,abiotic_sediment/parameters/kNitrS,d-1,1.2,1.0.0,nitrification rate constant at 20*C in the sediment
+nitrogen,sediment,sediment_characteristics,sediment_composition,pclake,cNDSoilOM,parameters/cNDSoilOM,gN*gDW^-1,0.01,1.0.0,N/day_ratio_of_soil_organic_matter
+nitrogen,sediment,water_sediment_exchange,diffusion,wet,kNDifDOM,abiotic_sediment/parameters/kNDifDOM,m2 d-1,8.50E-05,1.0.0,DOM diffusion constant N at 20*C 
+nitrogen,sediment,water_sediment_exchange,diffusion,wet,kNDifNH4,abiotic_sediment/parameters/kNDifNO3,m2 d-1,0.000112,1.0.0,NH4 diffusion constant at 20*C 
+nitrogen,sediment,water_sediment_exchange,diffusion,wet,kNDifNO3,abiotic_sediment/parameters/kNDifNO3,m2 d-1,8.60E-05,1.0.0,NO3 diffusion constant at 20*C 
 nitrogen,sediment,water_sediment_exchange,sediment_flux_ammonium,aed2,Fsed_amm,aed2_nitrogen/Fsed_amm,?,30,1.0.0,Sediment-water flux for ammonium
 nitrogen,sediment,water_sediment_exchange,sediment_flux_ammonium,aed2,Ksed_amm,aed2_nitrogen/Ksed_amm,?,31.25,1.0.0,saturation concentration in ammonium sediment flux equation
 nitrogen,sediment,water_sediment_exchange,sediment_flux_ammonium,aed2,theta_sed_amm,aed2_nitrogen/theta_sed_amm,?,1.08,1.0.0,Arrhenius temperature multiplier for ammonium sediment flux
+nitrogen,sediment,water_sediment_exchange,sediment_flux_n2o,aed2,Fsed_n2o,aed2_nitrogen/Fsed_n2o,?,0,1.0.0,Sediment-water flux for n2o
+nitrogen,sediment,water_sediment_exchange,sediment_flux_n2o,aed2,Ksed_n2o,aed2_nitrogen/Ksed_n2o,?,100,1.0.0,saturation concentration in n2o sediment equation
 nitrogen,sediment,water_sediment_exchange,sediment_flux_nitrate,aed2,Fsed_nit,aed2_nitrogen/Fsed_nit,?,5.2,1.0.0,Sediment-water flux for nitrate
 nitrogen,sediment,water_sediment_exchange,sediment_flux_nitrate,aed2,Ksed_nit,aed2_nitrogen/Ksed_nit,?,100,1.0.0,saturation concentration in nitrate sediment flux equation
 nitrogen,sediment,water_sediment_exchange,sediment_flux_nitrate,aed2,theta_sed_nit,aed2_nitrogen/theta_sed_nit,?,1.08,1.0.0,Arrhenius temperature multiplier for nitrate sediment flux
-nitrogen,sediment,water_sediment_exchange,sediment_flux_n2o,aed2,Fsed_n2o,aed2_nitrogen/Fsed_n2o,?,0,1.0.0,Sediment-water flux for n2o
-nitrogen,sediment,water_sediment_exchange,sediment_flux_n2o,aed2,Ksed_n2o,aed2_nitrogen/Ksed_n2o,?,100,1.0.0,saturation concentration in n2o sediment equation
-nitrogen,water,decomposition,mineralisation_pom,wet,kNMinPOMW,abiotic_water/parameters/kNMinPOMW,d-1,0.01,1.0.0,decomposition constant of POM-N at 20*C 
+nitrogen,sediment_marsh,initial_conditions,initial_ammonium,pclake,sNH4SM0,initialstates/sNH4SM0,gN*m^-2,,1.0.0,N_in_NH4_in_marsh_sediment_pore_water
+nitrogen,sediment_marsh,initial_conditions,initial_humus,pclake,sNHumSM0,initialstates/sNHumSM0,gN*m^-2,,1.0.0,Humus_N_in_marsh_sediment
+nitrogen,sediment_marsh,initial_conditions,initial_nitrate,pclake,sNO3SM0,initialstates/sNO3SM0,gN*m^-2,,1.0.0,N_in_NO3_in_marsh_sediment_pore_water
+nitrogen,sediment_marsh,initial_conditions,initial_pom,pclake,sNDetSM0,initialstates/sNDetSM0,gN*m^-2,,1.0.0,Detritus_N_in_marsh_sediment
+nitrogen,water,ammonification,ammonification,pclake,O2PerNO3,parameters/O2PerNO3,-,1.5,1.0.0,Mol_O2_formed_per_mol_NO3-_ammonified
+nitrogen,water,ammonium_oxidation,ammonium_oxidation,aed2,Kpart_ammox,aed2_nitrogen/Kpart_ammox,?,1,1.0.0,saturation concentration in ammonium oxidation equation
+nitrogen,water,anammox,anammox,aed2,Kanmx_amm,aed2_nitrogen/Kanmx_amm,?,2,1.0.0,saturation concentration in anammox equation for ammonium
+nitrogen,water,anammox,anammox,aed2,Kanmx_nit,aed2_nitrogen/Kanmx_nit,?,2,1.0.0,saturation concentration in anammox equation for nitrate
+nitrogen,water,anammox,anammox,aed2,Kin_deamm,aed2_nitrogen/Kin_deamm,?,1,1.0.0,saturation concentration in deammonification equation
+nitrogen,water,anammox,anammox,aed2,Ranammox,aed2_nitrogen/Ranammox,?,0.001,1.0.0,anaerobic ammonium oxidation rate
 nitrogen,water,decomposition,mineralisation_dom,wet,kNMinDOMW,abiotic_water/parameters/kNMinDOMW,d-1,0.01,1.0.0,mineralization constant of DOM-N at 20*C 
-nitrogen,water,water_atmosphere_exchange,pom,wet,tNDepoPOM,abiotic_water/parameters/tNDepoPOM,g m-2 d-1,0,1.0.0,organic matter N deposition
+nitrogen,water,decomposition,mineralisation_pom,wet,kNMinPOMW,abiotic_water/parameters/kNMinPOMW,d-1,0.01,1.0.0,decomposition constant of POM-N at 20*C 
+nitrogen,water,denitrification,denitrification,aed2,Kdenit,aed2_nitrogen/Kdenit,?,3,1.0.0,saturation concentration in denitrification equation
+nitrogen,water,denitrification,denitrification,aed2,Rdenit,aed2_nitrogen/Rdenit,d-1,0.5,1.0.0,maximum reaction rate of denitrification @ 20C
+nitrogen,water,denitrification,denitrification,aed2,theta_denit,aed2_nitrogen/theta_denit,-,1.08,1.0.0,Arrhenius temperature multiplier for denitrification
+nitrogen,water,denitrification,denitrification,pclake,NO3PerC,parameters/NO3PerC,-,0.8,1.0.0,Mol_NO3_denitrified_per_mol_C_mineralised
+nitrogen,water,denitrification,denitrification,pclake,hNO3Denit,parameters/hNO3Denit,gN*m^-3,2,1.0.0,Quadratic_half-sat_NO3_conc_for_denitrification
+nitrogen,water,denitrification,denitrification,selmaprotbas,ade_r0,selmaprotbas/parameters/ade_r0,d-1,0.1,1.0.0,maximum chemoautolithotrophic denitrification rate
+nitrogen,water,denitrification,denitrification,selmaprotbas,alphaade,selmaprotbas/parameters/alphaade,mmol N m-3,1,1.0.0,half-saturation constant for chemoautolithotrophic denitrification
+nitrogen,water,denitrification,denitrification,wet,NO3PerCW,abiotic_water/parameters/NO3PerCW,molN molC-1,1,1.0.0,denitrified NO3 per C mineralised
+nitrogen,water,denitrification,denitrification,wet,hNO3DenitW,abiotic_water/parameters/hNO3DenitW,mg N l-1,1,1.0.0,quadratic half saturation NO3 conc. for denitrification
+nitrogen,water,denitrification,nitrate_reduc_to_ammonium,aed2,Kdnra_oxy,aed2_nitrogen/Kdnra_oxy,?,2,1.0.0,saturation concentration in DNRA equation
+nitrogen,water,denitrification,nitrate_reduc_to_ammonium,aed2,Rdnra,aed2_nitrogen/Rdnra,?,0.01,1.0.0,rate of dissimilatory nitrate reduction to ammonium
+nitrogen,water,initial_conditions,initial_ammonium,aed2,amm_initial,aed2_nitrogen/amm_initial,mmol N m-3,2.6,1.0.0,initial NH4 concentration
+nitrogen,water,initial_conditions,initial_ammonium,pclake,sNH4WEpi0,initialstates/sNH4WEpi0,gN*m^-2,,1.0.0,N_in_NH4_in_epilimnion_lake_water
+nitrogen,water,initial_conditions,initial_ammonium,pclake,sNH4WHyp0,initialstates/sNH4WHyp0,gN*m^-2,,1.0.0,N_in_NH4_in_hypolimnion_lake_water
+nitrogen,water,initial_conditions,initial_ammonium,selmaprotbas,aa,selmaprotbas/initialization/aa,mmol N m-3,none,1.0.0,initial dissolved ammonium in the water column
+nitrogen,water,initial_conditions,initial_ammonium,wet,sNH4W,abiotic_water/initialization/sNH4W,g m-3,none,1.0.0,initial dissolved ammonium in the water column
+nitrogen,water,initial_conditions,initial_dom,wet,sNDOMW,abiotic_water/initialization/sNDOMW,g m-3,none,1.0.0,dissolved organic N
+nitrogen,water,initial_conditions,initial_humus,pclake,cNDHum0,initialstates/cNDHum0,gN*gDW^-1,0.05,1.0.0,Initial_N_fraction_in_humus
+nitrogen,water,initial_conditions,initial_n2o,aed2,n2o_initial,aed2_nitrogen/n2o_initial,?,0.1,1.0.0,initial n2o in the water column
+nitrogen,water,initial_conditions,initial_nitrate,aed2,nit_initial,aed2_nitrogen/nit_initial,mmol N m-3,0.1,1.0.0,initial NO3 concentration
+nitrogen,water,initial_conditions,initial_nitrate,pclake,sNO3WEpi0,initialstates/sNO3WEpi0,gN*m^-2,,1.0.0,N_in_NO3_in_epilimnion_lake_water
+nitrogen,water,initial_conditions,initial_nitrate,pclake,sNO3WHyp0,initialstates/sNO3WHyp0,gN*m^-2,,1.0.0,N_in_NO3_in_hypolimnion_lake_water
+nitrogen,water,initial_conditions,initial_nitrate,selmaprotbas,nn,selmaprotbas/initialization/nn,mmol N m-3,none,1.0.0,initial dissolved nitrate in the water column
+nitrogen,water,initial_conditions,initial_nitrate,wet,sNO3W,abiotic_water/initialization/sNO3W,g m-3,none,1.0.0,initial dissolved nitrate in the water column
+nitrogen,water,initial_conditions,initial_nitrogen,pclake,sNExtTotT0,initialstates/sNExtTotT0,gN*m^-2,,1.0.0,Total_amount_of_N_moved_into_or_out_from_the_system
+nitrogen,water,initial_conditions,initial_nitrogen,pclake,uNTotT0,initialstates/uNTotT0,gN*m^-2,,1.0.0,Total_initial_N_in_the_lake
+nitrogen,water,initial_conditions,initial_nitrogen,pclake,uNTotTHyp0,initialstates/uNTotTHyp0,gN*m^-2,,1.0.0,Total_initial_N_in_the_lake
+nitrogen,water,initial_conditions,initial_nitrogen,pclake,uNTotTSurf0,initialstates/uNTotTSurf0,gN*m^-2,,1.0.0,Total_initial_N_at_the_surface
+nitrogen,water,initial_conditions,initial_pom,pclake,cNDDet0,initialstates/cNDDet0,gN*gDW^-1,0.025,1.0.0,Initial_N_fraction_in_detritus
+nitrogen,water,initial_conditions,initial_pom,pclake,sNDetWEpi0,initialstates/sNDetWEpi0,gN*m^-2,,1.0.0,Detritus_N_in_epilimnion_lake_water
+nitrogen,water,initial_conditions,initial_pom,pclake,sNDetWHyp0,initialstates/sNDetWHyp0,gN*m^-2,,1.0.0,Detritus_N_in_hypolimnion_lake_water
+nitrogen,water,initial_conditions,initial_pom,selmaprotbas,dd_n,selmaprotbas/initialization/dd_n,mmol N m-3,none,1.0.0,initial detritus-N in the water column
+nitrogen,water,initial_conditions,initial_pom,wet,sNPOMW,abiotic_water/initialization/sNPOMW,g m-3,none,1.0.0,particulate organic N
+nitrogen,water,nitrification,equation_options,aed2,simN2O,aed2_nitrogen/simN2O,(integer),0,1.0.0,1:, 2:
+nitrogen,water,nitrification,nitrification,aed2,Knitrif,aed2_nitrogen/Knitrif,?,78.1,1.0.0,saturation concentration for nitrification
+nitrogen,water,nitrification,nitrification,aed2,Rn2o,aed2_nitrogen/Rn2o,?,0.05,1.0.0,reaction rate
+nitrogen,water,nitrification,nitrification,aed2,Rnh4o2,aed2_nitrogen/Rnh4o2,?,1,1.0.0,reaction rate
+nitrogen,water,nitrification,nitrification,aed2,Rnitrif,aed2_nitrogen/Rnitrif,d-1,0.5,1.0.0,maximum reaction rate of nitrification @ 20C
+nitrogen,water,nitrification,nitrification,aed2,Rno2o2,aed2_nitrogen/Rno2o2,?,1,1.0.0,reaction rate
+nitrogen,water,nitrification,nitrification,aed2,theta_nitrif,aed2_nitrogen/theta_nitrif,-,1.08,1.0.0,Arrhenius temperature multiplier for nitrification
+nitrogen,water,nitrification,nitrification,pclake,O2PerNH4,parameters/O2PerNH4,-,2,1.0.0,Mol_O2_used_per_mol_NH4+_nitrified
+nitrogen,water,nitrification,nitrification,pclake,cThetaNitr,parameters/cThetaNitr,oC,1.08,1.0.0,Temperature_coefficient_of_nitrification
+nitrogen,water,nitrification,nitrification,pclake,hO2Nitr,parameters/hO2Nitr,gO2*m^-3,2,1.0.0,Half-sat_O2_conc_for_nitrification_in_water
+nitrogen,water,nitrification,nitrification,pclake,kNitrW,parameters/kNitrW,d^-1,0.1,1.0.0,Nitrification_rate_constant_in_water
+nitrogen,water,nitrification,nitrification,wet,O2PerNH4W,abiotic_water/parameters/O2PerNH4W,molO2 molNH4-1,2,1.0.0,used O2 per NH4 nitrified
+nitrogen,water,nitrification,nitrification,wet,cThetaNitrW,abiotic_water/parameters/cThetaNitrW,1/e^degC,1.03,1.0.0,temperature coefficient for nitrification
+nitrogen,water,nitrification,nitrification,wet,hO2Nitr,abiotic_water/parameters/hO2Nitr,mg O2 l-1,2,1.0.0,half saturation oxygen conc. for nitrification
+nitrogen,water,nitrification,nitrification,wet,kNitrW,abiotic_water/parameters/kNitrW,d-1,0.3,1.0.0,nitrification rate constant in water at 20*C
 nitrogen,water,water_atmosphere_exchange,ammonium,wet,tNDepoNH4,abiotic_water/parameters/tNDepoNH4,g m-2 d-1,0,1.0.0,ammonium deposition 
+nitrogen,water,water_atmosphere_exchange,n2o,aed2,atm_n2o,aed2_nitrogen/atm_n2o,?,3.20E-07,1.0.0,atmospheric concentration of n2o
+nitrogen,water,water_atmosphere_exchange,n2o,aed2,n2o_piston_model,aed2_nitrogen/n2o_piston_model,(integer),4,1.0.0,1:, 2:
 nitrogen,water,water_atmosphere_exchange,nitrate,wet,tNDepoNO3,abiotic_water/parameters/tNDepoNO3,g m-2 d-1,0,1.0.0,nitrate deposition 
-nitrogen,sediment,denitrification,denitrification,wet,hNO3DenitS,abiotic_sediment/parameters/hNO3DenitS,mgN l-1,0.5,1.0.0,quadratic half-sat. NO3 conc. for denitrification 
-nitrogen,sediment,water_sediment_exchange,diffusion,wet,kNDifNO3,abiotic_sediment/parameters/kNDifNO3,m2 d-1,8.60E-05,1.0.0,NO3 diffusion constant at 20*C 
-nitrogen,sediment,water_sediment_exchange,diffusion,wet,kNDifNH4,abiotic_sediment/parameters/kNDifNO3,m2 d-1,0.000112,1.0.0,NH4 diffusion constant at 20*C 
-nitrogen,sediment,water_sediment_exchange,diffusion,wet,kNDifDOM,abiotic_sediment/parameters/kNDifDOM,m2 d-1,8.50E-05,1.0.0,DOM diffusion constant N at 20*C 
-nitrogen,sediment,decomposition,mineralisation_pom,wet,kNMinPOMS,abiotic_sediment/parameters/kNMinPOMS,d-1,"0.002
-",1.0.0,decomposition constant of POM-N at 20*C 
-nitrogen,sediment,decomposition,mineralisation_dom,wet,kNMinDOMS,abiotic_sediment/parameters/kNMinDOMS,d-1,"0.003
-",1.0.0,mineralization constant of DOM-N at 20*C 
-phosphorus,water,initial_conditions,initial_phosphate,selmaprotbas,po,selmaprotbas/initialization/po,mmol P m-3,none,1.0.0,initial dissolved phosphate in the water column
-phosphorus,water,initial_conditions,initial_pom,selmaprotbas,dd_p,selmaprotbas/initialization/dd_p,mmol P m-3,none,1.0.0,initial detritus-P in the water column
+nitrogen,water,water_atmosphere_exchange,pom,wet,tNDepoPOM,abiotic_water/parameters/tNDepoPOM,g m-2 d-1,0,1.0.0,organic matter N deposition
+nitrogen,water,water_sediment_exchange,diffusion,pclake,kNDifNH4,parameters/kNDifNH4,m^2*d^-1,0.000112,1.0.0,Mol_NH4_diffusion_constant
+nitrogen,water,water_sediment_exchange,diffusion,pclake,kNDifNO3,parameters/kNDifNO3,m^2*d^-1,8.60E-05,1.0.0,Mol_NO3_diffusion_constant
+nitrogen,water_marsh,initial_conditions,initial_ammonium,pclake,sNH4WM0,initialstates/sNH4WM0,gN*m^-2,,1.0.0,N_in_NH4_in_marsh_water
+nitrogen,water_marsh,initial_conditions,initial_nitrate,pclake,sNO3WM0,initialstates/sNO3WM0,gN*m^-2,,1.0.0,N_in_NO3_in_marsh_water
+nitrogen,water_marsh,initial_conditions,initial_nitrogen,pclake,uNTotM0,initialstates/uNTotM0,gN*m^-2,,1.0.0,Total_initial_N_in_the_marsh
+nitrogen,water_marsh,initial_conditions,initial_pom,pclake,sNDetWM0,initialstates/sNDetWM0,gN*m^-2,,1.0.0,Detritus_N_in_marsh_water
+oxygen,sediment,water_sediment_exchange,diffusion,pclake,cTurbDifO2,parameters/cTurbDifO2,-,5,1.0.0,Bioturbation_factor_for_diffusion
+oxygen,sediment,water_sediment_exchange,diffusion,wet,cThetaDif,abiotic_sediment/parameters/cThetaDif,1/e^degC,1.016,1.0.0,temperature coefficient for diffusion
+oxygen,sediment,water_sediment_exchange,diffusion,wet,cTurbDifO2,abiotic_sediment/parameters/cTurbDifO2,-,5,1.0.0,bioturbation factor for oxygen diffusion
+oxygen,sediment,water_sediment_exchange,diffusion,wet,kO2Dif,abiotic_sediment/parameters/kO2Dif,m2 d-1,0.00017,1.0.0,O2 diffusion constant at 20 degC
+oxygen,sediment,water_sediment_exchange,sediment_flux,aed2,Fsed_oxy,aed2_oxygen/Fsed_oxy,mmol m-2 d-1,48,1.0.0,Sediment-water flux for oxygen
+oxygen,sediment,water_sediment_exchange,sediment_flux,aed2,Ksed_oxy,aed2_oxygen/Ksed_oxy,mmol m-3,150,1.0.0,half-saturation concentration of oxygen sediment flux
+oxygen,sediment,water_sediment_exchange,sediment_flux,aed2,theta_sed_oxy,aed2_oxygen/theta_sed_oxy,-,1.08,1.0.0,Arrhenius temperature multiplier for sediment oxygen flux
+oxygen,water,initial_conditions,inital_oxygen,pclake,sO2ExtTotT0,initialstates/sO2ExtTotT0,gO2*m^-2,,1.0.0,Total_amount_of_O2_moved_into_or_out_from_the_system
+oxygen,water,initial_conditions,inital_oxygen,pclake,sO2WEpi0,initialstates/sO2WEpi0,gO2*m^-2,,1.0.0,Oxygen_in_epilimnion_lake_water
+oxygen,water,initial_conditions,inital_oxygen,pclake,sO2WHyp0,initialstates/sO2WHyp0,gO2*m^-2,,1.0.0,Oxygen_in_hypolimnion_lake_water
+oxygen,water,initial_conditions,inital_oxygen,pclake,uO2TotT0,initialstates/uO2TotT0,gO2*m^-2,,1.0.0,Total_initial_O2_in_the_marsh
+oxygen,water,initial_conditions,inital_oxygen,pclake,uO2TotTHyp0,initialstates/uO2TotTHyp0,gO2*m^-2,,1.0.0,Total_initial_O2_in_the_marsh
+oxygen,water,initial_conditions,initial_oxygen,aed2,oxy_initial,aed2_oxygen/oxy_initial,mmol O2 m-3,300,1.0.0,-
+oxygen,water,initial_conditions,initial_oxygen,selmaprotbas,o2,selmaprotbas/initialization/o2,mmol O2 m-3,none,1.0.0,-
+oxygen,water,initial_conditions,initial_oxygen,wet,sO2W,abiotic_water/initialization/sO2W,g O2 m-3,none,1.0.0,-
+oxygen,water,oxygen_consumption,BOD,pclake,hO2BOD,parameters/hO2BOD,gO2*m^-3,1,1.0.0,Half-sat_oxygen_conc_for_BOD
+oxygen,water,water_atmosphere_exchange,equation_options,selmaprotbas,newflux,selmaprotbas/parameters/newflux,(integer),2,1.0.0,1: piston velocity depends on winds and saturation according to Weiss, 2: polynomial approximation
+oxygen,water,water_atmosphere_exchange,piston_velocity,selmaprotbas,pvel,selmaprotbas/parameters/pvel,m d-1,5,1.0.0,piston velocity
+oxygen,water,water_atmosphere_exchange,reaeration_parameters,pclake,cAerLin,parameters/cAerLin,s*d^-1,-0.371,1.0.0,Coefficient_for_VWind_(is_negative)
+oxygen,water,water_atmosphere_exchange,reaeration_parameters,pclake,cAerRoot,parameters/cAerRoot,m^(1.5)*s^(0.5)*d^-1,0.727,1.0.0,Coefficient_for_VWind^05
+oxygen,water,water_atmosphere_exchange,reaeration_parameters,pclake,cAerSquare,parameters/cAerSquare,s^2*m^-1*d^-1,0.0376,1.0.0,Coefficient_for_VWind^2
+oxygen,water,water_atmosphere_exchange,reaeration_parameters,pclake,cThetaAer,parameters/cThetaAer,1^[oC^-1],1.024,1.0.0,Temperature_coeff_for_reaeration_(Downing_&_Truesdale_1955)
+oxygen,water,water_atmosphere_exchange,reaeration_parameters,pclake,kBlueSurfAer,parameters/kBlueSurfAer,m^2*gDW^-1,0.01,1.0.0,Reaeration_reduction_coeff_for_surface_blue
+oxygen,water,water_atmosphere_exchange,reaeration_parameters,pclake,kFloatAer,parameters/kFloatAer,m^2*gDW^-1,0.01,1.0.0,Reaeration_reduction_coeff_for_floating_plant_biomass
+oxygen,water,water_atmosphere_exchange,reaeration_parameters,wet,cThetaAer,abiotic_water/parameters/cThetaAer,1/e^*C,1.011,1.0.0,-
+oxygen,water,water_sediment_exchange,diffusion,pclake,kO2Dif,parameters/kO2Dif,m^2*d^-1,2.60E-05,1.0.0,Mol_O2_diffusion_constant
+oxygen,water_marsh,initial_conditions,inital_oxygen,pclake,sO2WM0,initialstates/sO2WM0,gO2*m^-2,,1.0.0,Oxygen_in_marsh_water
+oxygen,water_marsh,initial_conditions,inital_oxygen,pclake,uO2TotM0,initialstates/uO2TotM0,gO2*m^-2,,1.0.0,Total_initial_Si_in_the_marsh
+phosphorus,sediment,burial,burial,selmaprotbas,ipo4th,selmaprotbas/parameters/ipo4th,mmol P m-2,100,1.0.0,maximum phosphorus density available for burial
+phosphorus,sediment,burial,burial,selmaprotbas,pburialrate,selmaprotbas/parameters/pburialrate,d-1,0.007,1.0.0,phosphate burial rate
+phosphorus,sediment,initial_conditions,initial_humus,pclake,sPHumS0,initialstates/sPHumS0,gP*m^-2,,1.0.0,Humus_P_in_lake_sediment
+phosphorus,sediment,initial_conditions,initial_phosphate,pclake,sPO4S0,initialstates/sPO4S0,gP*m^-2,,1.0.0,P_in_PO4_in_lake_sediment_pore_water
 phosphorus,sediment,initial_conditions,initial_phosphorus,selmaprotbas,fl_p,selmaprotbas/initialization/fl_p,mmol P m-2,none,1.0.0,initial phosphorus fluff (= active sediment)
 phosphorus,sediment,initial_conditions,initial_phosphorus,selmaprotbas,pb,selmaprotbas/initialization/pb,mmol P m-2,none,1.0.0,initial phosphorus bound to iron in the sediment
-phosphorus,water,initial_conditions,initial_phosphorus,selmaprotbas,pw,selmaprotbas/initialization/pw,mmol P m-3,none,1.0.0,initial phosphorus bound to iron in the water column
-phosphorus,water,initial_conditions,initial_tp,mylake,In.TPz,In.TPz,mg m-3,21,1.0.0,Initial total P profile read from initial profiles file (incl. DOP & Chla)
+phosphorus,sediment,initial_conditions,initial_pim,pclake,fPAdsS0,initialstates/fPAdsS0,-,0.99,1.0.0,Initial_adsorbed_fraction_of_inorg_P_in_sed
+phosphorus,sediment,initial_conditions,initial_pim,pclake,fPInorgS0,initialstates/fPInorgS0,gP*gDW^-1,5.00E-04,1.0.0,Initial_inorg_P_fraction_in_sed
+phosphorus,sediment,initial_conditions,initial_pim,pclake,sPAIMS0,initialstates/sPAIMS0,gP*m^-2,,1.0.0,P_adsorbed_onto_IM_in_lake_sediment
+phosphorus,sediment,initial_conditions,initial_pom,pclake,sPDetS0,initialstates/sPDetS0,gP*m^-2,,1.0.0,Detritus_P_in_lake_sediment
 phosphorus,sediment,initial_conditions,initial_tp,mylake,In.TPz.sed,In.TPz.sed,mg m-3,756732,1.0.0,Initial total P profile in the sediment compartments read from initial profiles file
-phosphorus,water,vertical_movement,sedimentation,selmaprotbas,wpo4,selmaprotbas/parameters/wpo4,m d-1,-1,1.0.0,"vertical velocity of suspended P-Fe (positive: upwards/floating, negative: downwards/sinking)"
-phosphorus,water,water_sediment_exchange,sedimentation,selmaprotbas,sedratepo4,selmaprotbas/parameters/sedratepo4,m d-1,0.5,1.0.0,P-Fe sedimentation rate
+phosphorus,sediment,sediment_characteristics,sediment_composition,pclake,cPDSoilOM,parameters/cPDSoilOM,gP*gDW^-1,0.001,1.0.0,P/day_ratio_of_soil_organic_matter
+phosphorus,sediment,water_sediment_exchange,adsorption,selmaprotbas,pliberationrate,selmaprotbas/parameters/pliberationrate,d-1,0.1,1.0.0,phosphate liberation rate, anoxic sediments
+phosphorus,sediment,water_sediment_exchange,adsorption,selmaprotbas,po4ret,selmaprotbas/parameters/po4ret,-,0.18,1.0.0,phosphate retention rate, oxic sediments
 phosphorus,sediment,water_sediment_exchange,resuspension,selmaprotbas,eroratepo4,selmaprotbas/parameters/eroratepo4,d-1,6,1.0.0,P-Fe erosion rate
-phosphorus,sediment,water_sediment_exchange,adsorption,selmaprotbas,po4ret,selmaprotbas/parameters/po4ret,-,0.18,1.0.0,"phosphate retention rate, oxic sediments"
-phosphorus,sediment,burial,burial,selmaprotbas,pburialrate,selmaprotbas/parameters/pburialrate,d-1,0.007,1.0.0,phosphate burial rate
-phosphorus,sediment,water_sediment_exchange,adsorption,selmaprotbas,pliberationrate,selmaprotbas/parameters/pliberationrate,d-1,0.1,1.0.0,"phosphate liberation rate, anoxic sediments"
-phosphorus,sediment,burial,burial,selmaprotbas,ipo4th,selmaprotbas/parameters/ipo4th,mmol P m-2,100,1.0.0,maximum phosphorus density available for burial
-phosphorus,water,water_column_processes,phosphorus,aed2,frp_initial ,aed2_phosphorus/frp_initial,mmol P m-3,0.06,1.0.0,-
-phosphorus,water,water_sediment_exchange,phosphorus,aed2,Fsed_frp,aed2_phosphorus/Fsed_frp,mmol P m-3 d-1,0.5,1.0.0,Sediment-water flux for inorganic phosphorus
-phosphorus,water,water_sediment_exchange,phosphorus,aed2,theta_sed_frp,aed2_phosphorus/theta_sed_frp,-,1.08,1.0.0,half-saturation concentration of  inorganic phosphorus sediment flux
-phosphorus,water,water_sediment_exchange,phosphorus,aed2,Ksed_frp,aed2_phosphorus/Ksed_frp,mmol P m-3,200,1.0.0,Arrhenius temperature multiplier for sediment  inorganic phosphorus flux
-phosphorus,water,water_column_processes,adsorption,aed2,Qmax,aed2_phosphorus/Qmax,-,1,1.0.0,Sorption constant
-phosphorus,water,water_column_processes,adsorption,mylake,Psat_Lang,Bio.par/Psat_Lang,mg m-3,2500,1.0.0,Half saturation parameter for Langmuir isotherm
-phosphorus,water,water_column_processes,adsorption,mylake,Fmax_Lang,Bio.par/Fmax_Lang,-,8000,1.0.0,Scaling parameter for Langmuir isotherm
+phosphorus,sediment_marsh,initial_conditions,initial_humus,pclake,sPHumSM0,initialstates/sPHumSM0,gP*m^-2,,1.0.0,Humus_Pin_marsh_sediment
+phosphorus,sediment_marsh,initial_conditions,initial_phosphate,pclake,sPO4SM0,initialstates/sPO4SM0,gP*m^-2,,1.0.0,P_in_PO4_in_marsh_sediment_pore_water
+phosphorus,sediment_marsh,initial_conditions,initial_pim,pclake,fPAdsSM0,initialstates/fPAdsSM0,-,,1.0.0,Adsorbed_fraction_of_inorg._P_in_sediment
+phosphorus,sediment_marsh,initial_conditions,initial_pim,pclake,fPInorgSM0,initialstates/fPInorgSM0,gP*gDW^-1,5.00E-04,1.0.0,Initial_inorg_P_fraction_in_sed
+phosphorus,sediment_marsh,initial_conditions,initial_pim,pclake,sPAIMSM0,initialstates/sPAIMSM0,gP*m^-2,,1.0.0,P_adsorbed_onto_IM_in_marsh_sediment
+phosphorus,sediment_marsh,initial_conditions,initial_pom,pclake,sPDetSM0,initialstates/sPDetSM0,gP*m^-2,,1.0.0,Detritus_P_in_marsh_sediment
+phosphorus,water,absorption,absorption,pclake,cKPAdsOx,parameters/cKPAdsOx,m^3*gP^-1,0.6,1.0.0,P_adsorption_affinity_at_oxidized_conditions
+phosphorus,water,absorption,absorption,pclake,cRelPAdsAl,parameters/cRelPAdsAl,gP*gAl^-1,0.134,1.0.0,Max_P_adsorption_per_g_Al
+phosphorus,water,absorption,absorption,pclake,cRelPAdsD,parameters/cRelPAdsD,gP*gDW^-1,3.00E-05,1.0.0,Max_P_adsorption_per_g_DW
+phosphorus,water,absorption,absorption,pclake,cRelPAdsFe,parameters/cRelPAdsFe,gP*gFe^-1,0.065,1.0.0,Max_P_adsorption_per_g_Fe
+phosphorus,water,absorption,absorption,pclake,fRedMax,parameters/fRedMax,-,0.9,1.0.0,Max_reduction_factor_of_P_adsorption_affinity
+phosphorus,water,absorption,absorption,pclake,kPSorp,parameters/kPSorp,d^-1,0.05,1.0.0,P_sorption_rate_constant_not_too_high_->_model_speed
+phosphorus,water,decomposition,chemical_loss,pclake,kPChemPO4,parameters/kPChemPO4,m*d^-1,0.03,1.0.0,Chem_PO4_loss_rate
 phosphorus,water,decomposition,mineralisation_dom,mylake,k_dop_twty,Bio.par/k_dop_twty,d-1,0,1.0.0,specific DOP to P transformation rate (day-1) at 20 deg C
-silicate,water,initial_conditions,initial_silicate,selmaprotbas,si,selmaprotbas/initialization/si,mmol Si m-3,none,1.0.0,initial dissolved silicate in the water column
-silicate,water,initial_conditions,initial_pom,selmaprotbas,dd_si,selmaprotbas/initialization/dd_si,mmol Si m-3,none,1.0.0,initial detritus-Si in the water column
-silicate,sediment,initial_conditions,initial_silicate,selmaprotbas,fl_si,selmaprotbas/initialization/fl_si,mmol Si m-2,none,1.0.0,initial silicate fluff (= active sediment)
-silica,water,water_column_processes,sedimentation,aed2,Fsed_rsi,aed2_silica/Fsed_rsi,?,4,1.0.0,Sedimentation flux for silica
-phytoplankton,water,initial_conditions,initial_phyto,selmaprotbas,c,{group_name}/initialization/c,mmol C m-3,none,1.0.0,Initial concentration of phytoplankton
-phytoplankton,water,initial_conditions,minimum_concentration,selmaprotbas,c0,{group_name}/parameters/c0,mmol C m-3,0,1.0.0,background concentration
-phytoplankton,water,growth,growth_rate,selmaprotbas,r0,{group_name}/parameters/r0,d-1,1.3,1.0.0,maximum growth rate at 20 degrees C
-phytoplankton,water,growth,equation_options_growth_rate,selmaprotbas,tlim,{group_name}/parameters/tlim,-,0,1.0.0,"temperature limitation of growth (0: none (i.e. beta only), 1: flagellate-style, 2: cyanobacteria-style)"
-phytoplankton,water,growth,equation_options_temperature_limitation,selmaprotbas,tll,{group_name}/parameters/tll,-,none,1.0.0,"if tlim = 1; half-saturation temperature, squared (degC2). if tlim = 2; lower temperature limit (degC)"
-phytoplankton,water,growth,temperature_limitation,selmaprotbas,beta,{group_name}/parameters/beta,-,3.7,1.0.0,temperature growth correction factor
-phytoplankton,water,growth,equation_options_light_limitation,selmaprotbas,llim,{group_name}/parameters/llim,-,1,1.0.0,"light limitation of growth (1: Reynolds, 2: Selma)"
-phytoplankton,water,growth,light_limitation,selmaprotbas,alpha_light,{group_name}/parameters/alpha_light,d-1 (W m-2)-1,0.1,1.0.0,llim = 1; the slope of light-dependent growth
-phytoplankton,water,growth,light_limitation,selmaprotbas,imin,{group_name}/parameters/imin,W m-2,50,1.0.0,llim = 2; minimal optimal light radiation
-phytoplankton,water,respiration,respiration_rate,selmaprotbas,nb,{group_name}/parameters/nb,d-1,0.01,1.0.0,excretion rate
-phytoplankton,water,mortality,mortality_rate,selmaprotbas,deltao,{group_name}/parameters/deltao,d-1,0.02,1.0.0,mortality rate
-phytoplankton,water,growth,nutrient_limitation,selmaprotbas,alpha,{group_name}/parameters/alpha,mmol m-3,1.65625,1.0.0,half-saturation for nutrient uptake
-phytoplankton,water,growth,n_limitation,selmaprotbas,alpha_n,{group_name}/parameters/alpha_n,mmol N m-3,{par}{group_name}/parameters/alpha,1.0.0,half-saturation for nitrogen uptake
-phytoplankton,water,growth,p_limitation,selmaprotbas,alpha_p,{group_name}/parameters/alpha_p,mmol P m-3,{par}{group_name}/parameters/alpha,1.0.0,half-saturation for phosphorus uptake
-phytoplankton,water,growth,si_limitation,selmaprotbas,alpha_si,{group_name}/parameters/alpha_si,mmol Si m-3,{par}{group_name}/parameters/alpha,1.0.0,half-saturation for silica uptake
-phytoplankton,water,growth,equation_options_n_limitation,selmaprotbas,nitrogen_fixation,{group_name}/parameters/nitrogen_fixation,(boolean),FALSE,1.0.0,whether nitrogen fixation is used to acquire nitrogen
-phytoplankton,water,vertical_movement,vertical_velocity,selmaprotbas,wz,{group_name}/parameters/wz,m d-1,0,1.0.0,Vertical velocity (negative is downwards)
-phytoplankton,water,vertical_movement,equation_options_vertical_velocity,selmaprotbas,buoyancy_regulation,{group_name}/parameters/buoyancy_regulation,(boolean),FALSE,1.0.0,whether cells can regulate vertical movement
-phytoplankton,water,vertical_movement,equation_options_vertical_velocity,selmaprotbas,buoy_temperature,{group_name}/parameters/buoy_temperature,(boolean),FALSE,1.0.0,"whether temperature can regulate buoyancy, if buoyancy_regulation is true"
-phytoplankton,water,vertical_movement,equation_options_vertical_velocity,selmaprotbas,buoy_nutrient,{group_name}/parameters/buoy_nutrient,(boolean),FALSE,1.0.0,"whether nutrient limitation can regulate buoyancy, if buoyancy_regulation is true"
-phytoplankton,water,vertical_movement,vertical_velocity,selmaprotbas,par_limit1,{group_name}/parameters/par_limit1,W m-2,0,1.0.0,"below this light intensity, buoyancy-regulating plankton change vertical velocity from vert_vel1 to vert_vel2"
-phytoplankton,water,vertical_movement,vertical_velocity,selmaprotbas,par_limit2,{group_name}/parameters/par_limit2,W m-2,{par}{group_name}/parameters/par_limit1,1.0.0,"below this light intensity, buoyancy-regulating plankton change vertical velocity to vert_vel3"
-phytoplankton,water,vertical_movement,vertical_velocity,selmaprotbas,par_limit3,{group_name}/parameters/par_limit3,W m-2,{par}{group_name}/parameters/par_limit2,1.0.0,"below this light intensity, buoyancy-regulating plankton change vertical velocity to vert_vel4"
-phytoplankton,water,vertical_movement,vertical_velocity,selmaprotbas,buoy_temp_limit,{group_name}/parameters/buoy_temp_limit,degC,0,1.0.0,"if temperature falls below this temperature, vertical velocity is set to vert_vel_temp, if buoyancy_regulation = true"
-phytoplankton,water,vertical_movement,vertical_velocity,selmaprotbas,buoy_nutrient_limit,{group_name}/parameters/buoy_nutrient_limit,-,0,1.0.0,"if nutrient limitation falls below this value (0-1), vertical velocity is set to vert_vel_nutrient, if buoyancy_regulation = true"
-phytoplankton,water,vertical_movement,vertical_velocity,selmaprotbas,vert_vel1,{group_name}/parameters/vert_vel1,m d-1,0,1.0.0,"rate of vertical movement above par_limit1, if buoyancy_regulation = true"
-phytoplankton,water,vertical_movement,vertical_velocity,selmaprotbas,vert_vel2,{group_name}/parameters/vert_vel2,m d-1,{par}{group_name}/parameters/vert_vel1,1.0.0,"rate of vertical movement below par_limit1 and above par_limit2, if buoyancy_regulation = true"
-phytoplankton,water,vertical_movement,vertical_velocity,selmaprotbas,vert_vel3,{group_name}/parameters/vert_vel3,m d-1,{par}{group_name}/parameters/vert_vel2,1.0.0,"rate of vertical movement below par_limit2 and above par_limit3, if buoyancy_regulation = true"
-phytoplankton,water,vertical_movement,vertical_velocity,selmaprotbas,vert_vel4,{group_name}/parameters/vert_vel4,m d-1,{par}{group_name}/parameters/vert_vel3,1.0.0,"rate of vertical movement below par_limit3, if buoyancy_regulation = true"
-phytoplankton,water,vertical_movement,vertical_velocity,selmaprotbas,vert_vel_temp,{group_name}/parameters/vert_vel_temp,m d-1,{par}{group_name}/parameters/vert_vel4,1.0.0,"vertical velocity at temperatures below buoy_temp_limit, if buoyancy_regulation = true"
-phytoplankton,water,vertical_movement,vertical_velocity,selmaprotbas,vert_vel_nutrient,{group_name}/parameters/vert_vel_nutrient,m d-1,{par}{group_name}/parameters/vert_vel4,1.0.0,"vertical velocity at nutrient limitation below buoy_nutrient_limit, if buoyancy_regulation = true"
-phytoplankton,water,water_sediment_exchange,settling,selmaprotbas,sedrate,{group_name}/parameters/sedrate,m d-1,0,1.0.0,sedimentation rate
-phytoplankton,water,water_sediment_exchange,resuspension,selmaprotbas,tau_crit,{group_name}/parameters/tau_crit,N m-2,0.07,1.0.0,critical shear stress
-phytoplankton,water,light,light_attenuation,selmaprotbas,kc,{group_name}/parameters/kc,m2 mmolC-1,none,1.0.0,specific light attenuation
-phytoplankton,water,stoichiometry,nitrogen_ratio,selmaprotbas,rfn,{group_name}/parameters/rfn,-,0.150943,1.0.0,nitrogen : carbon ratio (mol N/mol C)
-phytoplankton,water,stoichiometry,phosphorus_ratio,selmaprotbas,rfr,{group_name}/parameters/rfr,-,0.009434,1.0.0,phosphorus : carbon ratio (mol P/mol C)
-phytoplankton,water,stoichiometry,silica_ratio,selmaprotbas,rfs,{group_name}/parameters/rfs,-,0,1.0.0,silica : carbon ratio (mol Si/mol C)
-phytoplankton,water,initial_conditions,name,aed2,p_name,phyto_data/pd%p_name,?,NAME,1.0.0,functional species name
-phytoplankton,water,stoichiometry,chlorophyll_ratio,selmaprotbas,Yc,{group_name}/parameters/Yc,mmol C/mg Chl a,6.25,1.0.0,carbon : chlorophyll a ratio
-phytoplankton,water,initial_conditions,initial_phyto,aed2,p_initial,phyto_data/pd%p_initial,mmol C m-3,10,1.0.0,Initial concentration of phytoplankton
-phytoplankton,water,initial_conditions,minimum_concentration,aed2,p0,phyto_data/pd%p0,mmol C m-3,0.03,1.0.0,minimum concentration of phytoplankton
-phytoplankton,water,growth,growth_rate,aed2,R_growth,phyto_data/pd%R_growth,d-1,3,1.0.0,Phyto max growth rate @20C
-phytoplankton,water,growth,equation_options_temperature_limitation,aed2,fT_method,phyto_data/pd%fT_method,(integer),1,1.0.0,"1:, 2:"
-phytoplankton,water,growth,temperature_limitation,aed2,theta_growth,phyto_data/pd%theta_growth,?,1.06,1.0.0,Arrhenius temperature multiplier for phytoplankton growth
-phytoplankton,water,growth,temperature_limitation,aed2,T_std,phyto_data/pd%T_std,degC,20,1.0.0,standard_temperature
-phytoplankton,water,growth,temperature_limitation,aed2,T_opt,phyto_data/pd%T_opt,degC,25,1.0.0,optimum_temperature
-phytoplankton,water,growth,temperature_limitation,aed2,T_max,phyto_data/pd%T_max,degC,32,1.0.0,maximum_temperature
-phytoplankton,water,growth,equation_options_light_limitation,aed2,lightModel,phyto_data/pd%lightModel,(integer),0,1.0.0,"1:, 2:"
-phytoplankton,water,growth,light_limitation,aed2,I_K,phyto_data/pd%I_K,micro E m-2 s-1,60,1.0.0,saturation_concentration
-phytoplankton,water,growth,light_limitation,aed2,I_S,phyto_data/pd%I_S,micro E m-2 s-1,150,1.0.0,saturation_intensity
-phytoplankton,water,growth,equation_options_salt_limitation,aed2,salTol,phyto_data/pd%salTol,(integer),0,1.0.0,"1:, 2:"
-phytoplankton,water,growth,salt_limitation,aed2,S_bep,phyto_data/pd%S_bep,?,2,1.0.0,salinity_limitation
-phytoplankton,water,growth,salt_limitation,aed2,S_maxsp,phyto_data/pd%S_maxsp,g kg-1,35,1.0.0,salinity_maximum
-phytoplankton,water,growth,salt_limitation,aed2,S_opt,phyto_data/pd%S_opt,g kg-1,1,1.0.0,salinity_optimum
-phytoplankton,water,growth,equation_options_n_limitation,aed2,simDINUptake,phyto_data/pd%simDINUptake,(integer),1,1.0.0,"1:, 2:"
-phytoplankton,water,growth,equation_options_n_limitation,aed2,simDONUptake,phyto_data/pd%simDONUptake,(integer),0,1.0.0,"1:, 2:"
-phytoplankton,water,growth,equation_options_n_limitation,aed2,simNFixation,phyto_data/pd%simNFixation,(integer),0,1.0.0,"1:, 2:"
-phytoplankton,water,growth,equation_options_n_limitation,aed2,simINDynamics,phyto_data/pd%simINDynamics,(integer),1,1.0.0,"1:, 2:"
-phytoplankton,water,growth,n_limitation,aed2,N_o,phyto_data/pd%N_o,mmol N m-2,0,1.0.0,minimum_concentration
-phytoplankton,water,growth,n_limitation,aed2,K_N,phyto_data/pd%K_N,mmol N m-3,3.5,1.0.0,saturation_concentration
-phytoplankton,water,growth,n_limitation,aed2,X_ncon,phyto_data/pd%X_ncon,mmol N mmol C-1,0.035,1.0.0,constant_concentration
-phytoplankton,water,growth,n_limitation,aed2,X_nmin,phyto_data/pd%X_nmin,mmol N mmol C-0,0.06,1.0.0,minimum_concentration
-phytoplankton,water,growth,n_limitation,aed2,X_nmax,phyto_data/pd%X_nmax,mmol N mmol C-1 ,0.206,1.0.0,maximum_concentration
-phytoplankton,water,growth,n_limitation,aed2,R_nuptake,phyto_data/pd%R_nuptake,?,0.068,1.0.0,maximum_uptake
-phytoplankton,water,growth,n_limitation,aed2,k_nfix,phyto_data/pd%k_nfix,?,0.67,1.0.0,growth_rate_reduction
-phytoplankton,water,growth,n_limitation,aed2,R_nfix,phyto_data/pd%R_nfix,mmol N mmol C-1 d-1,0.13,1.0.0,fixation_rate
-phytoplankton,water,growth,equation_options_p_limitation,aed2,simDIPUptake,phyto_data/pd%simDIPUptake,(integer),1,1.0.0,DIP_model
-phytoplankton,water,growth,equation_options_p_limitation,aed2,simIPDynamics,phyto_data/pd%simIPDynamics,(integer),2,1.0.0,IP_model
-phytoplankton,water,growth,p_limitation,aed2,P_0,phyto_data/pd%P_0,mmol P m-3,0,1.0.0,minimum_concentration
-phytoplankton,water,growth,p_limitation,aed2,K_P,phyto_data/pd%K_P,mmol P m-3,0.5,1.0.0,saturation_concentration
-phytoplankton,water,growth,p_limitation,aed2,X_pcon,phyto_data/pd%X_pcon,mmol Pmmol C-1,0.0015,1.0.0,constant_concentration
-phytoplankton,water,growth,p_limitation,aed2,X_pmin,phyto_data/pd%X_pmin,mmol Pmmol C-1,0.0019,1.0.0,minimum_concentration
-phytoplankton,water,growth,p_limitation,aed2,X_pmax,phyto_data/pd%X_pmax,mmol Pmmol C-1,0.0089,1.0.0,maximum_concentration
-phytoplankton,water,growth,p_limitation,aed2,R_puptake,phyto_data/pd%R_puptake,mmol P m-3 d-1,0.0039,1.0.0,maximum_uptake
-phytoplankton,water,growth,equation_options_si_limitation,aed2,simSiUptake,phyto_data/pd%simSiUptake,(integer),0,1.0.0,"1:, 2:"
-phytoplankton,water,growth,si_limitation,aed2,Si_0,phyto_data/pd%Si_0,mmol Si m-3,0,1.0.0,minimum_concentration
-phytoplankton,water,growth,si_limitation,aed2,K_Si,phyto_data/pd%K_Si,mmol Si m-3,0,1.0.0,saturation_concentration
-phytoplankton,water,growth,si_limitation,aed2,X_sicon,phyto_data/pd%X_sicon,mmol Si mmol C-1,0,1.0.0,constant_concentration
-phytoplankton,water,light,light_attenuation,aed2,KePHY,phyto_data/pd%KePHY,mmol C m-3 m-1,0.005,1.0.0,attenuation_coefficient
-phytoplankton,water,respiration,composition,aed2,f_pr,phyto_data/pd%f_pr,?,0.005,1.0.0,fraction
-phytoplankton,water,respiration,respiration_rate,aed2,R_resp,phyto_data/pd%R_resp,?,0.085,1.0.0,respiration_rate
-phytoplankton,water,respiration,respiration_rate,aed2,theta_resp,phyto_data/pd%theta_resp,?,1.12,1.0.0,Arrhenius temperature multiplier for phytoplankton respiration
-phytoplankton,water,respiration,composition,aed2,k_fres,phyto_data/pd%k_fres,?,0.25,1.0.0,fraction_trueRespiration
-phytoplankton,water,respiration,composition,aed2,k_fdom,phyto_data/pd%k_fdom,?,0.2,1.0.0,fraction_DOM
-phytoplankton,water,vertical_movement,vertical_velocity,aed2,w_p,phyto_data/pd%w_p,m d-1,0,1.0.0,Sedimentation rate (negative is downwards)
-phytoplankton,water,stoichiometry,chlorophyll_ratio,aed2,Xcc,phyto_data/pd%Xcc,mg C mg Chla-1,50,1.0.0,carbon : chlorophyll a ratio
-phytoplankton,water,initial_conditions,initial_phyto,wet,sDW,{group_name}/initialization/sDW,g DW m-3,none,1.0.0,Initial water column phytoplankton dryweight
-phytoplankton,water,initial_conditions,initial_phyto,wet,sNW,{group_name}/initialization/sNW,g N m-3,none,1.0.0,Initial water column N in phytoplankton
-phytoplankton,water,initial_conditions,initial_phyto,wet,sPW,{group_name}/initialization/sPW,g P m-3,none,1.0.0,Initial water column P in phytoplankton
-phytoplankton,water,initial_conditions,minimum_concentration,wet,cDMinW,{group_name}/parameters/cDMinW,gDW/m3,1.00E-05,1.0.0,minimum DW concentration in water 
+phosphorus,water,initial_conditions,initial_humus,pclake,cPDHum0,initialstates/cPDHum0,gP*gDW^-1,0.005,1.0.0,Initial_P_fraction_in_humus
+phosphorus,water,initial_conditions,initial_phosphate,pclake,sPO4WEpi0,initialstates/sPO4WEpi0,gP*m^-2,,1.0.0,P_in_PO4_in_epilimnion_lake_water
+phosphorus,water,initial_conditions,initial_phosphate,pclake,sPO4WHyp0,initialstates/sPO4WHyp0,gP*m^-2,,1.0.0,P_in_PO4_in_hypolimnion_lake_water
+phosphorus,water,initial_conditions,initial_phosphate,selmaprotbas,po,selmaprotbas/initialization/po,mmol P m-3,none,1.0.0,initial dissolved phosphate in the water column
+phosphorus,water,initial_conditions,initial_phosphorus,pclake,sPExtTotT0,initialstates/sPExtTotT0,gP*m^-2,,1.0.0,Total_amount_of_P_moved_into_or_out_from_the_system
+phosphorus,water,initial_conditions,initial_phosphorus,pclake,uPTotT0,initialstates/uPTotT0,gP*m^-2,,1.0.0,Total_initial_P_in_the_lake
+phosphorus,water,initial_conditions,initial_phosphorus,pclake,uPTotTHyp0,initialstates/uPTotTHyp0,gP*m^-2,,1.0.0,Total_initial_P_in_the_lake
+phosphorus,water,initial_conditions,initial_phosphorus,pclake,uPTotTSurf0,initialstates/uPTotTSurf0,gP*m^-2,,1.0.0,Total_initial_P_at_the_surface
+phosphorus,water,initial_conditions,initial_phosphorus,selmaprotbas,pw,selmaprotbas/initialization/pw,mmol P m-3,none,1.0.0,initial phosphorus bound to iron in the water column
+phosphorus,water,initial_conditions,initial_pim,pclake,sPAIMWEpi0,initialstates/sPAIMWEpi0,gP*m^-2,,1.0.0,P_adsorbed_onto_IM_in_epilimnion_lake_water
+phosphorus,water,initial_conditions,initial_pim,pclake,sPAIMWHyp0,initialstates/sPAIMWHyp0,gP*m^-2,,1.0.0,P_adsorbed_onto_IM_in_hypolimnion_lake_water
+phosphorus,water,initial_conditions,initial_pom,pclake,cPDDet0,initialstates/cPDDet0,gP*gDW^-1,0.0025,1.0.0,Initial_P_fraction_in_detritus
+phosphorus,water,initial_conditions,initial_pom,pclake,sPDetWEpi0,initialstates/sPDetWEpi0,gP*m^-2,,1.0.0,Detritus_P_in_epilimnion_lake_water
+phosphorus,water,initial_conditions,initial_pom,pclake,sPDetWHyp0,initialstates/sPDetWHyp0,gP*m^-2,,1.0.0,Detritus_P_in_hypolimnion_lake_water
+phosphorus,water,initial_conditions,initial_pom,selmaprotbas,dd_p,selmaprotbas/initialization/dd_p,mmol P m-3,none,1.0.0,initial detritus-P in the water column
+phosphorus,water,initial_conditions,initial_tp,mylake,In.TPz,In.TPz,mg m-3,21,1.0.0,Initial total P profile read from initial profiles file (incl. DOP & Chla)
+phosphorus,water,sediment_characteristics,pore_water,pclake,coPO4Max,parameters/coPO4Max,gP*m^-3,1,1.0.0,Max_SRP_conc_in_pore_water
+phosphorus,water,vertical_movement,sedimentation,selmaprotbas,wpo4,selmaprotbas/parameters/wpo4,m d-1,-1,1.0.0,vertical velocity of suspended P-Fe (positive: upwards/floating, negative: downwards/sinking)
+phosphorus,water,water_column_processes,adsorption,aed2,Qmax,aed2_phosphorus/Qmax,-,1,1.0.0,Sorption constant
+phosphorus,water,water_column_processes,adsorption,mylake,Fmax_Lang,Bio.par/Fmax_Lang,-,8000,1.0.0,Scaling parameter for Langmuir isotherm
+phosphorus,water,water_column_processes,adsorption,mylake,Psat_Lang,Bio.par/Psat_Lang,mg m-3,2500,1.0.0,Half saturation parameter for Langmuir isotherm
+phosphorus,water,water_column_processes,phosphorus,aed2,frp_initial ,aed2_phosphorus/frp_initial,mmol P m-3,0.06,1.0.0,-
+phosphorus,water,water_sediment_exchange,diffusion,pclake,kPDifPO4,parameters/kPDifPO4,m^2*d^-1,7.20E-05,1.0.0,Mol_PO4_diffusion_constant
+phosphorus,water,water_sediment_exchange,phosphorus,aed2,Fsed_frp,aed2_phosphorus/Fsed_frp,mmol P m-3 d-1,0.5,1.0.0,Sediment-water flux for inorganic phosphorus
+phosphorus,water,water_sediment_exchange,phosphorus,aed2,Ksed_frp,aed2_phosphorus/Ksed_frp,mmol P m-3,200,1.0.0,Arrhenius temperature multiplier for sediment  inorganic phosphorus flux
+phosphorus,water,water_sediment_exchange,phosphorus,aed2,theta_sed_frp,aed2_phosphorus/theta_sed_frp,-,1.08,1.0.0,half-saturation concentration of  inorganic phosphorus sediment flux
+phosphorus,water,water_sediment_exchange,sedimentation,selmaprotbas,sedratepo4,selmaprotbas/parameters/sedratepo4,m d-1,0.5,1.0.0,P-Fe sedimentation rate
+phosphorus,water_marsh,initial_conditions,initial_phosphate,pclake,sPO4WM0,initialstates/sPO4WM0,gP*m^-2,,1.0.0,P_in_PO4_in_marsh_water
+phosphorus,water_marsh,initial_conditions,initial_phosphorus,pclake,uPTotM0,initialstates/uPTotM0,gP*m^-2,,1.0.0,Total_initial_P_in_the_marsh
+phosphorus,water_marsh,initial_conditions,initial_pim,pclake,sPAIMWM0,initialstates/sPAIMWM0,gP*m^-2,,1.0.0,P_adsorbed_onto_IM_in_marsh_water
+phosphorus,water_marsh,initial_conditions,initial_pom,pclake,sPDetWM0,initialstates/sPDetWM0,gP*m^-2,,1.0.0,Detritus_P_in_marsh_water
+phytoplankton,sediment,initial_conditions,initial_phyto,pclake,fSedPhyt0,initialstates/fSedPhyt0,gDWDiat*gDW^-1,0.01,1.0.0,Fraction_diatoms_DW_on_lake_sediment
+phytoplankton,sediment,initial_conditions,initial_phyto,pclake,sDBlueS0,initialstates/sDBlueS0,gDW*m^-2,,1.0.0,Blue-greens_DW_on_lake_sediment
+phytoplankton,sediment,initial_conditions,initial_phyto,pclake,sDDiatS0,initialstates/sDDiatS0,gDW*m^-2,,1.0.0,Diatoms_DW_on_lake_sediment
+phytoplankton,sediment,initial_conditions,initial_phyto,pclake,sDGrenS0,initialstates/sDGrenS0,gDW*m^-2,,1.0.0,Green_algae_DW_on_lake_sediment
+phytoplankton,sediment,initial_conditions,initial_phyto,pclake,sNBlueS0,initialstates/sNBlueS0,gN*m^-2,,1.0.0,Blue-greens_N_on_lake_sediment
+phytoplankton,sediment,initial_conditions,initial_phyto,pclake,sNDiatS0,initialstates/sNDiatS0,gN*m^-2,,1.0.0,Diatoms_N_on_lake_sediment
+phytoplankton,sediment,initial_conditions,initial_phyto,pclake,sNGrenS0,initialstates/sNGrenS0,gN*m^-2,,1.0.0,Green_algae_N_on_lake_sediment
+phytoplankton,sediment,initial_conditions,initial_phyto,pclake,sPBlueS0,initialstates/sPBlueS0,gP*m^-2,,1.0.0,Blue-greens_P_on_lake_sediment
+phytoplankton,sediment,initial_conditions,initial_phyto,pclake,sPDiatS0,initialstates/sPDiatS0,gP*m^-2,,1.0.0,Diatoms_P_on_lake_sediment
+phytoplankton,sediment,initial_conditions,initial_phyto,pclake,sPGrenS0,initialstates/sPGrenS0,gP*m^-2,,1.0.0,Green_algae_P_on_lake_sediment
+phytoplankton,sediment,initial_conditions,initial_phyto,pclake,uDPhytS0,initialstates/uDPhytS0,gDW*m^-2,,1.0.0,Total_initial_DW_in_phytoplankton_in_lake_sediment
+phytoplankton,sediment,initial_conditions,initial_phyto,pclake,uNPhytS0,initialstates/uNPhytS0,gN*m^-2,,1.0.0,Total_initial_N_in_phytoplankton_in_lake_sediment
+phytoplankton,sediment,initial_conditions,initial_phyto,pclake,uPPhytS0,initialstates/uPPhytS0,gP*m^-2,,1.0.0,Total_initial_P_in_phytoplankton_in_lake_sediment
 phytoplankton,sediment,initial_conditions,initial_phyto,wet,sDS,{group_name}/initialization/sDS,g DW m-2,none,1.0.0,Initial sediment phytoplankton dryweight
 phytoplankton,sediment,initial_conditions,initial_phyto,wet,sNS,{group_name}/initialization/sNS,g N m-2,none,1.0.0,Initial sediment N in phytoplankton
 phytoplankton,sediment,initial_conditions,initial_phyto,wet,sPS,{group_name}/initialization/sPS,g P m-2,none,1.0.0,Initial sediment P in phytoplankton
 phytoplankton,sediment,initial_conditions,minimum_concentration,wet,cDMinS,{group_name}/parameters/cDMinS,gDW/m3,1.00E-05,1.0.0,minimum DW concentration in sediment 
+phytoplankton,sediment,mortality,excretion,wet,fDOMS,{group_name}/parameters/fDOMS,-,0,1.0.0,DOM fraction of settled dead cells 
+phytoplankton,sediment,mortality,mortality_rate,mylake,k_sed_twty,Bio.par/k_sed_twty,d-1,2.00E-04,1.0.0,specific Chl a to P transformation rate (1/day) at 20 deg C
+phytoplankton,sediment,mortality,mortality_rate,pclake,kMortBlueS,parameters/kMortBlueS,d^-1,0.2,1.0.0,Mortality_constant_Bluegreens
+phytoplankton,sediment,mortality,mortality_rate,pclake,kMortDiatS,parameters/kMortDiatS,d^-1,0.05,1.0.0,Mortality_constant_of_sed_Diatoms
+phytoplankton,sediment,mortality,mortality_rate,pclake,kMortGrenS,parameters/kMortGrenS,d^-1,0.05,1.0.0,Mortality_constant_greens
+phytoplankton,sediment,mortality,mortality_rate,wet,kMortS,{group_name}/parameters/kMortS,d-1,0.2,1.0.0,mortality rate of settled phytoplankton 
+phytoplankton,sediment,vertical_movement,vertical_velocity,pclake,cVSetBlue,parameters/cVSetBlue,m*d^-1,0.06,1.0.0,Sedimentation_velocity_Blue-greens
+phytoplankton,sediment,vertical_movement,vertical_velocity,pclake,cVSetDiat,parameters/cVSetDiat,m*d^-1,0.5,1.0.0,Sedimentation_velocity_Diatoms
+phytoplankton,sediment,vertical_movement,vertical_velocity,pclake,cVSetGren,parameters/cVSetGren,m*d^-1,0.2,1.0.0,Sedimentation_velocity_of_greens
+phytoplankton,sediment,water_sediment_exchange,resuspension,pclake,cResusPhytExp,parameters/cResusPhytExp,gDW^-1*m^2*d^1,-0.379,1.0.0,Exp_par_for_phytopl_resuspension
+phytoplankton,sediment,water_sediment_exchange,resuspension,pclake,kResusPhytMax,parameters/kResusPhytMax,d^-1,0.25,1.0.0,Max_phytopl_resuspension
+phytoplankton,sediment,water_sediment_exchange,resuspension,wet,cResusExp,{group_name}/parameters/cResusExp,gDW/m2/d),-0.379,1.0.0,exponent parameter for phytoplankton resuspension
+phytoplankton,sediment,water_sediment_exchange,resuspension,wet,kResusMax,{group_name}/parameters/kResusMax,1/d,0.25,1.0.0,maximum phytoplankton resuspension rate 
+phytoplankton,water,areal_coverage,areal_coverage,pclake,cCovSpPhyt,parameters/cCovSpPhyt,gDW^-1*m^2,2,1.0.0,Specific_coverage_Tentative
+phytoplankton,water,growth,equation_options_growth_rate,selmaprotbas,tlim,{group_name}/parameters/tlim,-,0,1.0.0,temperature limitation of growth (0: none (i.e. beta only), 1: flagellate-style, 2: cyanobacteria-style)
+phytoplankton,water,growth,equation_options_light_limitation,aed2,lightModel,phyto_data/pd%lightModel,(integer),0,1.0.0,1:, 2:
+phytoplankton,water,growth,equation_options_light_limitation,pclake,UseSteeleBlue,parameters/UseSteeleBlue,-,1,1.0.0,Flag_1_=_use_Steele_function0_=_use_Lehman_function
+phytoplankton,water,growth,equation_options_light_limitation,pclake,UseSteeleDiat,parameters/UseSteeleDiat,-,1,1.0.0,Flag_1_=_use_Steele_function0_=_use_Lehman_function
+phytoplankton,water,growth,equation_options_light_limitation,pclake,UseSteeleGren,parameters/UseSteeleGren,-,0,1.0.0,Flag_1_=_use_Steele_function0_=_use_Lehman_function
+phytoplankton,water,growth,equation_options_light_limitation,selmaprotbas,llim,{group_name}/parameters/llim,-,1,1.0.0,light limitation of growth (1: Reynolds, 2: Selma)
 phytoplankton,water,growth,equation_options_light_limitation,wet,qLightMethod,{group_name}/parameters/qLightMethod,(integer),2,1.0.0,lightmethod 1=no photoinhibition; 2=photoinhibition 
-phytoplankton,water,growth,light_limitation,wet,hLRef,{group_name}/parameters/hLRef,W/m2,17,1.0.0,qLightMethod=1; half-sat. PAR at 20*C; Lehmann function 
-phytoplankton,water,growth,light_limitation,wet,cLOptRef,{group_name}/parameters/cLOptRef,W/m2,25,1.0.0,qLightMethod=2; optimum PAR at 20*C; Steele function 
-phytoplankton,water,growth,si_limitation,wet,lSi,{group_name}/parameters/lSi,(boolean), false,1.0.0,toggle Si usage 
-phytoplankton,water,growth,si_limitation,wet,hSiAss,{group_name}/parameters/hSiAss,mgSi/l,0.09,1.0.0,half-saturation constant for Si; only for lSi=.true. 
-phytoplankton,water,growth,si_limitation,wet,cSiD,{group_name}/parameters/cSiD,mgSi/mgDW,0.15,1.0.0,lSi=.true.; Si/DW ratio 
+phytoplankton,water,growth,equation_options_n_limitation,aed2,simDINUptake,phyto_data/pd%simDINUptake,(integer),1,1.0.0,1:, 2:
+phytoplankton,water,growth,equation_options_n_limitation,aed2,simDONUptake,phyto_data/pd%simDONUptake,(integer),0,1.0.0,1:, 2:
+phytoplankton,water,growth,equation_options_n_limitation,aed2,simINDynamics,phyto_data/pd%simINDynamics,(integer),1,1.0.0,1:, 2:
+phytoplankton,water,growth,equation_options_n_limitation,aed2,simNFixation,phyto_data/pd%simNFixation,(integer),0,1.0.0,1:, 2:
+phytoplankton,water,growth,equation_options_n_limitation,pclake,InclNfix,parameters/InclNfix,-,0,1.0.0,Include_nitrogen_fixation
+phytoplankton,water,growth,equation_options_n_limitation,selmaprotbas,nitrogen_fixation,{group_name}/parameters/nitrogen_fixation,(boolean),FALSE,1.0.0,whether nitrogen fixation is used to acquire nitrogen
 phytoplankton,water,growth,equation_options_n_limitation,wet,lNfix,{group_name}/parameters/lNfix,(boolean), false,1.0.0,toggle nitrogen fixation 
+phytoplankton,water,growth,equation_options_p_limitation,aed2,simDIPUptake,phyto_data/pd%simDIPUptake,(integer),1,1.0.0,DIP_model
+phytoplankton,water,growth,equation_options_p_limitation,aed2,simIPDynamics,phyto_data/pd%simIPDynamics,(integer),2,1.0.0,IP_model
+phytoplankton,water,growth,equation_options_salt_limitation,aed2,salTol,phyto_data/pd%salTol,(integer),0,1.0.0,1:, 2:
+phytoplankton,water,growth,equation_options_si_limitation,aed2,simSiUptake,phyto_data/pd%simSiUptake,(integer),0,1.0.0,1:, 2:
+phytoplankton,water,growth,equation_options_temperature_limitation,aed2,fT_method,phyto_data/pd%fT_method,(integer),1,1.0.0,1:, 2:
+phytoplankton,water,growth,equation_options_temperature_limitation,selmaprotbas,tll,{group_name}/parameters/tll,-,none,1.0.0,if tlim = 1; half-saturation temperature, squared (degC2). if tlim = 2; lower temperature limit (degC)
+phytoplankton,water,growth,growth_rate,aed2,R_growth,phyto_data/pd%R_growth,d-1,3,1.0.0,Phyto max growth rate @20C
+phytoplankton,water,growth,growth_rate,mylake,g_twty,Bio.par/g_twty,d-1,2.1,1.0.0,specific growth rate at 20 deg C
+phytoplankton,water,growth,growth_rate,pclake,cMuMaxBlue,parameters/cMuMaxBlue,d^-1,0.6,1.0.0,Maximum_growth_rate_Bluegreens
+phytoplankton,water,growth,growth_rate,pclake,cMuMaxDiat,parameters/cMuMaxDiat,d^-1,2,1.0.0,Maximum_growth_rate_Diatoms
+phytoplankton,water,growth,growth_rate,pclake,cMuMaxGren,parameters/cMuMaxGren,d^-1,1.5,1.0.0,Maximum_growth_rate_greens
+phytoplankton,water,growth,growth_rate,selmaprotbas,r0,{group_name}/parameters/r0,d-1,1.3,1.0.0,maximum growth rate at 20 degrees C
+phytoplankton,water,growth,growth_rate,wet,cMuMax,{group_name}/parameters/cMuMax,d-1,1.4,1.0.0,maximum growth rate at 20*C 
+phytoplankton,water,growth,light_limitation,aed2,I_K,phyto_data/pd%I_K,micro E m-2 s-1,60,1.0.0,saturation_concentration
+phytoplankton,water,growth,light_limitation,aed2,I_S,phyto_data/pd%I_S,micro E m-2 s-1,150,1.0.0,saturation_intensity
+phytoplankton,water,growth,light_limitation,mylake,PAR_sat,Phys.par/PAR_sat,mol(quanta) m-2 s-1,1.00E-05,1.0.0,PAR saturation level for phytoplankton growth
+phytoplankton,water,growth,light_limitation,pclake,cDBlueSurfMin,parameters/cDBlueSurfMin,gDW*m^-2,1.00E-05,1.0.0,Minimum_biomass_of_BlueGreens_in_surface
+phytoplankton,water,growth,light_limitation,pclake,cDepthSurf,parameters/cDepthSurf,m,0.01,1.0.0,Assumed_depth_of_surface_layer
+phytoplankton,water,growth,light_limitation,pclake,cEuph,parameters/cEuph,-,1.7,1.0.0,Conversion_constant_Secchi_depth_->_euphotic_depth
+phytoplankton,water,growth,light_limitation,pclake,cLOptRefBlue,parameters/cLOptRefBlue,J*s^-1*m^-2,13.6,1.0.0,Optimum_PAR_for_blue-greens_at_20_oC(Steele_function)
+phytoplankton,water,growth,light_limitation,pclake,cLOptRefDiat,parameters/cLOptRefDiat,J*s^-1*m^-2,54,1.0.0,Optimum_PAR_for_Diatoms_at_20_oC(Steele_function)
+phytoplankton,water,growth,light_limitation,pclake,cLOptRefGren,parameters/cLOptRefGren,J*s^-1*m^-2,1000,1.0.0,Optimum_PAR_at_20_oC(Steele_function)_Fake_value
+phytoplankton,water,growth,light_limitation,pclake,cPACoefMax,parameters/cPACoefMax,-,2.5,1.0.0,Maximum_Poole-Atkins_coefficient
+phytoplankton,water,growth,light_limitation,pclake,cPACoefMin,parameters/cPACoefMin,-,1.5,1.0.0,Minimum_Poole-Atkins_coefficient
+phytoplankton,water,growth,light_limitation,pclake,cSecchiPlus,parameters/cSecchiPlus,m,0,1.0.0,Maximum_Secchi_depth_above_water_depth
+phytoplankton,water,growth,light_limitation,pclake,hLRefBlue,parameters/hLRefBlue,J*s^-1*m^-2,1000,1.0.0,Half-sat_PAR_at_20_oC(Lehmann_function)_Fake_value
+phytoplankton,water,growth,light_limitation,pclake,hLRefDiat,parameters/hLRefDiat,J*s^-1*m^-2,1000,1.0.0,Half-sat_PAR_at_20_oC(Lehmann_function)_Fake_value
+phytoplankton,water,growth,light_limitation,pclake,hLRefGren,parameters/hLRefGren,J*s^-1*m^-2,17,1.0.0,Half-sat_PAR_for_green_algae_at_20_oC(Lehmann_function)
+phytoplankton,water,growth,light_limitation,pclake,hPACoef,parameters/hPACoef,gDW*m^-3,3,1.0.0,Decrease_constant_for_PA_coeff_with_DOMW
+phytoplankton,water,growth,light_limitation,selmaprotbas,alpha_light,{group_name}/parameters/alpha_light,d-1 (W m-2)-1,0.1,1.0.0,llim = 1; the slope of light-dependent growth
+phytoplankton,water,growth,light_limitation,selmaprotbas,imin,{group_name}/parameters/imin,W m-2,50,1.0.0,llim = 2; minimal optimal light radiation
+phytoplankton,water,growth,light_limitation,wet,cLOptRef,{group_name}/parameters/cLOptRef,W/m2,25,1.0.0,qLightMethod=2; optimum PAR at 20*C; Steele function 
+phytoplankton,water,growth,light_limitation,wet,hLRef,{group_name}/parameters/hLRef,W/m2,17,1.0.0,qLightMethod=1; half-sat. PAR at 20*C; Lehmann function 
+phytoplankton,water,growth,n_limitation,aed2,K_N,phyto_data/pd%K_N,mmol N m-3,3.5,1.0.0,saturation_concentration
+phytoplankton,water,growth,n_limitation,aed2,N_o,phyto_data/pd%N_o,mmol N m-2,0,1.0.0,minimum_concentration
+phytoplankton,water,growth,n_limitation,aed2,R_nfix,phyto_data/pd%R_nfix,mmol N mmol C-1 d-1,0.13,1.0.0,fixation_rate
+phytoplankton,water,growth,n_limitation,aed2,R_nuptake,phyto_data/pd%R_nuptake,?,0.068,1.0.0,maximum_uptake
+phytoplankton,water,growth,n_limitation,aed2,X_ncon,phyto_data/pd%X_ncon,mmol N mmol C-1,0.035,1.0.0,constant_concentration
+phytoplankton,water,growth,n_limitation,aed2,X_nmax,phyto_data/pd%X_nmax,mmol N mmol C-1 ,0.206,1.0.0,maximum_concentration
+phytoplankton,water,growth,n_limitation,aed2,X_nmin,phyto_data/pd%X_nmin,mmol N mmol C-0,0.06,1.0.0,minimum_concentration
+phytoplankton,water,growth,n_limitation,aed2,k_nfix,phyto_data/pd%k_nfix,?,0.67,1.0.0,growth_rate_reduction
+phytoplankton,water,growth,n_limitation,pclake,cAlphNfix,parameters/cAlphNfix,(J*m^-2*s^-1)^-1,0.036,1.0.0,Slope_of_nitrogen_fixation_and_light_curve
+phytoplankton,water,growth,n_limitation,pclake,cNfixDarkBlue,parameters/cNfixDarkBlue,ugN*mgChl^-1*d^-1,9.5,1.0.0,Nitrogen_fixation_rate_in_the_dark_of_Blue_greens
+phytoplankton,water,growth,n_limitation,pclake,cNfixMaxBlue,parameters/cNfixMaxBlue,ugN*mgChl^-1*d^-1,60,1.0.0,Nitrogen_fixation_rate_at_light_saturation_of_Blue_greens
+phytoplankton,water,growth,n_limitation,selmaprotbas,alpha_n,{group_name}/parameters/alpha_n,mmol N m-3,{par}{group_name}/parameters/alpha,1.0.0,half-saturation for nitrogen uptake
+phytoplankton,water,growth,n_limitation,wet,cNDMax,{group_name}/parameters/cNDMax,mgN/mgDW,0.15,1.0.0,maximum N/DW ratio 
+phytoplankton,water,growth,n_limitation,wet,cNDMin,{group_name}/parameters/cNDMin,mgN/mgDW,0.018,1.0.0,minimum N/DW ratio 
 phytoplankton,water,growth,n_limitation,wet,cNFixMax,{group_name}/parameters/cNFixMax,mgN/mgDW/d,0.01,1.0.0,lNfix=.true.; maximum N fixation rate 
 phytoplankton,water,growth,n_limitation,wet,fMuNFix,{group_name}/parameters/fMuNFix,-,0.9,1.0.0,lNfix=.true.; fraction of MuMax at max N fix. 
-phytoplankton,water,growth,p_limitation,wet,cPDMin,{group_name}/parameters/cPDMin,mgP/mgDW,0.003,1.0.0,minimum P/DW ratio 
+phytoplankton,water,growth,nutrient_limitation,selmaprotbas,alpha,{group_name}/parameters/alpha,mmol m-3,1.65625,1.0.0,half-saturation for nutrient uptake
+phytoplankton,water,growth,p_limitation,aed2,K_P,phyto_data/pd%K_P,mmol P m-3,0.5,1.0.0,saturation_concentration
+phytoplankton,water,growth,p_limitation,aed2,P_0,phyto_data/pd%P_0,mmol P m-3,0,1.0.0,minimum_concentration
+phytoplankton,water,growth,p_limitation,aed2,R_puptake,phyto_data/pd%R_puptake,mmol P m-3 d-1,0.0039,1.0.0,maximum_uptake
+phytoplankton,water,growth,p_limitation,aed2,X_pcon,phyto_data/pd%X_pcon,mmol Pmmol C-1,0.0015,1.0.0,constant_concentration
+phytoplankton,water,growth,p_limitation,aed2,X_pmax,phyto_data/pd%X_pmax,mmol Pmmol C-1,0.0089,1.0.0,maximum_concentration
+phytoplankton,water,growth,p_limitation,aed2,X_pmin,phyto_data/pd%X_pmin,mmol Pmmol C-1,0.0019,1.0.0,minimum_concentration
+phytoplankton,water,growth,p_limitation,mylake,P_half,Bio.par/P_half,mg m-3,0.4,1.0.0,Half saturation growth P level
+phytoplankton,water,growth,p_limitation,selmaprotbas,alpha_p,{group_name}/parameters/alpha_p,mmol P m-3,{par}{group_name}/parameters/alpha,1.0.0,half-saturation for phosphorus uptake
 phytoplankton,water,growth,p_limitation,wet,cPDMax,{group_name}/parameters/cPDMax,mgP/mgDW,0.025,1.0.0,maximum P/DW ratio 
-phytoplankton,water,growth,n_limitation,wet,cNDMin,{group_name}/parameters/cNDMin,mgN/mgDW,0.018,1.0.0,minimum N/DW ratio 
-phytoplankton,water,growth,n_limitation,wet,cNDMax,{group_name}/parameters/cNDMax,mgN/mgDW,0.15,1.0.0,maximum N/DW ratio 
-phytoplankton,water,growth,growth_rate,wet,cMuMax,{group_name}/parameters/cMuMax,d-1,1.4,1.0.0,maximum growth rate at 20*C 
+phytoplankton,water,growth,p_limitation,wet,cPDMin,{group_name}/parameters/cPDMin,mgP/mgDW,0.003,1.0.0,minimum P/DW ratio 
+phytoplankton,water,growth,salt_limitation,aed2,S_bep,phyto_data/pd%S_bep,?,2,1.0.0,salinity_limitation
+phytoplankton,water,growth,salt_limitation,aed2,S_maxsp,phyto_data/pd%S_maxsp,g kg-1,35,1.0.0,salinity_maximum
+phytoplankton,water,growth,salt_limitation,aed2,S_opt,phyto_data/pd%S_opt,g kg-1,1,1.0.0,salinity_optimum
+phytoplankton,water,growth,si_limitation,aed2,K_Si,phyto_data/pd%K_Si,mmol Si m-3,0,1.0.0,saturation_concentration
+phytoplankton,water,growth,si_limitation,aed2,Si_0,phyto_data/pd%Si_0,mmol Si m-3,0,1.0.0,minimum_concentration
+phytoplankton,water,growth,si_limitation,aed2,X_sicon,phyto_data/pd%X_sicon,mmol Si mmol C-1,0,1.0.0,constant_concentration
+phytoplankton,water,growth,si_limitation,selmaprotbas,alpha_si,{group_name}/parameters/alpha_si,mmol Si m-3,{par}{group_name}/parameters/alpha,1.0.0,half-saturation for silica uptake
+phytoplankton,water,growth,si_limitation,wet,cSiD,{group_name}/parameters/cSiD,mgSi/mgDW,0.15,1.0.0,lSi=.true.; Si/DW ratio 
+phytoplankton,water,growth,si_limitation,wet,hSiAss,{group_name}/parameters/hSiAss,mgSi/l,0.09,1.0.0,half-saturation constant for Si; only for lSi=.true. 
+phytoplankton,water,growth,si_limitation,wet,lSi,{group_name}/parameters/lSi,(boolean), false,1.0.0,toggle Si usage 
+phytoplankton,water,growth,temperature_limitation,aed2,T_max,phyto_data/pd%T_max,degC,32,1.0.0,maximum_temperature
+phytoplankton,water,growth,temperature_limitation,aed2,T_opt,phyto_data/pd%T_opt,degC,25,1.0.0,optimum_temperature
+phytoplankton,water,growth,temperature_limitation,aed2,T_std,phyto_data/pd%T_std,degC,20,1.0.0,standard_temperature
+phytoplankton,water,growth,temperature_limitation,aed2,theta_growth,phyto_data/pd%theta_growth,?,1.06,1.0.0,Arrhenius temperature multiplier for phytoplankton growth
+phytoplankton,water,growth,temperature_limitation,pclake,cSigTmBlue,parameters/cSigTmBlue,oC,12,1.0.0,Temperature_constant_blue-greens(sigma_in_Gaussian_curve)
+phytoplankton,water,growth,temperature_limitation,pclake,cSigTmDiat,parameters/cSigTmDiat,oC,20,1.0.0,Temperature_constant_diatoms(sigma_in_Gaussian_curve)
+phytoplankton,water,growth,temperature_limitation,pclake,cSigTmGren,parameters/cSigTmGren,oC,15,1.0.0,Temperature_constant_greens(sigma_in_Gaussian_curve)
+phytoplankton,water,growth,temperature_limitation,pclake,cSigTmLoss,parameters/cSigTmLoss,oC,13,1.0.0,Temperature_constant_of_grazing(sigma_in_Gaussian_curve)
+phytoplankton,water,growth,temperature_limitation,pclake,cTmOptBlue,parameters/cTmOptBlue,oC,25,1.0.0,Optimum_temp_blue-greens
+phytoplankton,water,growth,temperature_limitation,pclake,cTmOptDiat,parameters/cTmOptDiat,oC,18,1.0.0,Optimum_temp_diatoms
+phytoplankton,water,growth,temperature_limitation,pclake,cTmOptGren,parameters/cTmOptGren,oC,25,1.0.0,Optimum_temp_of_greens
+phytoplankton,water,growth,temperature_limitation,pclake,cTmOptLoss,parameters/cTmOptLoss,oC,25,1.0.0,Optimum_temp_for_grazing
+phytoplankton,water,growth,temperature_limitation,selmaprotbas,beta,{group_name}/parameters/beta,-,3.7,1.0.0,temperature growth correction factor
 phytoplankton,water,growth,temperature_limitation,wet,cSigTm,{group_name}/parameters/cSigTm,degC,11.6,1.0.0,growth rate temperature constant; sigma in Gaussian curve 
 phytoplankton,water,growth,temperature_limitation,wet,cTmOpt,{group_name}/parameters/cTmOpt,degC,25,1.0.0,optimum temperature of growth rate 
-phytoplankton,water,stoichiometry,uptake_p,wet,cVPUptMax,{group_name}/parameters/cVPUptMax,mgP/mgDW/d,0.04,1.0.0,P uptake capacity at 20*C 
-phytoplankton,water,stoichiometry,uptake_p,wet,cAffPUpt,{group_name}/parameters/cAffPUpt,l/mgDW/d,0.8,1.0.0,P uptake affinity 
-phytoplankton,water,stoichiometry,uptake_n,wet,cVNUptMax,{group_name}/parameters/cVNUptMax,mgN/mgDW/d,0.08,1.0.0,N uptake capacity at 20*C 
-phytoplankton,water,stoichiometry,uptake_n,wet,cAffNUpt,{group_name}/parameters/cAffNUpt,l/mgDW/d,0.2,1.0.0,N uptake affinity 
-phytoplankton,water,stoichiometry,carbon_ratio,wet,cCPerDW,{group_name}/parameters/cCPerDW,gC/gDW,0.4,1.0.0,C content of organic matter DW 
-phytoplankton,water,stoichiometry,chlorophyll_ratio,wet,cChDMin,{group_name}/parameters/cChDMin,mgChl/mgDW,0.005,1.0.0,minimum chlorophyll/C ratio 
-phytoplankton,water,stoichiometry,chlorophyll_ratio,wet,cChDMax,{group_name}/parameters/cChDMax,mgChl/mgDW,0.015,1.0.0,maximum chlorophyll/C ratio 
+phytoplankton,water,initial_conditions,initial_phyto,aed2,p_initial,phyto_data/pd%p_initial,mmol C m-3,10,1.0.0,Initial concentration of phytoplankton
+phytoplankton,water,initial_conditions,initial_phyto,mylake,In.Chlz,In.Chlz,mg m-3,7,1.0.0,Initial chlorophyll a profile read from initial profiles file
+phytoplankton,water,initial_conditions,initial_phyto,mylake,In.Chlz_sed,In.Chlz.sed,mg m-3,196747,1.0.0,Initial chlorophyll a profile in the sediment compartments read from initial profiles file
+phytoplankton,water,initial_conditions,initial_phyto,pclake,cNDBlue0,initialstates/cNDBlue0,gN*gDW^-1,0.1,1.0.0,Initial_N_fraction_in_blue-green_algae
+phytoplankton,water,initial_conditions,initial_phyto,pclake,cNDDiat0,initialstates/cNDDiat0,gN*gDW^-1,0.1,1.0.0,Initial_N_fraction_in_diatoms
+phytoplankton,water,initial_conditions,initial_phyto,pclake,cNDGren0,initialstates/cNDGren0,gN*gDW^-1,0.1,1.0.0,Initial_N_fraction_in_green_algae
+phytoplankton,water,initial_conditions,initial_phyto,pclake,cNDPhyt0,initialstates/cNDPhyt0,gN*gDW^-1,0.1,1.0.0,Initial_N_fraction_in_algae
+phytoplankton,water,initial_conditions,initial_phyto,pclake,cPDBlue0,initialstates/cPDBlue0,gP*gDW^-1,0.01,1.0.0,Initial_P_fraction_in_blue-green_algae
+phytoplankton,water,initial_conditions,initial_phyto,pclake,cPDDiat0,initialstates/cPDDiat0,gP*gDW^-1,0.01,1.0.0,Initial_P_fraction_in_diatoms
+phytoplankton,water,initial_conditions,initial_phyto,pclake,cPDGren0,initialstates/cPDGren0,gP*gDW^-1,0.01,1.0.0,Initial_P_fraction_in_green_algae
+phytoplankton,water,initial_conditions,initial_phyto,pclake,cPDPhyt0,initialstates/cPDPhyt0,gP*gDW^-1,0.01,1.0.0,Initial_P_fraction_in_algae
+phytoplankton,water,initial_conditions,initial_phyto,pclake,sDBlueSurf0,initialstates/sDBlueSurf0,gDW*m^-2,,1.0.0,Blue-greens_DW_in_epilimnion_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,pclake,sDBlueWEpi0,initialstates/sDBlueWEpi0,gDW*m^-2,,1.0.0,Blue-greens_DW_in_epilimnion_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,pclake,sDBlueWHyp0,initialstates/sDBlueWHyp0,gDW*m^-2,,1.0.0,Blue-greens_DW_in_hypolimnion_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,pclake,sDDiatWEpi0,initialstates/sDDiatWEpi0,gDW*m^-2,,1.0.0,Diatoms_DW_in_epilimnion_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,pclake,sDDiatWHyp0,initialstates/sDDiatWHyp0,gDW*m^-2,,1.0.0,Diatoms_DW_in_hypolimnion_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,pclake,sDGrenWEpi0,initialstates/sDGrenWEpi0,gDW*m^-2,,1.0.0,Green_algae_DW_in_epilimnion_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,pclake,sDGrenWHyp0,initialstates/sDGrenWHyp0,gDW*m^-2,,1.0.0,Green_algae_DW_in_hypolimnion_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,pclake,sNBlueSurf0,initialstates/sNBlueSurf0,gN*m^-2,,1.0.0,Blue-greens_N_in_epilimnion_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,pclake,sNBlueWEpi0,initialstates/sNBlueWEpi0,gN*m^-2,,1.0.0,Blue-greens_N_in_epilimnion_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,pclake,sNBlueWHyp0,initialstates/sNBlueWHyp0,gN*m^-2,,1.0.0,Blue-greens_N_in_hypolimnion_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,pclake,sNDiatWEpi0,initialstates/sNDiatWEpi0,gN*m^-2,,1.0.0,Diatoms_N_in_epilimnion_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,pclake,sNDiatWHyp0,initialstates/sNDiatWHyp0,gN*m^-2,,1.0.0,Diatoms_N_in_hypolimnion_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,pclake,sNGrenWEpi0,initialstates/sNGrenWEpi0,gN*m^-2,,1.0.0,Green_algae_N_in_epilimnion_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,pclake,sNGrenWHyp0,initialstates/sNGrenWHyp0,gN*m^-2,,1.0.0,Green_algae_N_in_hypolimnion_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,pclake,sPBlueSurf0,initialstates/sPBlueSurf0,gP*m^-2,,1.0.0,Blue-greens_P_in_epilimnion_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,pclake,sPBlueWEpi0,initialstates/sPBlueWEpi0,gP*m^-2,,1.0.0,Blue-greens_P_in_epilimnion_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,pclake,sPBlueWHyp0,initialstates/sPBlueWHyp0,gP*m^-2,,1.0.0,Blue-greens_P_in_hypolimnion_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,pclake,sPDiatWEpi0,initialstates/sPDiatWEpi0,gP*m^-2,,1.0.0,Diatoms_P_in_epilimnion_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,pclake,sPDiatWHyp0,initialstates/sPDiatWHyp0,gP*m^-2,,1.0.0,Diatoms_P_in_hypolimnion_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,pclake,sPGrenWEpi0,initialstates/sPGrenWEpi0,gP*m^-2,,1.0.0,Green_algae_P_in_epilimnion_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,pclake,sPGrenWHyp0,initialstates/sPGrenWHyp0,gP*m^-2,,1.0.0,Green_algae_P_in_hypolimnion_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,pclake,uDPhytWEpi0,initialstates/uDPhytWEpi0,gDW*m^-2,,1.0.0,Total_initial_DW_in_phytoplankton_in_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,pclake,uDPhytWHyp0,initialstates/uDPhytWHyp0,gDW*m^-2,,1.0.0,Total_initial_DW_in_phytoplankton_in_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,pclake,uNPhytWEpi0,initialstates/uNPhytWEpi0,gN*m^-2,,1.0.0,Total_initial_N_in_phytoplankton_in_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,pclake,uNPhytWHyp0,initialstates/uNPhytWHyp0,gN*m^-2,,1.0.0,Total_initial_N_in_phytoplankton_in_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,pclake,uPPhytWEpi0,initialstates/uPPhytWEpi0,gP*m^-2,,1.0.0,Total_initial_P_in_phytoplankton_in_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,pclake,uPPhytWHyp0,initialstates/uPPhytWHyp0,gP*m^-2,,1.0.0,Total_initial_P_in_phytoplankton_in_lake_water
+phytoplankton,water,initial_conditions,initial_phyto,selmaprotbas,c,{group_name}/initialization/c,mmol C m-3,none,1.0.0,Initial concentration of phytoplankton
+phytoplankton,water,initial_conditions,initial_phyto,wet,sDW,{group_name}/initialization/sDW,g DW m-3,none,1.0.0,Initial water column phytoplankton dryweight
+phytoplankton,water,initial_conditions,initial_phyto,wet,sNW,{group_name}/initialization/sNW,g N m-3,none,1.0.0,Initial water column N in phytoplankton
+phytoplankton,water,initial_conditions,initial_phyto,wet,sPW,{group_name}/initialization/sPW,g P m-3,none,1.0.0,Initial water column P in phytoplankton
+phytoplankton,water,initial_conditions,minimum_concentration,aed2,p0,phyto_data/pd%p0,mmol C m-3,0.03,1.0.0,minimum concentration of phytoplankton
+phytoplankton,water,initial_conditions,minimum_concentration,selmaprotbas,c0,{group_name}/parameters/c0,mmol C m-3,0,1.0.0,background concentration
+phytoplankton,water,initial_conditions,minimum_concentration,wet,cDMinW,{group_name}/parameters/cDMinW,gDW/m3,1.00E-05,1.0.0,minimum DW concentration in water 
+phytoplankton,water,initial_conditions,name,aed2,p_name,phyto_data/pd%p_name,?,NAME,1.0.0,functional species name
+phytoplankton,water,light,light_attenuation,aed2,KePHY,phyto_data/pd%KePHY,mmol C m-3 m-1,0.005,1.0.0,attenuation_coefficient
+phytoplankton,water,light,light_attenuation,mylake,beta_chl,Phys.par/beta_chl,m2 mg-1,0.015,1.0.0,Optical cross_section of chlorophyll
+phytoplankton,water,light,light_attenuation,pclake,cExtSpBlue,parameters/cExtSpBlue,m^2*gDW^-1,0.35,1.0.0,Specific_extinction_Bluegreens
+phytoplankton,water,light,light_attenuation,pclake,cExtSpDiat,parameters/cExtSpDiat,m^2*gDW^-1,0.25,1.0.0,Specific_extinction_Diatoms
+phytoplankton,water,light,light_attenuation,pclake,cExtSpGren,parameters/cExtSpGren,m^2*gDW^-1,0.25,1.0.0,Specific_extinction_greens
+phytoplankton,water,light,light_attenuation,selmaprotbas,kc,{group_name}/parameters/kc,m2 mmolC-1,none,1.0.0,specific light attenuation
 phytoplankton,water,light,light_attenuation,wet,cExtSp,{group_name}/parameters/cExtSp,m2/gDW,0.35,1.0.0,specific extinction coefficient 
-phytoplankton,water,vertical_movement,vertical_velocity,wet,cVSed,{group_name}/parameters/cVSed,m d-1,0.2,1.0.0,Sedimentation velocity (positive is downwards)
+phytoplankton,water,mortality,excretion,wet,fDOMW,{group_name}/parameters/fDOMW,-,0,1.0.0,DOM fraction of dead cells 
+phytoplankton,water,mortality,excretion,wet,fDissMort,{group_name}/parameters/fDissMort,-,0.2,1.0.0,soluble inorganic nutrient fraction of dead cells 
+phytoplankton,water,mortality,grazing,pclake,fDissLoss,parameters/fDissLoss,-,0.25,1.0.0,Dissolved_nutrient_fraction_of_grazing_loss
+phytoplankton,water,mortality,grazing,pclake,kLossBlue,parameters/kLossBlue,d^-1,0.03,1.0.0,Grazing_loss_rate_for_Blue-greens
+phytoplankton,water,mortality,grazing,pclake,kLossDiat,parameters/kLossDiat,d^-1,0.25,1.0.0,Grazing_loss_rate_for_Diatoms
+phytoplankton,water,mortality,grazing,pclake,kLossGren,parameters/kLossGren,d^-1,0.25,1.0.0,Grazing_loss_rate_for_greens
+phytoplankton,water,mortality,mortality_rate,mylake,m_twty,Bio.par/m_twty,d-1,0.2,1.0.0,loss rate (1/day) at 20 deg C
+phytoplankton,water,mortality,mortality_rate,pclake,kMortBlueW,parameters/kMortBlueW,d^-1,0.01,1.0.0,Mortality_constant_of_blue-greens_in_water
+phytoplankton,water,mortality,mortality_rate,pclake,kMortDiatW,parameters/kMortDiatW,d^-1,0.01,1.0.0,Mortality_constant_of_Diatoms_in_water
+phytoplankton,water,mortality,mortality_rate,pclake,kMortGrenW,parameters/kMortGrenW,d^-1,0.01,1.0.0,Mortality_constant_of_Diatoms_in_water
+phytoplankton,water,mortality,mortality_rate,selmaprotbas,deltao,{group_name}/parameters/deltao,d-1,0.02,1.0.0,mortality rate
+phytoplankton,water,mortality,mortality_rate,wet,kMortW,{group_name}/parameters/kMortW,d-1,0.01,1.0.0,mortality constant in water 
+phytoplankton,water,respiration,composition,aed2,f_pr,phyto_data/pd%f_pr,?,0.005,1.0.0,fraction
+phytoplankton,water,respiration,composition,aed2,k_fdom,phyto_data/pd%k_fdom,?,0.2,1.0.0,fraction_DOM
+phytoplankton,water,respiration,composition,aed2,k_fres,phyto_data/pd%k_fres,?,0.25,1.0.0,fraction_trueRespiration
+phytoplankton,water,respiration,oxygen_consumption,wet,hO2BOD,{group_name}/parameters/hO2BOD,mgO2/l,1,1.0.0,half-saturation constant for oxygen conc. on BOD 
+phytoplankton,water,respiration,respiration_rate,aed2,R_resp,phyto_data/pd%R_resp,?,0.085,1.0.0,respiration_rate
+phytoplankton,water,respiration,respiration_rate,aed2,theta_resp,phyto_data/pd%theta_resp,?,1.12,1.0.0,Arrhenius temperature multiplier for phytoplankton respiration
+phytoplankton,water,respiration,respiration_rate,pclake,kDRespBlue,parameters/kDRespBlue,d^-1,0.03,1.0.0,Maintenance_respiration_constant_blue-greens(=_005_*_MuMax)
+phytoplankton,water,respiration,respiration_rate,pclake,kDRespDiat,parameters/kDRespDiat,d^-1,0.1,1.0.0,Maintenance_respiration_constant_diatoms(=_005_*_MuMax)
+phytoplankton,water,respiration,respiration_rate,pclake,kDRespGren,parameters/kDRespGren,d^-1,0.075,1.0.0,Maintenance_respiration_constant_greens(=_005_*_MuMax)
+phytoplankton,water,respiration,respiration_rate,selmaprotbas,nb,{group_name}/parameters/nb,d-1,0.01,1.0.0,excretion rate
+phytoplankton,water,respiration,respiration_rate,wet,kDResp,{group_name}/parameters/kDResp,d-1,0.03,1.0.0,maintenance respiration constant at 20*C 
+phytoplankton,water,stoichiometry,carbon_ratio,wet,cCPerDW,{group_name}/parameters/cCPerDW,gC/gDW,0.4,1.0.0,C content of organic matter DW 
+phytoplankton,water,stoichiometry,chlorophyll_ratio,aed2,Xcc,phyto_data/pd%Xcc,mg C mg Chla-1,50,1.0.0,carbon : chlorophyll a ratio
+phytoplankton,water,stoichiometry,chlorophyll_ratio,mylake,Y_cp,Bio.par/Y_cp,-,1,1.0.0,yield coefficient (chlorophyll to carbon) * (carbon to phosphorus) ratio
+phytoplankton,water,stoichiometry,chlorophyll_ratio,pclake,cChDBlueMax,parameters/cChDBlueMax,gChl*gDW^-1,0.015,1.0.0,Max_chlorophyll/C_ratio_Bluegreens
+phytoplankton,water,stoichiometry,chlorophyll_ratio,pclake,cChDBlueMin,parameters/cChDBlueMin,gChl*gDW^-1,0.005,1.0.0,Min_chlorophyll/C_ratio_Bluegreens
+phytoplankton,water,stoichiometry,chlorophyll_ratio,pclake,cChDDiatMax,parameters/cChDDiatMax,gChl*gDW^-1,0.012,1.0.0,Max_chlorophyll/C_ratio_Diatoms
+phytoplankton,water,stoichiometry,chlorophyll_ratio,pclake,cChDDiatMin,parameters/cChDDiatMin,gChl*gDW^-1,0.004,1.0.0,Min_chlorophyll/C_ratio_Diatoms
+phytoplankton,water,stoichiometry,chlorophyll_ratio,pclake,cChDGrenMax,parameters/cChDGrenMax,gChl*gDW^-1,0.02,1.0.0,Max_chlorophyll/C_ratio_greens
+phytoplankton,water,stoichiometry,chlorophyll_ratio,pclake,cChDGrenMin,parameters/cChDGrenMin,gChl*gDW^-1,0.01,1.0.0,Min_chlorophyll/C_ratio_greens
+phytoplankton,water,stoichiometry,chlorophyll_ratio,selmaprotbas,Yc,{group_name}/parameters/Yc,mmol C/mg Chl a,6.25,1.0.0,carbon : chlorophyll a ratio
+phytoplankton,water,stoichiometry,chlorophyll_ratio,wet,cChDMax,{group_name}/parameters/cChDMax,mgChl/mgDW,0.015,1.0.0,maximum chlorophyll/C ratio 
+phytoplankton,water,stoichiometry,chlorophyll_ratio,wet,cChDMin,{group_name}/parameters/cChDMin,mgChl/mgDW,0.005,1.0.0,minimum chlorophyll/C ratio 
+phytoplankton,water,stoichiometry,nitrogen_ratio,pclake,cPDBlueMax,parameters/cPDBlueMax,gP*gDW^-1,0.025,1.0.0,Max_P/day_ratio_blue-greens
+phytoplankton,water,stoichiometry,nitrogen_ratio,pclake,cPDBlueMin,parameters/cPDBlueMin,gP*gDW^-1,0.0025,1.0.0,Minimum_P/day_ratio_Bluegreens
+phytoplankton,water,stoichiometry,nitrogen_ratio,pclake,cPDDiatMax,parameters/cPDDiatMax,gP*gDW^-1,0.005,1.0.0,Max_P/day_ratio_Diatoms
+phytoplankton,water,stoichiometry,nitrogen_ratio,pclake,cPDDiatMin,parameters/cPDDiatMin,gP*gDW^-1,5.00E-04,1.0.0,Minimum_P/day_ratio_Diatoms
+phytoplankton,water,stoichiometry,nitrogen_ratio,pclake,cPDGrenMax,parameters/cPDGrenMax,gP*gDW^-1,0.015,1.0.0,Max_P/day_ratio_greens
+phytoplankton,water,stoichiometry,nitrogen_ratio,pclake,cPDGrenMin,parameters/cPDGrenMin,gP*gDW^-1,0.0015,1.0.0,Minimum_P/day_ratio_greens
+phytoplankton,water,stoichiometry,nitrogen_ratio,selmaprotbas,rfn,{group_name}/parameters/rfn,-,0.150943,1.0.0,nitrogen : carbon ratio (mol N/mol C)
+phytoplankton,water,stoichiometry,nutrient_ratio,pclake,fDissMortPhyt,parameters/fDissMortPhyt,-,0.2,1.0.0,Soluble_nutrient_fraction_of_died_Algae
+phytoplankton,water,stoichiometry,phosphorus_ratio,pclake,cNDBlueMax,parameters/cNDBlueMax,gN*gDW^-1,0.15,1.0.0,Max_N/DW_ratio_blue-greens
+phytoplankton,water,stoichiometry,phosphorus_ratio,pclake,cNDBlueMin,parameters/cNDBlueMin,gN*gDW^-1,0.03,1.0.0,Minimum_N/day_ratio_Bluegreens
+phytoplankton,water,stoichiometry,phosphorus_ratio,pclake,cNDDiatMax,parameters/cNDDiatMax,gN*gDW^-1,0.05,1.0.0,Max_N/day_ratio_Diatoms
+phytoplankton,water,stoichiometry,phosphorus_ratio,pclake,cNDDiatMin,parameters/cNDDiatMin,gN*gDW^-1,0.01,1.0.0,Minimum_N/day_ratio_Diatoms
+phytoplankton,water,stoichiometry,phosphorus_ratio,pclake,cNDGrenMax,parameters/cNDGrenMax,gN*gDW^-1,0.1,1.0.0,Max_N/day_ratio_greens
+phytoplankton,water,stoichiometry,phosphorus_ratio,pclake,cNDGrenMin,parameters/cNDGrenMin,gN*gDW^-1,0.02,1.0.0,Minimum_N/day_ratio_greens
+phytoplankton,water,stoichiometry,phosphorus_ratio,selmaprotbas,rfr,{group_name}/parameters/rfr,-,0.009434,1.0.0,phosphorus : carbon ratio (mol P/mol C)
+phytoplankton,water,stoichiometry,phycocyanin_ratio,pclake,cCyDBlueMax,parameters/cCyDBlueMax,gChl*gDW^-1,0.06,1.0.0,Max_c-phycocyanin/C_ratio_Bluegreens
+phytoplankton,water,stoichiometry,phycocyanin_ratio,pclake,cCyDBlueMin,parameters/cCyDBlueMin,gChl*gDW^-1,0.004,1.0.0,Min_c-phycocyanin/C_ratio_Bluegreens
+phytoplankton,water,stoichiometry,silica_ratio,pclake,cSiDDiat,parameters/cSiDDiat,gSi*gDW^-1,0.15,1.0.0,Si/DW_ratio_of_diatoms
+phytoplankton,water,stoichiometry,silica_ratio,selmaprotbas,rfs,{group_name}/parameters/rfs,-,0,1.0.0,silica : carbon ratio (mol Si/mol C)
+phytoplankton,water,stoichiometry,uptake_n,pclake,cAffNUptBlue,parameters/cAffNUptBlue,m^3*gDW^-1*d^-1,0.2,1.0.0,Initial_N_uptake_affinity_Bluegreens
+phytoplankton,water,stoichiometry,uptake_n,pclake,cAffNUptDiat,parameters/cAffNUptDiat,m^3*gDW^-1*d^-1,0.2,1.0.0,Initial_N_uptake_affinity_Diatoms
+phytoplankton,water,stoichiometry,uptake_n,pclake,cAffNUptGren,parameters/cAffNUptGren,m^3*gDW^-1*d^-1,0.2,1.0.0,Initial_N_uptake_affinity_greens
+phytoplankton,water,stoichiometry,uptake_n,pclake,cVNUptMaxBlue,parameters/cVNUptMaxBlue,gN*gDW^-1*d^-1,0.07,1.0.0,Maximum_N_uptake_capacity_of_Bluegreens
+phytoplankton,water,stoichiometry,uptake_n,pclake,cVNUptMaxDiat,parameters/cVNUptMaxDiat,gN*gDW^-1*d^-1,0.07,1.0.0,Maximum_N_uptake_capacity_of_Diatoms
+phytoplankton,water,stoichiometry,uptake_n,pclake,cVNUptMaxGren,parameters/cVNUptMaxGren,gN*gDW^-1*d^-1,0.07,1.0.0,Maximum_N_uptake_capacity_of_greens
+phytoplankton,water,stoichiometry,uptake_n,wet,cAffNUpt,{group_name}/parameters/cAffNUpt,l/mgDW/d,0.2,1.0.0,N uptake affinity 
+phytoplankton,water,stoichiometry,uptake_n,wet,cVNUptMax,{group_name}/parameters/cVNUptMax,mgN/mgDW/d,0.08,1.0.0,N uptake capacity at 20*C 
+phytoplankton,water,stoichiometry,uptake_p,pclake,cAffPUptBlue,parameters/cAffPUptBlue,m^3*gDW^-1*d^-1,0.8,1.0.0,Initial_P_uptake_affinity_Bluegreens
+phytoplankton,water,stoichiometry,uptake_p,pclake,cAffPUptDiat,parameters/cAffPUptDiat,m^3*gDW^-1*d^-1,0.2,1.0.0,Initial_P_uptake_affinity_Diatoms
+phytoplankton,water,stoichiometry,uptake_p,pclake,cAffPUptGren,parameters/cAffPUptGren,m^3*gDW^-1*d^-1,0.2,1.0.0,Initial_P_uptake_affinity_greens
+phytoplankton,water,stoichiometry,uptake_p,pclake,cVPUptMaxBlue,parameters/cVPUptMaxBlue,gP*gDW^-1*d^-1,0.04,1.0.0,Maximum_P_uptake_capacity_of_Bluegreens
+phytoplankton,water,stoichiometry,uptake_p,pclake,cVPUptMaxDiat,parameters/cVPUptMaxDiat,gP*gDW^-1*d^-1,0.01,1.0.0,Maximum_P_uptake_capacity_of_Diatoms
+phytoplankton,water,stoichiometry,uptake_p,pclake,cVPUptMaxGren,parameters/cVPUptMaxGren,gP*gDW^-1*d^-1,0.01,1.0.0,Maximum_P_uptake_capacity_of_greens
+phytoplankton,water,stoichiometry,uptake_p,wet,cAffPUpt,{group_name}/parameters/cAffPUpt,l/mgDW/d,0.8,1.0.0,P uptake affinity 
+phytoplankton,water,stoichiometry,uptake_p,wet,cVPUptMax,{group_name}/parameters/cVPUptMax,mgP/mgDW/d,0.04,1.0.0,P uptake capacity at 20*C 
+phytoplankton,water,stoichiometry,uptake_si,pclake,hSiAssBlue,parameters/hSiAssBlue,gSi*m^-3,0,1.0.0,Half-sat_Si_conc_for_growth_of_blue-greens_=_0
+phytoplankton,water,stoichiometry,uptake_si,pclake,hSiAssDiat,parameters/hSiAssDiat,gSi*m^-3,0.09,1.0.0,Half_sat_Si_for_diatoms
+phytoplankton,water,stoichiometry,uptake_si,pclake,hSiAssGren,parameters/hSiAssGren,gSi*m^-3,0,1.0.0,Half-sat_Si_conc_for_growth_of_green_algae_=_0
+phytoplankton,water,vertical_movement,equation_options_vertical_velocity,selmaprotbas,buoy_nutrient,{group_name}/parameters/buoy_nutrient,(boolean),FALSE,1.0.0,whether nutrient limitation can regulate buoyancy, if buoyancy_regulation is true
+phytoplankton,water,vertical_movement,equation_options_vertical_velocity,selmaprotbas,buoy_temperature,{group_name}/parameters/buoy_temperature,(boolean),FALSE,1.0.0,whether temperature can regulate buoyancy, if buoyancy_regulation is true
+phytoplankton,water,vertical_movement,equation_options_vertical_velocity,selmaprotbas,buoyancy_regulation,{group_name}/parameters/buoyancy_regulation,(boolean),FALSE,1.0.0,whether cells can regulate vertical movement
 phytoplankton,water,vertical_movement,equation_options_vertical_velocity,wet,qTrans,{group_name}/parameters/qTrans,(integer),0,1.0.0,Taxis method (1=const.; 2=Nut. taxis; 3=Light taxis; 4=N&L) 
+phytoplankton,water,vertical_movement,vertical_velocity,aed2,w_p,phyto_data/pd%w_p,m d-1,0,1.0.0,Sedimentation rate (negative is downwards)
+phytoplankton,water,vertical_movement,vertical_velocity,mylake,Uz_Chl,Bio.par/Uz_Chl,m d-1,0.2,1.0.0,settling velocity for Chl a
+phytoplankton,water,vertical_movement,vertical_velocity,selmaprotbas,buoy_nutrient_limit,{group_name}/parameters/buoy_nutrient_limit,-,0,1.0.0,if nutrient limitation falls below this value (0-1), vertical velocity is set to vert_vel_nutrient, if buoyancy_regulation = true
+phytoplankton,water,vertical_movement,vertical_velocity,selmaprotbas,buoy_temp_limit,{group_name}/parameters/buoy_temp_limit,degC,0,1.0.0,if temperature falls below this temperature, vertical velocity is set to vert_vel_temp, if buoyancy_regulation = true
+phytoplankton,water,vertical_movement,vertical_velocity,selmaprotbas,par_limit1,{group_name}/parameters/par_limit1,W m-2,0,1.0.0,below this light intensity, buoyancy-regulating plankton change vertical velocity from vert_vel1 to vert_vel2
+phytoplankton,water,vertical_movement,vertical_velocity,selmaprotbas,par_limit2,{group_name}/parameters/par_limit2,W m-2,{par}{group_name}/parameters/par_limit1,1.0.0,below this light intensity, buoyancy-regulating plankton change vertical velocity to vert_vel3
+phytoplankton,water,vertical_movement,vertical_velocity,selmaprotbas,par_limit3,{group_name}/parameters/par_limit3,W m-2,{par}{group_name}/parameters/par_limit2,1.0.0,below this light intensity, buoyancy-regulating plankton change vertical velocity to vert_vel4
+phytoplankton,water,vertical_movement,vertical_velocity,selmaprotbas,vert_vel1,{group_name}/parameters/vert_vel1,m d-1,0,1.0.0,rate of vertical movement above par_limit1, if buoyancy_regulation = true
+phytoplankton,water,vertical_movement,vertical_velocity,selmaprotbas,vert_vel2,{group_name}/parameters/vert_vel2,m d-1,{par}{group_name}/parameters/vert_vel1,1.0.0,rate of vertical movement below par_limit1 and above par_limit2, if buoyancy_regulation = true
+phytoplankton,water,vertical_movement,vertical_velocity,selmaprotbas,vert_vel3,{group_name}/parameters/vert_vel3,m d-1,{par}{group_name}/parameters/vert_vel2,1.0.0,rate of vertical movement below par_limit2 and above par_limit3, if buoyancy_regulation = true
+phytoplankton,water,vertical_movement,vertical_velocity,selmaprotbas,vert_vel4,{group_name}/parameters/vert_vel4,m d-1,{par}{group_name}/parameters/vert_vel3,1.0.0,rate of vertical movement below par_limit3, if buoyancy_regulation = true
+phytoplankton,water,vertical_movement,vertical_velocity,selmaprotbas,vert_vel_nutrient,{group_name}/parameters/vert_vel_nutrient,m d-1,{par}{group_name}/parameters/vert_vel4,1.0.0,vertical velocity at nutrient limitation below buoy_nutrient_limit, if buoyancy_regulation = true
+phytoplankton,water,vertical_movement,vertical_velocity,selmaprotbas,vert_vel_temp,{group_name}/parameters/vert_vel_temp,m d-1,{par}{group_name}/parameters/vert_vel4,1.0.0,vertical velocity at temperatures below buoy_temp_limit, if buoyancy_regulation = true
+phytoplankton,water,vertical_movement,vertical_velocity,selmaprotbas,wz,{group_name}/parameters/wz,m d-1,0,1.0.0,Vertical velocity (negative is downwards)
+phytoplankton,water,vertical_movement,vertical_velocity,wet,cVSed,{group_name}/parameters/cVSed,m d-1,0.2,1.0.0,Sedimentation velocity (positive is downwards)
 phytoplankton,water,vertical_movement,vertical_velocity,wet,cVSwim,{group_name}/parameters/cVSwim,m/d,10,1.0.0,qTrans > 1; vertical swimming speed 
 phytoplankton,water,vertical_movement,vertical_velocity,wet,fLVMmin,{group_name}/parameters/fLVMmin,W/m2,0.025,1.0.0,qTrans > 2; minimum detectable PAR level 
 phytoplankton,water,vertical_movement,vertical_velocity,wet,fNutLimVMdown,{group_name}/parameters/fNutLimVMdown,-,0.675,1.0.0,qTrans > 3 or 4; threshold nut. limitation for downwards taxis 
 phytoplankton,water,vertical_movement,vertical_velocity,wet,fNutLimVMup,{group_name}/parameters/fNutLimVMup,-,0.75,1.0.0,qTrans > 2 or 4; threshold nut. limitation for upwards taxis 
+phytoplankton,water,vertical_velocity,flotation,pclake,cChlaThrBlue,parameters/cChlaThrBlue,mgChl*m^-3,10,1.0.0,Floating_velocity_Blue-greens
+phytoplankton,water,vertical_velocity,flotation,pclake,cStepPow,parameters/cStepPow,-,20,1.0.0,Power_constant_for_step_function
+phytoplankton,water,vertical_velocity,flotation,pclake,cTmThrBlue,parameters/cTmThrBlue,oC,15,1.0.0,Dormancy_temperature_Blue-greens
+phytoplankton,water,vertical_velocity,flotation,pclake,cVFloMaxBlueW,parameters/cVFloMaxBlueW,m*d^-1,10,1.0.0,Maximum_floating_velocity_Blue-greens
+phytoplankton,water,vertical_velocity,flotation,pclake,cVWindThrBlue,parameters/cVWindThrBlue,m*s^-1,3,1.0.0,Wind_threshold_velocity_Blue-greens
+phytoplankton,water,water_sediment_exchange,resuspension,selmaprotbas,tau_crit,{group_name}/parameters/tau_crit,N m-2,0.07,1.0.0,critical shear stress
+phytoplankton,water,water_sediment_exchange,settling,selmaprotbas,sedrate,{group_name}/parameters/sedrate,m d-1,0,1.0.0,sedimentation rate
 phytoplankton,water,water_sediment_exchange,settling,wet,cVSet,{group_name}/parameters/cVSet,?,0.05,1.0.0,qTrans = 1; settling rat
-phytoplankton,sediment,water_sediment_exchange,resuspension,wet,cResusExp,{group_name}/parameters/cResusExp,gDW/m2/d),-0.379,1.0.0,exponent parameter for phytoplankton resuspension
-phytoplankton,sediment,water_sediment_exchange,resuspension,wet,kResusMax,{group_name}/parameters/kResusMax,1/d,0.25,1.0.0,maximum phytoplankton resuspension rate 
-phytoplankton,water,respiration,respiration_rate,wet,kDResp,{group_name}/parameters/kDResp,d-1,0.03,1.0.0,maintenance respiration constant at 20*C 
-phytoplankton,water,respiration,oxygen_consumption,wet,hO2BOD,{group_name}/parameters/hO2BOD,mgO2/l,1,1.0.0,half-saturation constant for oxygen conc. on BOD 
-phytoplankton,water,mortality,mortality_rate,wet,kMortW,{group_name}/parameters/kMortW,d-1,0.01,1.0.0,mortality constant in water 
-phytoplankton,water,mortality,excretion,wet,fDissMort,{group_name}/parameters/fDissMort,-,0.2,1.0.0,soluble inorganic nutrient fraction of dead cells 
-phytoplankton,water,mortality,excretion,wet,fDOMW,{group_name}/parameters/fDOMW,-,0,1.0.0,DOM fraction of dead cells 
-phytoplankton,sediment,mortality,mortality_rate,wet,kMortS,{group_name}/parameters/kMortS,d-1,0.2,1.0.0,mortality rate of settled phytoplankton 
-phytoplankton,sediment,mortality,excretion,wet,fDOMS,{group_name}/parameters/fDOMS,-,0,1.0.0,DOM fraction of settled dead cells 
-phytoplankton,water,growth,growth_rate,pclake,cMuMaxDiat,parameters/cMuMaxDiat,d-1,2,1.0.0,maximum growth rate diatoms at optimum temperature 
-phytoplankton,water,growth,growth_rate,pclake,cMuMaxGren,parameters/cMuMaxGren,d-1,1.5,1.0.0,maximum growth rate green algae at optimum temperature 
-phytoplankton,water,growth,growth_rate,pclake,cMuMaxBlue,parameters/cMuMaxBlue,d-1,0.6,1.0.0,maximum growth rate cyanobacteria at optimum temperature 
-phytoplankton,water,initial_conditions,initial_phyto,mylake,In.Chlz,In.Chlz,mg m-3,7,1.0.0,Initial chlorophyll a profile read from initial profiles file
-phytoplankton,water,initial_conditions,initial_phyto,mylake,In.Chlz_sed,In.Chlz.sed,mg m-3,196747,1.0.0,Initial chlorophyll a profile in the sediment compartments read from initial profiles file
-phytoplankton,water,growth,growth_rate,mylake,g_twty,Bio.par/g_twty,d-1,2.1,1.0.0,specific growth rate at 20 deg C
-phytoplankton,water,vertical_movement,vertical_velocity,mylake,Uz_Chl,Bio.par/Uz_Chl,m d-1,0.2,1.0.0,settling velocity for Chl a
-phytoplankton,water,stoichiometry,chlorophyll_ratio,mylake,Y_cp,Bio.par/Y_cp,-,1,1.0.0,yield coefficient (chlorophyll to carbon) * (carbon to phosphorus) ratio
-phytoplankton,water,mortality,mortality_rate,mylake,m_twty,Bio.par/m_twty,d-1,0.2,1.0.0,loss rate (1/day) at 20 deg C
-phytoplankton,sediment,mortality,mortality_rate,mylake,k_sed_twty,Bio.par/k_sed_twty,d-1,2.00E-04,1.0.0,specific Chl a to P transformation rate (1/day) at 20 deg C
-phytoplankton,water,growth,p_limitation,mylake,P_half,Bio.par/P_half,mg m-3,0.4,1.0.0,Half saturation growth P level
-phytoplankton,water,growth,light_limitation,mylake,PAR_sat,Phys.par/PAR_sat,mol(quanta) m-2 s-1,1.00E-05,1.0.0,PAR saturation level for phytoplankton growth
-phytoplankton,water,light,light_attenuation,mylake,beta_chl,Phys.par/beta_chl,m2 mg-1,0.015,1.0.0,Optical cross_section of chlorophyll
-zooplankton,water,initial_conditions,initial_zoo,selmaprotbas,c,{group_name}/initialization/c,mmol C m-3,none,1.0.0,Initial concentration of zooplankton
-zooplankton,water,initial_conditions,minimum_concentration,selmaprotbas,c0,{group_name}/parameters/c0,mmol C m-3,0,1.0.0,background concentration
-zooplankton,water,stoichiometry,phosphorus_ratio,selmaprotbas,rfr,{group_name}/parameters/rfr,-,0.009434,1.0.0,phosphorus : carbon ratio (mol P/mol C)
-zooplankton,water,stoichiometry,nitrogen_ratio,selmaprotbas,rfn,{group_name}/parameters/rfn,-,0.150943,1.0.0,nitrogen : carbon ratio (mol N/mol C)
-zooplankton,water,stoichiometry,silica_ratio,selmaprotbas,rfs,{group_name}/parameters/rfs,-,0,1.0.0,silica : carbon ratio (mol Si/mol C)
-zooplankton,water,grazing,prey_identity,selmaprotbas,nprey,{group_name}/parameters/nprey,(integer),1,1.0.0,number of prey
-zooplankton,water,grazing,preference,selmaprotbas,pref{prey_num},{group_name}/parameters/pref{prey_num},-,1,1.0.0,preference for prey number x
-zooplankton,water,grazing,prey_stoichiometry,selmaprotbas,prey_rfr{prey_num},{group_name}/parameters/prey_rfr{prey_num},-,0.009434,1.0.0,phosphorus : carbon ratio of prey number x
-zooplankton,water,grazing,prey_stoichiometry,selmaprotbas,prey_rfn{prey_num},{group_name}/parameters/prey_rfn{prey_num},-,0.150943,1.0.0,nitrogen : carbon ratio of prey number x
-zooplankton,water,grazing,prey_stoichiometry,selmaprotbas,prey_rfs{prey_num},{group_name}/parameters/prey_rfs{prey_num},-,0,1.0.0,silica : carbon ratio of prey number x
-zooplankton,water,respiration,respiration_rate,selmaprotbas,nue,{group_name}/parameters/nue,m3 d-1 mmol C-1,0.001509,1.0.0,respiration rate
-zooplankton,water,mortality,mortality_rate,selmaprotbas,sigma_b,{group_name}/parameters/sigma_b,m3 d-1 mmol C-1,0.004528,1.0.0,mortality rate
-zooplankton,water,grazing,grazing_rate,selmaprotbas,iv,{group_name}/parameters/iv,(mmol C m-3)-2,0.27341,1.0.0,"Ivlev constant, quadratic"
-zooplankton,water,grazing,grazing_rate,selmaprotbas,graz,{group_name}/parameters/graz,d-1,0.5,1.0.0,grazing rate
-zooplankton,water,grazing,grazing_rate,selmaprotbas,toptz,{group_name}/parameters/toptz,degC,20,1.0.0,optimal temperature for grazing
-zooplankton,water,mortality,mortality_rate,selmaprotbas,zcl1,{group_name}/parameters/zcl1,-,50,1.0.0,closure parameter
+phytoplankton,water_marsh,initial_conditions,initial_phyto,pclake,sDBlueWM0,initialstates/sDBlueWM0,gDW*m^-2,,1.0.0,Blue-greens_DW_in_marsh_water
+phytoplankton,water_marsh,initial_conditions,initial_phyto,pclake,sDDiatWM0,initialstates/sDDiatWM0,gDW*m^-2,,1.0.0,Diatoms_DW_in_marsh_water
+phytoplankton,water_marsh,initial_conditions,initial_phyto,pclake,sDGrenWM0,initialstates/sDGrenWM0,gDW*m^-2,,1.0.0,Green_algae_DW_in_marsh_water
+phytoplankton,water_marsh,initial_conditions,initial_phyto,pclake,sNBlueWM0,initialstates/sNBlueWM0,gN*m^-2,,1.0.0,Blue-greens_N_in_marsh_water
+phytoplankton,water_marsh,initial_conditions,initial_phyto,pclake,sNDiatWM0,initialstates/sNDiatWM0,gN*m^-2,,1.0.0,Diatoms_N_in_marsh_water
+phytoplankton,water_marsh,initial_conditions,initial_phyto,pclake,sNGrenWM0,initialstates/sNGrenWM0,gN*m^-2,,1.0.0,Green_algae_N_in_marsh_water
+phytoplankton,water_marsh,initial_conditions,initial_phyto,pclake,sPBlueWM0,initialstates/sPBlueWM0,gP*m^-2,,1.0.0,Blue-greens_P_in_marsh_water
+phytoplankton,water_marsh,initial_conditions,initial_phyto,pclake,sPDiatWM0,initialstates/sPDiatWM0,gP*m^-2,,1.0.0,Diatoms_P_in_marsh_water
+phytoplankton,water_marsh,initial_conditions,initial_phyto,pclake,sPGrenWM0,initialstates/sPGrenWM0,gP*m^-2,,1.0.0,Green_algae_P_in_marsh_water
+phytoplankton,water_marsh,initial_conditions,initial_phyto,pclake,uDPhytWM0,initialstates/uDPhytWM0,gDW*m^-2,,1.0.0,Total_initial_DW_in_phytoplankton_in_marsh_water
+phytoplankton,water_marsh,initial_conditions,initial_phyto,pclake,uNPhytWM0,initialstates/uNPhytWM0,gN*m^-2,,1.0.0,Total_initial_N_in_phytoplankton_in_marsh_water
+phytoplankton,water_marsh,initial_conditions,initial_phyto,pclake,uPPhytWM0,initialstates/uPPhytWM0,gP*m^-2,,1.0.0,Total_initial_P_in_phytoplankton_in_marsh_water
+phytoplankton,water_marsh,initial_conditions,initial_phyto,pclake,uSiDiatWM0,initialstates/uSiDiatWM0,gSi*m^-2,,1.0.0,Total_initial_Si_in_phytoplankton_in_marsh_water
+silicon,sediment,initial_conditions,initial_pom,pclake,sSiDetS0,initialstates/sSiDetS0,gSi*m^-2,,1.0.0,Detritus_Si_in_lake_sediment
+silicon,sediment,initial_conditions,initial_silicon,pclake,cSiDDetIn,parameters/cSiDDetIn,gSi*gDW^-1,0.05,1.0.0,Si_content_of_sediment_detritus
+silicon,sediment_marsh,initial_conditions,initial_pom,pclake,sSiDetSM0,initialstates/sSiDetSM0,gSi*m^-2,,1.0.0,Detritus_Si_in_marsh_sediment
+silicon,water,initial_conditions,initial_pom,pclake,cSiDDet0,initialstates/cSiDDet0,gSi*gDW^-1,0.01,1.0.0,Initial_Si_fraction_in_detritus_Tentative
+silicon,water,initial_conditions,initial_pom,pclake,sSiDetWEpi0,initialstates/sSiDetWEpi0,gSi*m^-2,,1.0.0,Detritus_Si_in_epilimnion_lake_water
+silicon,water,initial_conditions,initial_pom,pclake,sSiDetWHyp0,initialstates/sSiDetWHyp0,gSi*m^-2,,1.0.0,Detritus_Si_in_hypolimnion_lake_water
+silicon,water,initial_conditions,initial_silicon,pclake,sSiExtTotT0,initialstates/sSiExtTotT0,gSi*m^-2,,1.0.0,Total_amount_of_Si_moved_into_or_out_from_the_system
+silicon,water,initial_conditions,initial_silicon,pclake,uSiTotT0,initialstates/uSiTotT0,gSi*m^-2,,1.0.0,Total_initial_Si_in_the_lake
+silicon,water,initial_conditions,initial_silicon,pclake,uSiTotTHyp0,initialstates/uSiTotTHyp0,gSi*m^-2,,1.0.0,Total_initial_Si_in_the_lake
+silicon,water,initial_conditions,initial_silicon,pclake,sSiO2WEpi0,initialstates/sSiO2WEpi0,gSi*m^-2,,1.0.0,Dissolved_Si_in_epilimnion_lake_water
+silicon,water,initial_conditions,initial_silicon,pclake,sSiO2WHyp0,initialstates/sSiO2WHyp0,gSi*m^-2,,1.0.0,Dissolved_Si_in_hypolimnion_lake_water
+silicon,water,water_column_processes,sedimentation,aed2,Fsed_rsi,aed2_silica/Fsed_rsi,?,4,1.0.0,Sedimentation flux for silica
+silicon,water_marsh,initial_conditions,initial_pom,pclake,sSiDetWM0,initialstates/sSiDetWM0,gSi*m^-2,,1.0.0,Detritus_Si_in_marsh_water
+silicon,water_marsh,initial_conditions,initial_silicon,pclake,uSiTotM0,initialstates/uSiTotM0,gSi*m^-2,,1.0.0,Total_initial_Si_in_the_marsh
+silicon,water_marsh,initial_conditions,initial_silicon,pclake,sSiO2WM0,initialstates/sSiO2WM0,gSi*m^-2,,1.0.0,Dissolved_Si_in_marsh_water
+silicon,sediment,initial_conditions,initial_silicon,selmaprotbas,fl_si,selmaprotbas/initialization/fl_si,mmol Si m-2,none,1.0.0,initial silicate fluff (= active sediment)
+silicon,water,initial_conditions,initial_pom,selmaprotbas,dd_si,selmaprotbas/initialization/dd_si,mmol Si m-3,none,1.0.0,initial detritus-Si in the water column
+silicon,water,initial_conditions,initial_silicon,selmaprotbas,si,selmaprotbas/initialization/si,mmol Si m-3,none,1.0.0,initial dissolved silicate in the water column
+zoobenthos,sediment,dredging,dredging,pclake,fEffDredBent,parameters/fEffDredBent,-,0.5,1.0.0,Dredging_efficiency_for_zoobenthos_(<10)
+zoobenthos,sediment,grazing,assimilation_efficiency,pclake,fDAssBent,parameters/fDAssBent,-,0.3,1.0.0,C_ass_efficiency_of_zoobenthos
+zoobenthos,sediment,grazing,assimilation_efficiency,pclake,hDFoodBent,parameters/hDFoodBent,gDW*m^-2,200,1.0.0,Half-saturating_food_for_zoobenthos
+zoobenthos,sediment,grazing,assimilation_efficiency,pclake,kDAssBent,parameters/kDAssBent,d^-1,0.1,1.0.0,Maximum_assimilation_rate
+zoobenthos,sediment,grazing,temperature_limitation,pclake,cSigTmBent,parameters/cSigTmBent,oC,16,1.0.0,Temperature_constant_of_zoobenthos(sigma_in_Gaussian_curve)
+zoobenthos,sediment,grazing,temperature_limitation,pclake,cTmOptBent,parameters/cTmOptBent,oC,25,1.0.0,Optimum_temp_of_zoobenthos
+zoobenthos,sediment,initial_conditions,initial_zoobenthos,pclake,sDBent0,initialstates/sDBent0,gDW*m^-2,,1.0.0,Zoobenthos_DW_in_lake_sediment
+zoobenthos,sediment,initial_conditions,initial_zoobenthos,pclake,sNBent0,initialstates/sNBent0,gN*m^-2,,1.0.0,Zoobenthos_N_in_lake_sediment
+zoobenthos,sediment,initial_conditions,initial_zoobenthos,pclake,sPBent0,initialstates/sPBent0,gP*m^-2,,1.0.0,Zoobenthos_P_in_lake_sediment
+zoobenthos,sediment,initial_conditions,maximum_concentration,pclake,cDCarrBent,parameters/cDCarrBent,gDW*m^-2,20,1.0.0,Carrying_capacity_of_zoobenthos
+zoobenthos,sediment,migration,migration,pclake,cDBentIn,parameters/cDBentIn,gDW*m^-2,0.01,1.0.0,External_zoobenthos_density
+zoobenthos,sediment,migration,migration,pclake,kMigrBent,parameters/kMigrBent,d^-1,0.001,1.0.0,Zoobenthos_migration_rate
+zoobenthos,sediment,mortality,mortality_rate,pclake,kMortBent,parameters/kMortBent,d^-1,0.005,1.0.0,Mortality_constant_of_zoobenthos
+zoobenthos,sediment,respiration,respiration_rate,pclake,kDRespBent,parameters/kDRespBent,d^-1,0.005,1.0.0,Maint_respiration_constant_of_zoobenthos
+zoobenthos,sediment,stoichiometry,nitrogen_ratio,pclake,cNDBentRef,parameters/cNDBentRef,gN*gDW^-1,0.07,1.0.0,Reference_N/C_ratio_of_zoobenthos
+zoobenthos,sediment,stoichiometry,nutrient_ratio,pclake,fDissEgesBent,parameters/fDissEgesBent,-,0.25,1.0.0,Soluble_nutrient_fraction_of_by_zoobenthos_egested_food
+zoobenthos,sediment,stoichiometry,nutrient_ratio,pclake,fDissMortBent,parameters/fDissMortBent,-,0.1,1.0.0,Soluble_P_fraction_of_died_zoobenthos_P
+zoobenthos,sediment,stoichiometry,phosphorus_ratio,pclake,cPDBentRef,parameters/cPDBentRef,gP*gDW^-1,0.01,1.0.0,Reference_P/C_ratio_of_zoobenthos
+zooplankton,water,filtration,filtration_rate,pclake,cFiltMax,parameters/cFiltMax,m^3*gDW^-1*d^-1,4.5,1.0.0,Maximum_filtering_rate(when_DOMW=0)
+zooplankton,water,filtration,filtration_rate,pclake,hFilt,parameters/hFilt,gDW*m^-3,1,1.0.0,Half-sat_food_conc_for_filtering
+zooplankton,water,food_preference,preference_phyto,pclake,cPrefBlue,parameters/cPrefBlue,-,0.125,1.0.0,Selection_factor_for_Bluegreens_Cal
+zooplankton,water,food_preference,preference_phyto,pclake,cPrefBlueSurf,parameters/cPrefBlueSurf,-,0.125,1.0.0,Selection_factor_for_Bluegreens_on_surface_Cal
+zooplankton,water,food_preference,preference_phyto,pclake,cPrefDiat,parameters/cPrefDiat,-,0.75,1.0.0,Selection_factor_for_Diatoms
+zooplankton,water,food_preference,preference_phyto,pclake,cPrefGren,parameters/cPrefGren,-,0.75,1.0.0,Selection_factor_for_Greens
+zooplankton,water,food_preference,preference_pom,pclake,cPrefDet,parameters/cPrefDet,-,0.25,1.0.0,Selection_factor_for_detritus
+zooplankton,water,grazing,assimilation_efficiency,pclake,fDAssZoo,parameters/fDAssZoo,-,0.35,1.0.0,DW-assimilation_efficiency_of_herb_zooplankton
 zooplankton,water,grazing,grazing_rate,aed2,Rgrz_zoo,zoop_params/zoop_param%Rgrz_zoo,d-1,1,1.0.0,OM
-carbon,water,organic,organic,aed2,poc_initial,aed2_organic_matter/poc_initial,?,78.5,1.0.0,OM
-carbon,water,organic,organic,aed2,doc_initial,aed2_organic_matter/doc_initial,?,30,1.0.0,OM
-carbon,water,organic,organic,aed2,pon_initial ,aed2_organic_matter/poc_initial,?,0.1,1.0.0,OM
-carbon,water,organic,organic,aed2,don_initial ,aed2_organic_matter/don_initial,?,0.1,1.0.0,OM
-carbon,water,organic,organic,aed2,pop_initial ,aed2_organic_matter/pop_initial,?,0.1,1.0.0,OM
-carbon,water,organic,organic,aed2,dop_initial ,aed2_organic_matter/dop_initial,?,1.5,1.0.0,OM
-carbon,water,organic,organic,aed2,docr_initial ,aed2_organic_matter/docr_initial,?,120,1.0.0,OM
-carbon,water,organic,organic,aed2,dopr_initial ,aed2_organic_matter/dopr_initial,?,0.1,1.0.0,OM
-carbon,water,organic,organic,aed2,cpom_initial ,aed2_organic_matter/cpom_initial,?,100,1.0.0,OM
-carbon,water,organic,organic,aed2,Rdom_minerl ,aed2_organic_matter/Rdom_minerl,?,0.5,1.0.0,OM
-carbon,water,organic,organic,aed2,Kpom_hydrol ,aed2_organic_matter/Kpom_hydrol,?,60,1.0.0,OM
-carbon,water,organic,organic,aed2,Kdom_minerl ,aed2_organic_matter/Kdom_minerl,?,100,1.0.0,OM
-carbon,water,organic,organic,aed2,Rpoc_hydrol ,aed2_organic_matter/Rpoc_hydrol,?,0.07,1.0.0,OM
-carbon,water,organic,organic,aed2,Rpon_hydrol ,aed2_organic_matter/Rpon_hydrol ,?,0.05,1.0.0,OM
-carbon,water,organic,organic,aed2,Rpop_hydrol ,aed2_organic_matter/Rpop_hydrol ,?,0.08,1.0.0,OM
-carbon,water,organic,organic,aed2,theta_hydrol ,aed2_organic_matter/theta_hydrol ,?,1.08,1.0.0,OM
-carbon,water,organic,organic,aed2,theta_minerl ,aed2_organic_matter/theta_minerl ,?,1.08,1.0.0,OM
-carbon,water,organic,organic,aed2,simDenitrification ,aed2_organic_matter/simDenitrification ,?,1,1.0.0,OM
-carbon,water,noncohesive,tracer,aed2,num_ss,aed2_noncohesive/num_ss,?,1,1.0.0,Tracer
-carbon,water,noncohesive,tracer,aed2,ss_initial,aed2_noncohesive/ss_initial,?,1,1.0.0,Tracer
-carbon,water,noncohesive,tracer,aed2,Ke_ss,aed2_noncohesive/Ke_ss,?,0.06,1.0.0,Tracer
-carbon,water,noncohesive,tracer,aed2,settling,aed2_noncohesive/settling,?,3,1.0.0,Tracer
-carbon,water,noncohesive,tracer,aed2,w_ss,aed2_noncohesive/w_ss,?,-0.03,1.0.0,Tracer
-carbon,water,noncohesive,tracer,aed2,d_ss,aed2_noncohesive/d_ss,?,2.00E-06,1.0.0,Tracer
-carbon,water,noncohesive,tracer,aed2,rho_ss,aed2_noncohesive/rho_ss,?,1500,1.0.0,Tracer
-carbon,water,noncohesive,tracer,aed2,resuspension,aed2_noncohesive/resuspension,?,1,1.0.0,Tracer
-carbon,water,noncohesive,tracer,aed2,epsilon,aed2_noncohesive/epsilon,?,0.007,1.0.0,Tracer
-carbon,water,noncohesive,tracer,aed2,tau_0,aed2_noncohesive/tau_0,?,0.03,1.0.0,Tracer
-carbon,water,noncohesive,tracer,aed2,tau_r,aed2_noncohesive/tau_r,?,1,1.0.0,Tracer
-carbon,water,noncohesive,tracer,aed2,Ktau_0,aed2_noncohesive/Ktau_0,?,0.001,1.0.0,Tracer
+zooplankton,water,grazing,grazing_rate,selmaprotbas,graz,{group_name}/parameters/graz,d-1,0.5,1.0.0,grazing rate
+zooplankton,water,grazing,grazing_rate,selmaprotbas,iv,{group_name}/parameters/iv,(mmol C m-3)-2,0.27341,1.0.0,Ivlev constant, quadratic
+zooplankton,water,grazing,grazing_rate,selmaprotbas,toptz,{group_name}/parameters/toptz,degC,20,1.0.0,optimal temperature for grazing
+zooplankton,water,grazing,preference,selmaprotbas,pref{prey_num},{group_name}/parameters/pref{prey_num},-,1,1.0.0,preference for prey number x
+zooplankton,water,grazing,prey_identity,selmaprotbas,nprey,{group_name}/parameters/nprey,(integer),1,1.0.0,number of prey
+zooplankton,water,grazing,prey_stoichiometry,selmaprotbas,prey_rfn{prey_num},{group_name}/parameters/prey_rfn{prey_num},-,0.150943,1.0.0,nitrogen : carbon ratio of prey number x
+zooplankton,water,grazing,prey_stoichiometry,selmaprotbas,prey_rfr{prey_num},{group_name}/parameters/prey_rfr{prey_num},-,0.009434,1.0.0,phosphorus : carbon ratio of prey number x
+zooplankton,water,grazing,prey_stoichiometry,selmaprotbas,prey_rfs{prey_num},{group_name}/parameters/prey_rfs{prey_num},-,0,1.0.0,silica : carbon ratio of prey number x
+zooplankton,water,grazing,temperature_limitation,pclake,cSigTmZoo,parameters/cSigTmZoo,oC,13,1.0.0,Temperature_constant_zooplankton(sigma_in_Gaussian_curve)
+zooplankton,water,grazing,temperature_limitation,pclake,cTmOptZoo,parameters/cTmOptZoo,oC,25,1.0.0,Optimum_temp_zooplankton
+zooplankton,water,initial_conditions,initial_zoo,selmaprotbas,c,{group_name}/initialization/c,mmol C m-3,none,1.0.0,Initial concentration of zooplankton
+zooplankton,water,initial_conditions,initial_zoop,pclake,sDZooEpi0,initialstates/sDZooEpi0,gDW*m^-2,,1.0.0,Zooplankton_DW_in_epilimnion_lake_water
+zooplankton,water,initial_conditions,initial_zoop,pclake,sDZooHyp0,initialstates/sDZooHyp0,gDW*m^-2,,1.0.0,Zooplankton_DW_in_hypolimnion_lake_water
+zooplankton,water,initial_conditions,initial_zoop,pclake,sNZooEpi0,initialstates/sNZooEpi0,gN*m^-2,,1.0.0,Zooplankton_N_in_epilimnion_lake_water
+zooplankton,water,initial_conditions,initial_zoop,pclake,sNZooHyp0,initialstates/sNZooHyp0,gN*m^-2,,1.0.0,Zooplankton_N_in_hypolimnion_lake_water
+zooplankton,water,initial_conditions,initial_zoop,pclake,sPZooEpi0,initialstates/sPZooEpi0,gP*m^-2,,1.0.0,Zooplankton_P_in_epilimnion_lake_water
+zooplankton,water,initial_conditions,initial_zoop,pclake,sPZooHyp0,initialstates/sPZooHyp0,gP*m^-2,,1.0.0,Zooplankton_P_in_hypolimnion_lake_water
+zooplankton,water,initial_conditions,maximum_concentration,pclake,cDCarrZoo,parameters/cDCarrZoo,gDW*m^-3,25,1.0.0,Carrying_capacity_of_zooplankton
+zooplankton,water,initial_conditions,minimum_concentration,selmaprotbas,c0,{group_name}/parameters/c0,mmol C m-3,0,1.0.0,background concentration
+zooplankton,water,mortality,mortality_rate,pclake,kMortZoo,parameters/kMortZoo,d^-1,0.04,1.0.0,Mortality_constant_herb_zooplankton
+zooplankton,water,mortality,mortality_rate,selmaprotbas,sigma_b,{group_name}/parameters/sigma_b,m3 d-1 mmol C-1,0.004528,1.0.0,mortality rate
+zooplankton,water,mortality,mortality_rate,selmaprotbas,zcl1,{group_name}/parameters/zcl1,-,50,1.0.0,closure parameter
+zooplankton,water,respiration,respiration_rate,pclake,kDRespZoo,parameters/kDRespZoo,d^-1,0.15,1.0.0,Maintenance_respiration_constant_herb_zooplankton
+zooplankton,water,respiration,respiration_rate,selmaprotbas,nue,{group_name}/parameters/nue,m3 d-1 mmol C-1,0.001509,1.0.0,respiration rate
+zooplankton,water,stoichiometry,nitrogen_ratio,pclake,cNDZooRef,parameters/cNDZooRef,gN*gDW^-1,0.07,1.0.0,Reference_N/C-ratio_herb_zooplankton
+zooplankton,water,stoichiometry,nitrogen_ratio,selmaprotbas,rfn,{group_name}/parameters/rfn,-,0.150943,1.0.0,nitrogen : carbon ratio (mol N/mol C)
+zooplankton,water,stoichiometry,nutrient_ratio,pclake,fDissEgesZoo,parameters/fDissEgesZoo,-,0.25,1.0.0,Soluble_nutrient_fraction_of_by_herb_zoopl_egested_food
+zooplankton,water,stoichiometry,nutrient_ratio,pclake,fDissMortZoo,parameters/fDissMortZoo,-,0.1,1.0.0,Soluble_nutrient_fraction_of_died_zooplankton
+zooplankton,water,stoichiometry,phosphorus_ratio,pclake,cPDZooRef,parameters/cPDZooRef,gP*gDW^-1,0.01,1.0.0,Reference_P/C-ratio_herb_zooplankton
+zooplankton,water,stoichiometry,phosphorus_ratio,selmaprotbas,rfr,{group_name}/parameters/rfr,-,0.009434,1.0.0,phosphorus : carbon ratio (mol P/mol C)
+zooplankton,water,stoichiometry,silica_ratio,selmaprotbas,rfs,{group_name}/parameters/rfs,-,0,1.0.0,silica : carbon ratio (mol Si/mol C)
+zooplankton,water_marsh,initial_conditions,initial_zoop,pclake,sDZooM0,initialstates/sDZooM0,gDW*m^-2,,1.0.0,Zooplankton_DW_in_marsh_water
+zooplankton,water_marsh,initial_conditions,initial_zoop,pclake,sNZooM0,initialstates/sNZooM0,gN*m^-2,,1.0.0,Zooplankton_N_in_marsh_water
+zooplankton,water_marsh,initial_conditions,initial_zoop,pclake,sPZooM0,initialstates/sPZooM0,gP*m^-2,,1.0.0,Zooplankton_P_in_marsh_water
