@@ -38,9 +38,9 @@ nitrogen:
 phosphorus:
    use: true
    par_file: phosphorus.csv
-silica:
+silicon:
    use: true
-   par_file: silica.csv
+   par_file: silicon.csv
 phytoplankton:
    use: true
    groups: 
@@ -75,5 +75,8 @@ pathogens:
    groups:
       pathogens:
          par_file: pathogens.csv
+birds:
+   use: false
+   par_file: birds.csv
 output:
    something: true
