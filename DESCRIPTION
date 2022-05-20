@@ -18,10 +18,15 @@ License: GPL-2.0
 Depends:
     R (>= 3.5)
 Imports:
-    LakeEnsemblR
+    LakeEnsemblR,
+    data.tree,
+    configr,
+    plyr,
+    stringr,
+    glmtools
 Suggests:
 Encoding: UTF-8
 LazyData: true
 LazyLoad: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 VignetteBuilder: knitr

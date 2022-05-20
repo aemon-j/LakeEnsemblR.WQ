@@ -11,8 +11,7 @@
 !
 !-------------------------------------------------------------------------------
 &aed2_models
-   models = 'aed2_sedflux',
-            'aed2_oxygen',
+   models = 'aed2_oxygen',
             'aed2_carbon',
             'aed2_silica',
             'aed2_nitrogen',
@@ -22,47 +21,6 @@
             'aed2_zooplankton',
             'aed2_tracer',
             'aed2_totals'
-/
-!###############################################################################
-! aed2_sedflux
-!  sediment flux model types :
-!       "Constant" = sedimentation fluxes are constant values.
-!-------------------------------------------------------------------------------
-&aed2_sedflux
-   sedflux_model = 'Constant'
-/
-!###############################################################################
-! aed2_sed_constant
-!  Fsed_oxy  = Sedimentation flux for oxygen
-!  Fsed_rsi  = Sedimentation flux for silica
-!  Fsed_amm  = Sedimentation flux for ammonia
-!  Fsed_nit  = Sedimentation flux for nitrogen
-!  Fsed_frp  = Sedimentation flux for phosphorus
-!  Fsed_pon  = Sedimentation flux for particulate organic nitrogen
-!  Fsed_don  = Sedimentation flux for dissolved organic nitrogen
-!  Fsed_pop  = Sedimentation flux for particulate organic phosphorus
-!  Fsed_dop  = Sedimentation flux for dissolved organic phosphorus
-!  Fsed_poc  = Sedimentation flux for particulate organic carbon
-!  Fsed_doc  = Sedimentation flux for dissolved organic carbon
-!  Fsed_dic  = Sedimentation flux for dissolved inorganic carbon
-!  Fsed_ch4  = Sedimentation flux for methane
-!  Fsed_feii = Sedimentation flux for iron
-!-------------------------------------------------------------------------------
-&aed2_sed_constant
-   Fsed_oxy = -0.01
-   Fsed_rsi = 5
-   Fsed_amm = 0.01
-   Fsed_nit = -2.5
-   Fsed_frp = 0.003
-   Fsed_pon = -0.01
-   Fsed_don = 0.01
-   Fsed_pop = -0.001
-   Fsed_dop = 0.001
-   Fsed_poc = -0.01
-   Fsed_doc = .1
-   Fsed_dic = 10
-   Fsed_ch4 = 10
-   Fsed_feii = 10
 /
 !###############################################################################
 ! aed2_oxygen - AED oxygen model
@@ -77,8 +35,8 @@
 !        aed_oxygen_oxy
 !-------------------------------------------------------------------------------
 &aed2_oxygen
-   Fsed_oxy = -0.005 
-   Ksed_oxy = 6.8 
+   Fsed_oxy = -0.005
+   Ksed_oxy = 6.8
    theta_sed_oxy = 1.07
 /
 !###############################################################################
@@ -91,7 +49,7 @@
 ! pH_initial    [float, unit = - ] initial water column pH
 ! atmco2        [float, unit = ppm] atmospheric CO2 concentration
 ! ionic         [float, unit = meq] average ionic strength of the water column
-! ch4_initial   [float, unit = mmol/m^3] initial CH4 concentration 
+! ch4_initial   [float, unit = mmol/m^3] initial CH4 concentration
 ! Rch4ox        [float, unit = - ] maximum reaction rate of CH4 oxidation @ 20C
 ! Kch4ox        [float, unit = ppm] half-saturation oxygen concentration for CH4 oxidation
 ! vTch4ox       [float, unit = meq] Arrhenius temperature multiplier for CH4 oxidation
@@ -145,8 +103,8 @@
 !###############################################################################
 ! aed2_nitrogen - AED nitrogen model
 !-------------------------------------------------------------------------------
-! amm_initial   [float, unit = mmol/m^3] initial NH4 concentration 
-! nit_initial   [float, unit = mmol/m^3] initial NO3 concentration 
+! amm_initial   [float, unit = mmol/m^3] initial NH4 concentration
+! nit_initial   [float, unit = mmol/m^3] initial NO3 concentration
 ! Rnitrif        [float, unit = /day ] maximum reaction rate of nitrification @ 20C
 ! Rdenit        [float, unit = /day ] maximum reaction rate of denitrification @ 20C
 ! Fsed_amm      [float, unit = mmol/m^2/day] sediment NH4 flux
@@ -188,7 +146,7 @@
 !###############################################################################
 ! aed2_phosphorus - AED phosphorus model
 !-------------------------------------------------------------------------------
-! frp_initial   [float, unit = mmol/m^3] initial PO4 concentration 
+! frp_initial   [float, unit = mmol/m^3] initial PO4 concentration
 ! Fsed_frp      [float, unit = mmol/m^2/day] sediment PO4 flux
 ! Ksed_frp      [float, unit = mmol/m^3] half-saturation oxygen concentration controlling PO4 flux
 ! theta_sed_frp [float, unit = - ] Arrhenius temperature multiplier for sediment PO4 flux
@@ -227,8 +185,8 @@
 !###############################################################################
 ! aed2_organic_matter - AED organic matter model
 !-------------------------------------------------------------------------------
-! pom_initial     [float, unit = mmol/m^3] initial PON conc 
-! dom_initial     [float, unit = mmol/m^3] initial DON conc 
+! pom_initial     [float, unit = mmol/m^3] initial PON conc
+! dom_initial     [float, unit = mmol/m^3] initial DON conc
 ! w_pom           [float, unit = m/day] settling rate of detrital N pool
 ! Rpom_miner      [float, unit = /day ] hydrolysis/breakdown rate of detrital N pool @ 20C
 ! Rdom_miner      [float, unit = /day ] mineralisation rate of DON pool @ 20C
@@ -440,6 +398,6 @@
               'PHY_DIATOMPCH4',
    TOC_varscale = 1.0, 1.0, 1.0, 1.0, 1.0, 1.0
    TSS_vars = 'TRC_ss1',
-!              'PHY_green' !, .... 
+!              'PHY_green' !, ....
 !  TSS_varscale = 0.1,0.1            !,  <vector same length as TSS names>
 /

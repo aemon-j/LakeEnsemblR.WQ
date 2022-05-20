@@ -9,6 +9,7 @@ set_value_config(
   module,
   group_name = NULL,
   group_position = NULL,
+  domain,
   process,
   subprocess,
   model_coupled,
@@ -26,6 +27,8 @@ set_value_config(
 \item{group_name}{character; only for biological modules}
 
 \item{group_position}{integer; only for biological modules}
+
+\item{domain}{character;}
 
 \item{process}{character;}
 

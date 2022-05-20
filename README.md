@@ -9,26 +9,26 @@ In order to contribute to this code, we recommend the following workflow:
 
 - clone the github repository to your computer:
 
-- $git clone <git@github.com:{username}/LakeEnsemblR.WQ.git>
+- `$git clone <git@github.com:{username}/LakeEnsemblR.WQ.git>`
 
 - modify code or add new functionality, save the code
 
 add the repository main to a remote main called "upstream"
 
-- $cd LakeEnsemblR.WQ
+- `$cd LakeEnsemblR.WQ`
 
-- $git remote add upstream <git@github.com:aemon-j/LakeEnsemblR.WQ.git>
+- `$git remote add upstream <git@github.com:aemon-j/LakeEnsemblR.WQ.git>`
 
 before pushing your changes to your repository, pull in the current version of the aemon-j main:
 
-- $git fetch upstream
+- `$git fetch upstream`
 
 - merge these differences with your own "main" version:
 
-- $git merge upstream/main
+- `$git merge upstream/main`
 
 push your changes to your github repository, in addition to changes made by pulling in the aemon-j main:
 
-- $git push
+- `$git push`
 
 submit a pull request to aemon-j main using your account at github.com

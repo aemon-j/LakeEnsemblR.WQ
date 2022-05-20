@@ -26,8 +26,6 @@ set_up_configs <- function(config_file, folder = "."){
   lst_config <- read.config(file.path(folder, config_file)) 
   
   models_coupled <- lst_config[["models"]]
-  wq_models <- strsplit(models_coupled, "-")
-  wq_models <- sapply(wq_models, function (x) tolower(x[length(x)]))
   
   for(i in seq_len(length(models_coupled))){
     
@@ -43,7 +41,7 @@ set_up_configs <- function(config_file, folder = "."){
       dict_biogeochem <- dict[!(dict$module %in% c("phytoplankton", "zooplankton")),]
       
       for(j in seq_len(nrow(dict_biogeochem))){
-        path <- strsplit(dict_biogeochem[j, "path"], "/")[[1]]
+        path <- strsplit(as.character(dict_biogeochem[j, "path"]), "/")[[1]]
         lst[["instances"]][[path[1]]][[path[2]]][[path[3]]] <- as.numeric(dict_biogeochem[j, "default"])
       }
       
@@ -60,7 +58,7 @@ set_up_configs <- function(config_file, folder = "."){
                                             initialization = list(),
                                             coupling = list())
             for(l in seq_len(nrow(dict_biology))){
-              path <- strsplit(dict_biology[l, "path"], "/")[[1]]
+              path <- strsplit(as.character(dict_biology[l, "path"]), "/")[[1]]
               path[path == "{group_name}"] <- k
               lst[["instances"]][[path[1]]][[path[2]]][[path[3]]] <- as.numeric(dict_biology[l, "default"])
             }
@@ -69,6 +67,9 @@ set_up_configs <- function(config_file, folder = "."){
       }
       
       filename <- lst_config[["config_files"]][[models_coupled[i]]]
+      if(!dir.exists(file.path(folder, dirname(filename)))) {
+        dir.create(file.path(folder, dirname(filename)))
+      }
       write.config(lst, file.path(folder, filename), write.type = "yaml")
     }
     
@@ -103,7 +104,7 @@ set_up_configs <- function(config_file, folder = "."){
                                                    "fish", "macrophytes", "zoobenthos")),]
       
       for(j in seq_len(nrow(dict_biogeochem))){
-        path <- strsplit(dict_biogeochem[j, "path"], "/")[[1]]
+        path <-  strsplit(as.character(dict_biogeochem[j, "path"]), "/")[[1]]
         lst[["instances"]][[path[1]]][[path[2]]][[path[3]]] <- as.numeric(dict_biogeochem[j, "default"])
       }
       
@@ -122,7 +123,7 @@ set_up_configs <- function(config_file, folder = "."){
                                             initialization = list(),
                                             coupling = list())
             for(l in seq_len(nrow(dict_biology))){
-              path <- strsplit(dict_biology[l, "path"], "/")[[1]]
+              path <- strsplit(as.character(dict_biology[l, "path"]), "/")[[1]]
               path[path == "{group_name}"] <- k
               lst[["instances"]][[path[1]]][[path[2]]][[path[3]]] <- as.numeric(dict_biology[l, "default"])
             }
@@ -130,6 +131,9 @@ set_up_configs <- function(config_file, folder = "."){
         }
       }
       filename <- lst_config[["config_files"]][[models_coupled[i]]]
+      if(!dir.exists(file.path(folder, dirname(filename)))) {
+        dir.create(file.path(folder, dirname(filename)))
+      }
       write.config(lst, file.path(folder, filename), write.type = "yaml")
     }
     
@@ -142,12 +146,12 @@ set_up_configs <- function(config_file, folder = "."){
       
       ## Biogeochemistry
       # Set models
-      lst[["aed2_models"]] <- list(models = c("'aed2_sedflux'", "'aed2_oxygen'", "'aed2_carbon'",
+      lst[["aed2_models"]] <- list(models = c("'aed2_noncohesive'",
+                                              "'aed2_oxygen'", "'aed2_carbon'",
                                               "'aed2_silica'", "'aed2_nitrogen'",
                                               "'aed2_phosphorus'", "'aed2_organic_matter'"))
-      lst[["aed2_sedflux"]] <- list(sedflux_model = "Constant")
       
-      lst[["aed2_sed_constant"]] <- list()
+      lst[["aed2_noncohesive"]] <- list()
       
       lst[["aed2_oxygen"]] <- list()
       
@@ -166,7 +170,7 @@ set_up_configs <- function(config_file, folder = "."){
                                                    "pathogens")),]
       
       for(j in seq_len(nrow(dict_biogeochem))){
-        path <- strsplit(dict_biogeochem[j, "path"], "/")[[1]]
+        path <-  strsplit(as.character(dict_biogeochem[j, "path"]), "/")[[1]]
         lst[[path[1]]][[path[2]]] <- as.numeric(dict_biogeochem[j, "default"])
       }
       
@@ -188,7 +192,7 @@ set_up_configs <- function(config_file, folder = "."){
         groups <- names(lst_config[["phytoplankton"]][["groups"]])
         
         for(j in seq_len(nrow(dict_phyto))){
-          path <- strsplit(dict_phyto[j, "path"], "/")[[1]]
+          path <- strsplit(as.character(dict_phyto[j, "path"]), "/")[[1]]
           values <- rep(NA, length(groups))
           for(k in seq_len(length(groups))){
             values[k] <- as.numeric(dict_phyto[j, "default"])
@@ -198,6 +202,9 @@ set_up_configs <- function(config_file, folder = "."){
         
         filename <- file.path(dirname(lst_config[["config_files"]][[models_coupled[i]]]),
                               "aed2_phyto_pars.nml")
+        if(!dir.exists(file.path(folder, dirname(filename)))) {
+          dir.create(file.path(folder, dirname(filename)))
+        }
         write_nml(lst_phyto, file.path(folder, filename))
       }
       
@@ -219,7 +226,7 @@ set_up_configs <- function(config_file, folder = "."){
         groups <- names(lst_config[["zooplankton"]][["groups"]])
         
         for(j in seq_len(nrow(dict_zoop))){
-          path <- strsplit(dict_zoop[j, "path"], "/")[[1]]
+          path <- strsplit(as.character(dict_zoop[j, "path"]), "/")[[1]]
           values <- rep(NA, length(groups))
           for(k in seq_len(length(groups))){
             values[k] <- as.numeric(dict_zoop[j, "default"])
@@ -229,14 +236,70 @@ set_up_configs <- function(config_file, folder = "."){
         
         filename <- file.path(dirname(lst_config[["config_files"]][[models_coupled[i]]]),
                               "aed2_zoop_pars.nml")
+        if(!dir.exists(file.path(folder, dirname(filename)))) {
+          dir.create(file.path(folder, dirname(filename)))
+        }
         write_nml(lst_zoop, file.path(folder, filename))
       }
       
       filename <- lst_config[["config_files"]][[models_coupled[i]]]
+      if(!dir.exists(file.path(folder, dirname(filename)))) {
+        dir.create(file.path(folder, dirname(filename)))
+      }
+      
       write_nml(lst, file.path(folder, filename))
     }
     
-    # For MyLake no setup is needed because the WQ config file
-    # is the same as the physics config file. 
+    if(models_coupled[i] == "MyLake"){
+      # For MyLake no setup is needed because the WQ config file
+      # is the same as the physics config file. Moreover, there are no modules
+      # to (de)activate.
+      # If file doesn't exist, copy
+      
+      mylake_dir <- dirname(lst_config[["config_files"]][[models_coupled[i]]])
+      if(!dir.exists(file.path(folder, mylake_dir))) {
+        dir.create(file.path(folder, mylake_dir))
+      }
+      
+      # Test if MyLake config file exists, if not, copy
+      mylake_config <- lst_config[["config_files"]][[models_coupled[i]]]
+      if(!file.exists(file.path(folder, mylake_config))){
+        # Check if MyLakeR is installed
+        if(isFALSE(requireNamespace("MyLakeR", quietly = TRUE))){
+          stop("You can't include MyLake in your run without having the ",
+               "package MyLakeR installed!")
+        }else{
+          template_config <- system.file("extdata/mylake.Rdata",
+                                         package = "MyLakeR")
+          file.copy(template_config,
+                    file.path(folder, mylake_config))
+        }
+      }
+    }
+    
+    if(models_coupled[i] == "PCLake"){
+      # For PCLake, we don't generate a file from scratch, as you
+      # can't switch off modules as in AED or the FABM-models, and
+      # then we'd have to save all the unit, remark, long_name, 
+      # short_name information as well. We copy a template from the
+      # inst folder instead. 
+      
+      template_initial <- system.file("extdata/pclake_initialstates.txt",
+                                      package = "LakeEnsemblR.WQ")
+      template_pars <- system.file("extdata/pclake_parameters.txt",
+                                   package = "LakeEnsemblR.WQ")
+      
+      
+      pclake_dir <- dirname(lst_config[["config_files"]][[models_coupled[i]]])
+      if(!dir.exists(file.path(folder, pclake_dir))) {
+        dir.create(file.path(folder, pclake_dir))
+      }
+      file.copy(template_initial,
+                file.path(folder, pclake_dir, "initialstates.txt"),
+                overwrite = TRUE)
+      file.copy(template_pars,
+                file.path(folder, pclake_dir, "parameters.txt"),
+                overwrite = TRUE)
+    }
   }
 }
