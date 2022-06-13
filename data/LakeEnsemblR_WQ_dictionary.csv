@@ -207,9 +207,9 @@ phosphorus,water,water_sediment_exchange,phosphorus,aed2,Fsed_frp,aed2_phosphoru
 phosphorus,water,water_sediment_exchange,phosphorus,aed2,theta_sed_frp,aed2_phosphorus/theta_sed_frp,-,1.08,1.0.0,half-saturation concentration of  inorganic phosphorus sediment flux
 phosphorus,water,water_sediment_exchange,phosphorus,aed2,Ksed_frp,aed2_phosphorus/Ksed_frp,mmol P m-3,200,1.0.0,Arrhenius temperature multiplier for sediment  inorganic phosphorus flux
 phosphorus,water,water_column_processes,adsorption,aed2,Qmax,aed2_phosphorus/Qmax,-,1,1.0.0,Sorption constant
-silicate,water,initial_conditions,initial_silicate,selmaprotbas,si,selmaprotbas/initialization/si,mmol Si m-3,none,1.0.0,initial dissolved silicate in the water column
-silicate,water,initial_conditions,initial_pom,selmaprotbas,dd_si,selmaprotbas/initialization/dd_si,mmol Si m-3,none,1.0.0,initial detritus-Si in the water column
-silicate,sediment,initial_conditions,initial_silicate,selmaprotbas,fl_si,selmaprotbas/initialization/fl_si,mmol Si m-2,none,1.0.0,initial silicate fluff (= active sediment)
+silica,water,initial_conditions,initial_silicate,selmaprotbas,si,selmaprotbas/initialization/si,mmol Si m-3,none,1.0.0,initial dissolved silicate in the water column
+silica,water,initial_conditions,initial_pom,selmaprotbas,dd_si,selmaprotbas/initialization/dd_si,mmol Si m-3,none,1.0.0,initial detritus-Si in the water column
+silica,sediment,initial_conditions,initial_silicate,selmaprotbas,fl_si,selmaprotbas/initialization/fl_si,mmol Si m-2,none,1.0.0,initial silicate fluff (= active sediment)
 silica,water,water_column_processes,sedimentation,aed2,Fsed_rsi,aed2_silica/Fsed_rsi,?,4,1.0.0,Sedimentation flux for silica
 phytoplankton,water,initial_conditions,initial_phyto,mylake,In.Chlz,In.Chlz,mg m-3,none,1.0.0,Initial chlorophyll a profile read from initial profiles file
 phytoplankton,water,initial_conditions,initial_phyto,mylake,In.Chlz_sed,In.Chlz.sed,mg m-3,none,1.0.0,Initial chlorophyll a profile in the sediment compartments read from initial profiles file

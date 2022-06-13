@@ -67,8 +67,23 @@ export_config <- function(config_file, folder = ".", verbose = FALSE,
       # Read the file(s)
       for(j in seq_len(length(input_file_paths))){
         input_file <- read.csv(input_file_paths[j], stringsAsFactors = FALSE)
+        # 
+        # sapply(seq_len(nrow(input_file)), function (x){
+        #   set_value_config(config_file = config_file,
+        #                    module = i,
+        #                    group_name = names(input_file_paths)[j],
+        #                    group_position = j,
+        #                    domain = input_file[x, "domain"],
+        #                    process = input_file[x, "process"],
+        #                    subprocess = input_file[x, "subprocess"],
+        #                    model_coupled = input_file[x, "model_coupled"],
+        #                    parameter = input_file[x, "parameter"],
+        #                    value = input_file[x, "value"],
+        #                    folder = folder,
+        #                    verbose = verbose)
+        # })
         
-        sapply(seq_len(nrow(input_file)), function (x){
+        for (x in seq_len(nrow(input_file))){
           set_value_config(config_file = config_file,
                            module = i,
                            group_name = names(input_file_paths)[j],
@@ -81,7 +96,19 @@ export_config <- function(config_file, folder = ".", verbose = FALSE,
                            value = input_file[x, "value"],
                            folder = folder,
                            verbose = verbose)
-        })
+          # config_file = config_file
+          # module = i
+          # group_name = names(input_file_paths)[j]
+          # group_position = j
+          # domain = input_file[x, "domain"]
+          # process = input_file[x, "process"]
+          # subprocess = input_file[x, "subprocess"]
+          # model_coupled = input_file[x, "model_coupled"]
+          # parameter = input_file[x, "parameter"]
+          # value = input_file[x, "value"]
+          # folder = folder
+          # verbose = verbose
+        }
         
       }
     }
