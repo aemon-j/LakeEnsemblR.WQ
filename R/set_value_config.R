@@ -91,7 +91,7 @@ set_value_config <- function(config_file, module, group_name = NULL, group_posit
       group_position = 1L
     }
     
-    aed_config[[path_parts[1]]][[path_parts[2]]][group_position] <- as.numeric(value)
+    aed_config[[path_parts[1]]][[path_parts[2]]][group_position] <- (value)#as.numeric(value)
     write_nml(aed_config, aed_config_path)
     
   }else if(model_coupled == "GOTM-Selmaprotbas" | model_coupled == "GOTM-WET"){
@@ -100,7 +100,7 @@ set_value_config <- function(config_file, module, group_name = NULL, group_posit
     names(path_parts) <- paste0("key", 1:length(path_parts))
     
     path_parts <- c(path_parts,
-                    "value" = value,
+                    "value" = (value),#as.numeric(value),
                     "file" = file.path(folder, model_config),
                     "verbose" = verbose)
     arglist <- split(path_parts, names(path_parts)) # Turn into named list
