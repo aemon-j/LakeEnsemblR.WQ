@@ -14,7 +14,7 @@ config_files:
    PCLake: PCLake/parameters.txt
 run_settings:
    bio-shading: true
-   ode_method: Euler # Options: Euler, RK2, RK4, Pat1, PatRK2, PatRK4, ModPat1, ModPatRK2, ModPatRK4, ExtModPat1, ExtModPatRK2; default = Euler 
+   ode_method: Euler # Options: Euler, RK2, RK4, Pat1, PatRK2, PatRK4, ModPat1, ModPatRK2, ModPatRK4, ExtModPat1, ExtModPatRK2; default = Euler
    split_factor: 1
    bottom_everywhere: true
    repair_state: true
@@ -23,6 +23,9 @@ input:
 oxygen:
    use: true
    par_file: oxygen.csv
+   initial:
+      initial_oxygen: 300
+      piston_velocity: 5
 carbon:
    use: true
    par_file: carbon.csv
@@ -43,7 +46,7 @@ silicon:
    par_file: silicon.csv
 phytoplankton:
    use: true
-   groups: 
+   groups:
       diatoms:
          par_file: diatoms.csv
       cyanobacteria:
@@ -55,7 +58,7 @@ zooplankton:
    groups:
       zooplankton:
          par_file: zooplankton.csv
-fish: 
+fish:
    use: false
    groups:
       benthivores:
