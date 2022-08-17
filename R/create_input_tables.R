@@ -129,9 +129,26 @@ create_input_tables <- function(folder = ".", config_file, folder_out = folder, 
     }else{
       groups <- i
     }
-
+    
+    file.to.write <- input_table[input_table$module == i, -1]
+    
     for(j in groups){
-      write.csv(input_table[input_table$module == i, -1],
+      
+      if (any(names(lst_config[[i]]) == 'initial')){
+        label <- i
+        key <- names(lst_config[[i]][['initial']])
+        
+        for (p in key){
+          idx <- which(file.to.write$subprocess == p)
+          file.to.write$value[idx] = as.numeric(lst_config[[i]][['initial']][p])
+          
+          file.to.write$value <- as.double(file.to.write$value)
+        }
+        
+      }
+
+      file.to.write$value <- as.double(file.to.write$value)
+      write.csv(file.to.write,
                 paste0(folder_out, "/", j, ".csv"),
                 row.names = FALSE)
     }
